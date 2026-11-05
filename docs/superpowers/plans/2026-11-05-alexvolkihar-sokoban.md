@@ -964,7 +964,7 @@ Create `tests/test_package_data.py`.
   Continue resumes, stars kept.
 - [ ] `git log` contains no `Co-Authored-By` and no AI attribution:
   `git log --format=%B | grep -i -E 'co-authored|claude|anthropic|generated with'` → no output;
-  same grep over the tree (excluding `.git`) → no output.
+  same grep over the tree excluding `.git` and `docs/superpowers/` (which name the rule itself) → no output.
 - [ ] Review against the spec's goals list and the Review Focus items; fix or file issues.
 
 ---
