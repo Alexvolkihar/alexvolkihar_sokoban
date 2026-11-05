@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "alexvolkihar-sokoban"
 dynamic = ["version"]
-description = "Remake of Sokoban-LAMA: a Sokoban game with level packs, a push-based solver, benchmarks, themes and saves."
+description = "Remake of Sokoban-LAMA by Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY (groupe LAMA): a Sokoban game with level packs, a push-based solver, benchmarks, themes and saves."
 readme = "README.en.md"
 requires-python = ">=3.11"
 authors = [
@@ -64,6 +64,7 @@ extend-immutable-calls = ["alexvolkihar_sokoban.solver.api.SolveLimits"]
 "src/alexvolkihar_sokoban/ui/**" = ["TID251"]
 "src/alexvolkihar_sokoban/commands/play.py" = ["TID251"]
 "tests/ui/**" = ["TID251"]
+"tests/commands/test_play.py" = ["TID251"]
 "scripts/**" = ["TID251"]
 
 [tool.mypy]

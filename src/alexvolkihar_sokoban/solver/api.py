@@ -66,7 +66,8 @@ def solve(
     """Solve ``level`` from its start, or from ``boxes``/``player`` when given (hints from mid-game).
 
     Returns ``INVALID`` without searching when the box count differs from the goal count, or when a box or
-    the player is off the floor (or the player stands on a box).
+    the player is off the floor (or the player stands on a box). An already solved start state returns
+    ``SOLVED`` with an empty LURD without searching.
     """
     start_boxes = level.boxes if boxes is None else boxes
     start_player = level.player if player is None else player
@@ -77,6 +78,8 @@ def solve(
         or start_player in start_boxes
     ):
         return _invalid()
+    if start_boxes == level.goals:
+        return SolveResult(SolveStatus.SOLVED, "", 0, 0, 0, 0, 0)
 
     from alexvolkihar_sokoban.solver import search  # late import: search depends on this module
 

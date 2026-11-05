@@ -62,3 +62,12 @@ def test_contract_values() -> None:
     ]
     assert SolveStatus.SOLVED == "solved"
     assert api.Mode is not None and api.ProgressCallback is not None
+
+
+def test_already_solved_state_needs_no_search(monkeypatch: pytest.MonkeyPatch) -> None:
+    def no_search(*args: Any) -> SolveResult:
+        raise AssertionError("search must not run")
+
+    monkeypatch.setattr(search, "run_search", no_search)
+    r = solve(LV, boxes=LV.goals, player=(1, 1))
+    assert (r.status, r.lurd, r.pushes, r.moves, r.nodes_expanded) == (SolveStatus.SOLVED, "", 0, 0, 0)

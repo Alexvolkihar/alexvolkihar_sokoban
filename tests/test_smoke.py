@@ -25,14 +25,6 @@ def test_package_version_attribute() -> None:
     assert alexvolkihar_sokoban.__version__ == "0.1.0"
 
 
-@pytest.mark.parametrize("name", ["solve", "convert", "annotate", "bench", "generate"])
-def test_stub_subcommands_report_not_implemented(name: str, capsys: pytest.CaptureFixture[str]) -> None:
-    from alexvolkihar_sokoban.cli import main
-
-    assert main([name]) == 2
-    assert "not implemented yet" in capsys.readouterr().err
-
-
 def test_no_subcommand_runs_play_without_path(monkeypatch: pytest.MonkeyPatch) -> None:
     from alexvolkihar_sokoban import cli
     from alexvolkihar_sokoban.commands import play
@@ -69,3 +61,17 @@ def test_python_dash_m_entry_point() -> None:
         check=False,
     )
     assert out.returncode == 0 and "0.1.0" in out.stdout
+
+
+def test_importing_main_module_does_not_run_the_cli(monkeypatch: pytest.MonkeyPatch) -> None:
+    import importlib
+    import sys
+
+    from alexvolkihar_sokoban import cli
+
+    def boom(argv: list[str] | None = None) -> int:
+        raise AssertionError("cli.main ran on import")
+
+    monkeypatch.setattr(cli, "main", boom)
+    monkeypatch.delitem(sys.modules, "alexvolkihar_sokoban.__main__", raising=False)
+    importlib.import_module("alexvolkihar_sokoban.__main__")

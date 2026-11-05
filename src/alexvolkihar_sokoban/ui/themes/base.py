@@ -46,7 +46,13 @@ class Theme(Protocol):
 
 
 class CachedTheme(ABC):
-    """Base class for themes: ``tile()`` caches ``_draw()`` per ``(kind, size)``."""
+    """Base class for themes: ``tile()`` caches ``_draw()`` per ``(kind, size)``.
+
+    Only the ``MAX_CACHED_SIZES`` most recently used sizes are kept, so resizing the window does not grow
+    the cache without bound.
+    """
+
+    MAX_CACHED_SIZES = 3
 
     id: str
     name: str
@@ -55,16 +61,28 @@ class CachedTheme(ABC):
 
     def __init__(self) -> None:
         self._cache: dict[tuple[TileKind, int], pygame.Surface] = {}
+        self._sizes: list[int] = []  # most recently used last
 
     def tile(self, kind: TileKind, size: int) -> pygame.Surface:
         if size < 1:
             raise ValueError(f"tile size must be at least 1 px, got {size}")
+        self._touch(size)
         key = (kind, size)
         surface = self._cache.get(key)
         if surface is None:
             surface = self._draw(kind, size)
             self._cache[key] = surface
         return surface
+
+    def _touch(self, size: int) -> None:
+        if self._sizes and self._sizes[-1] == size:
+            return
+        if size in self._sizes:
+            self._sizes.remove(size)
+        self._sizes.append(size)
+        while len(self._sizes) > self.MAX_CACHED_SIZES:
+            old = self._sizes.pop(0)
+            self._cache = {k: v for k, v in self._cache.items() if k[1] != old}
 
     @abstractmethod
     def _draw(self, kind: TileKind, size: int) -> pygame.Surface:
