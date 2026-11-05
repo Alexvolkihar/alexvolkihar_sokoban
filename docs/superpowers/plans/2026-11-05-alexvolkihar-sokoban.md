@@ -632,6 +632,9 @@ def test_progress_roundtrip_and_schema():
   commit Microban, report "Microban blocked: notice not found" and continue with the LAMA packs. Run `annotate` with 60 s / 5,000,000 nodes in the background (it can take hours for the
   hardest Microban levels; levels it cannot solve keep `par: null`) and commit the result.
 - [ ] **Step 4: Run** `pytest tests/data -q` → PASS. Report the number of Microban levels with `par: null`.
+- [ ] **Addition (approved by the owner):** `data/levels/boxoban-hard.json` — the first 100 puzzles of DeepMind
+  Boxoban `hard/000.txt` (Apache-2.0; ids `"1"`…`"100"`, id N = puzzle N-1), title "Boxoban (hard)", shown after
+  Microban; Apache text + requested citation in `data/levels/boxoban-hard.LICENSE.txt`; pars by `annotate`.
 - [ ] **Step 5: Commit** `git commit -m "Add LAMA and Microban level packs with solver par"`
 
 ### Task 12: Benchmark core and `bench` command

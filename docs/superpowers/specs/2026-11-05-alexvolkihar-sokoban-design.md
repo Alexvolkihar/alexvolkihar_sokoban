@@ -144,7 +144,7 @@ alexvolkihar_sokoban/
 │   │   └── scenes/             # main_menu, level_select, game, pause, victory, settings, themes,
 │   │                           # keybindings, benchmark, generate, credits, placeholder
 │   └── data/
-│       ├── levels/             # lama-original.json, lama-unsolvable.json, microban-1.json (pack JSON)
+│       ├── levels/             # lama-original.json, lama-unsolvable.json, microban-1.json, boxoban-hard.json (pack JSON)
 │       ├── benchmarks/suites.json
 │       └── themes/kenney/      # the 6 original PNGs + LICENSE.txt (CC0)
 ├── schemas/                    # JSON Schemas: level, pack, settings, progress, session, benchmark
@@ -336,6 +336,7 @@ alexvolkihar_sokoban/
 | `lama-original` | `test1`–`test11` (and `lvlultime` dropped as a duplicate of `test8`) | the group, same licence as the code |
 | `lama-unsolvable` | `test12`–`test14` and `test_performance` (12 boxes / 14 goals); hidden from level select, used by tests and benchmarks | the group |
 | `microban-1` | Microban (155 levels) by David W. Skinner | free distribution provided the levels stay credited (to verify, see 12) |
+| `boxoban-hard` | Boxoban by DeepMind: the first 100 puzzles of `hard/000.txt` (10×10, 4 boxes), shown after Microban | Apache-2.0, full text and requested citation in `data/levels/boxoban-hard.LICENSE.txt` (see 12) |
 | `generated` | levels made by the player's generator, stored in the user data dir | generated |
 | `custom` | files dropped in `<data dir>/levels/` | the player's own |
 
@@ -471,6 +472,13 @@ working from inside `legacy/`; `alexvolkihar-sokoban play legacy/level/test1.txt
   blocked, and every feature still works with the LAMA pack, generated levels and custom imports
   (benchmark suites skip missing packs with a warning). The credit goes in the pack's `author`/`license`
   fields, the credits screen and the README.
+- **Microban gate outcome (Task 11, 2026-11-05)**: blocked. Skinner's own file (`m1`, archived on the Wayback
+  Machine) carries no notice; his archived home page says "These sets may be freely distributed provided they
+  remain unchanged and credited with my name and email address", and "unchanged" conflicts with dropping the
+  levels credited to other sets (Original, Boxxle, Revenge) and with the JSON conversion. Owner decision needed.
+- **Boxoban** (`boxoban-hard`): DeepMind's boxoban-levels repository, Apache-2.0 (licence file checked in the
+  downloaded repository). Pack metadata names the authors, the source, the selection, the change (format
+  conversion) and the citation their README requests; the licence text ships next to the pack.
 - **Thinking Rabbit level 1** (`wiki.txt`): not redistributed in the new packs.
 - **pygame-ce**: LGPL-2.1-or-later, used as an unmodified dependency, compatible with MIT.
 
