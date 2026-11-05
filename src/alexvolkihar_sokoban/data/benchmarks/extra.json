@@ -1,0 +1,53 @@
+{
+  "format": "alexvolkihar-sokoban/pack",
+  "version": 1,
+  "id": "bench-extra",
+  "title": "Benchmark extras",
+  "author": "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY (groupe LAMA)",
+  "license": "Same licence as the code (see LICENSE). Modified from the original test_performance level of Sokoban-LAMA (12 boxes, 14 goals, unplayable): rows 3 to 13 padded to the full width, two goals removed from the bottom row, and two wall cells opened (row 9, column 20 and row 11, column 21) so that every box can reach a goal. Used by the stress benchmark only.",
+  "source": "https://github.com/Alexvolkihar/Sokoban-LAMA",
+  "hidden": true,
+  "levels": [
+    {
+      "id": "test_performance",
+      "title": "Test performance (repaired)",
+      "rows": [
+        "##################################",
+        "#                                #",
+        "# @ #    #######     ######      #",
+        "#   #  ###     ###  ##    ##     #",
+        "#   ####         ####      ##    #",
+        "#    ##   $   $   ##   $    #    #",
+        "#    ##  $#$ $#$  ##  $ $   #    #",
+        "#     #   #   #    #  $ $   #    #",
+        "#     #   #   #        $    #    #",
+        "#     #             #       #    #",
+        "#     #  ##########      ####    #",
+        "#     #  #        # #    #       #",
+        "#     ####        # ######       #",
+        "#                 #              #",
+        "#    ##############     #######  #",
+        "#                       #        #",
+        "#   ####                #        #",
+        "#      #  ############# #        #",
+        "#      #  #           # #        #",
+        "#      ####      .    # #        #",
+        "#                .    # #        #",
+        "#      #    ########## #         #",
+        "#      #    #          #         #",
+        "#      ######          #         #",
+        "#                      #         #",
+        "#      #               #         #",
+        "#      #    ########### #        #",
+        "#      #    #           #        #",
+        "#      #####            #        #",
+        "#           ..          #        #",
+        "#          ....         #        #",
+        "#          ....         #        #",
+        "#                       #        #",
+        "##################################"
+      ],
+      "par": null
+    }
+  ]
+}
