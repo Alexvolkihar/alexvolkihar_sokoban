@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Alexvolkihar/alexvolkihar_sokoban/schemas/benchmark.schema.json",
+  "title": "alexvolkihar-sokoban benchmark run",
+  "type": "object",
+  "required": [
+    "format", "version", "run_id", "created_at", "app_version", "solver", "machine", "suite", "measure",
+    "results", "summary"
+  ],
+  "properties": {
+    "format": { "const": "alexvolkihar-sokoban/benchmark" },
+    "version": { "const": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "created_at": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$" },
+    "app_version": { "type": "string" },
+    "solver": {
+      "type": "object",
+      "required": ["name", "version", "mode"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "mode": { "enum": ["optimal", "fast"] }
+      }
+    },
+    "machine": {
+      "description": "Never a hostname or a user name: runs are meant to be shared.",
+      "type": "object",
+      "required": [
+        "os", "os_version", "arch", "is_wsl", "cpu_model", "cpu_count_logical", "ram_total_bytes", "python",
+        "pygame_ce", "app_version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "os": { "type": "string" },
+        "os_version": { "type": "string" },
+        "arch": { "type": "string" },
+        "is_wsl": { "type": "boolean" },
+        "cpu_model": { "type": ["string", "null"] },
+        "cpu_count_logical": { "type": ["integer", "null"], "minimum": 1 },
+        "ram_total_bytes": { "type": ["integer", "null"], "minimum": 0 },
+        "python": { "type": "string" },
+        "pygame_ce": { "type": ["string", "null"] },
+        "app_version": { "type": "string" }
+      }
+    },
+    "suite": {
+      "type": "object",
+      "required": ["id", "limits"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "limits": {
+          "type": "object",
+          "required": ["time_ms", "max_nodes"],
+          "properties": {
+            "time_ms": { "type": "integer", "minimum": 1 },
+            "max_nodes": { "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    },
+    "measure": { "const": "tracemalloc" },
+    "results": { "type": "array", "items": { "$ref": "#/$defs/result" } },
+    "summary": {
+      "type": "object",
+      "required": ["solved", "total", "total_ms", "nodes_per_s"],
+      "properties": {
+        "solved": { "$ref": "#/$defs/count" },
+        "total": { "$ref": "#/$defs/count" },
+        "total_ms": { "$ref": "#/$defs/count" },
+        "nodes_per_s": { "$ref": "#/$defs/count" }
+      }
+    }
+  },
+  "$defs": {
+    "count": { "type": "integer", "minimum": 0 },
+    "result": {
+      "type": "object",
+      "required": [
+        "pack_id", "level_id", "level_hash", "status", "pushes", "moves", "nodes_expanded", "nodes_generated",
+        "elapsed_ms", "peak_mem_bytes"
+      ],
+      "properties": {
+        "pack_id": { "type": "string", "minLength": 1 },
+        "level_id": { "type": "string", "minLength": 1 },
+        "level_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "status": { "enum": ["solved", "unsolvable", "limit_time", "limit_nodes", "cancelled", "invalid"] },
+        "pushes": { "type": ["integer", "null"], "minimum": 0 },
+        "moves": { "type": ["integer", "null"], "minimum": 0 },
+        "nodes_expanded": { "$ref": "#/$defs/count" },
+        "nodes_generated": { "$ref": "#/$defs/count" },
+        "elapsed_ms": { "$ref": "#/$defs/count" },
+        "peak_mem_bytes": { "$ref": "#/$defs/count" }
+      }
+    }
+  }
+}
