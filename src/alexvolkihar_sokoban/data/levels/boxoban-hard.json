@@ -1,0 +1,2312 @@
+{
+  "format": "alexvolkihar-sokoban/pack",
+  "version": 1,
+  "id": "boxoban-hard",
+  "title": "Boxoban (hard)",
+  "author": "Arthur Guez, Mehdi Mirza, Karol Gregor, Rishabh Kabra, Sebastien Racaniere, Theophane Weber, David Raposo, Adam Santoro, Laurent Orseau, Tom Eccles, Greg Wayne, David Silver, Timothy Lillicrap, Victor Valdes (DeepMind)",
+  "license": "Apache License 2.0 (full text in boxoban-hard.LICENSE.txt next to this file). Selection: the first 100 puzzles (numbers 0 to 99) of hard/000.txt from github.com/google-deepmind/boxoban-levels at commit 78011d8c86ad; level id N is puzzle N-1. Changed: converted from the Boxoban text format to this JSON format; layouts unchanged. Citation requested by the authors: Arthur Guez, Mehdi Mirza, Karol Gregor, Rishabh Kabra, Sebastien Racaniere, Theophane Weber, David Raposo, Adam Santoro, Laurent Orseau, Tom Eccles, Greg Wayne, David Silver, Timothy Lillicrap, Victor Valdes. An investigation of Model-free planning: boxoban levels. https://github.com/deepmind/boxoban-levels/, 2018.",
+  "source": "https://github.com/google-deepmind/boxoban-levels",
+  "hidden": false,
+  "levels": [
+    {
+      "id": "1",
+      "title": "",
+      "comment": "hard/000.txt puzzle 0",
+      "rows": [
+        "##########",
+        "######## #",
+        "#######  #",
+        "#######$ #",
+        "#######  #",
+        "######. .#",
+        "###### $.#",
+        "#####  #$#",
+        "#####. $@#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 18,
+        "moves": 50,
+        "lurd": "UULrddLLuUruuruulDDrDDllddrrUUUUlDrdddlluuRuuuurDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "2",
+      "title": "",
+      "comment": "hard/000.txt puzzle 1",
+      "rows": [
+        "##########",
+        "##########",
+        "## #######",
+        "#.   #####",
+        "#. $######",
+        "##  . ####",
+        "#   $#####",
+        "##$$.#####",
+        "#      @ #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 13,
+        "moves": 55,
+        "lurd": "llluUluluurDlddrrddllUUUUrDldddrruuLrddlluUUruLruLddddR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "3",
+      "title": "",
+      "comment": "hard/000.txt puzzle 2",
+      "rows": [
+        "##########",
+        "########@#",
+        "########$#",
+        "##### #  #",
+        "#####  . #",
+        "##### $. #",
+        "######.  #",
+        "######$$.#",
+        "######   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 60,
+        "lurd": "DDldlldRurDrdddllUUUruurDDlldddrruLUUrDuuulDrddlluluRddrddlU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "4",
+      "title": "",
+      "comment": "hard/000.txt puzzle 3",
+      "rows": [
+        "##########",
+        "##########",
+        "##@#######",
+        "##$#######",
+        "##  ######",
+        "# .$######",
+        "#   # ..##",
+        "# $ $   .#",
+        "#        #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 58,
+        "lurd": "DDDurDlldddrruRRRRdlllllluRRRRRllllluurrDullddrUdRRRdrUdrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "5",
+      "title": "",
+      "comment": "hard/000.txt puzzle 4",
+      "rows": [
+        "##########",
+        "#@ . #####",
+        "# $$ #####",
+        "## .######",
+        "#  $ #####",
+        "#.  ######",
+        "#  $ #####",
+        "# #.######",
+        "#     ####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 11,
+        "moves": 39,
+        "lurd": "rDDDDuurUdlddrUdlldddrruULrddlluUruurDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "6",
+      "title": "",
+      "comment": "hard/000.txt puzzle 5",
+      "rows": [
+        "##########",
+        "####  . ##",
+        "#### $  ##",
+        "######@###",
+        "##  ## ###",
+        "## .   ###",
+        "#   #$.###",
+        "# $.# $ ##",
+        "#       ##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 21,
+        "moves": 88,
+        "lurd": "ddllldddrruUddrruLdlUruuLLrrddlUruuuuulldRurDDDDDlddlluuluurDrRdrUUUUddddlddrUdllluUlldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "7",
+      "title": "",
+      "comment": "hard/000.txt puzzle 6",
+      "rows": [
+        "##########",
+        "##########",
+        "#      ###",
+        "# $ .@####",
+        "# $#  ####",
+        "##  ######",
+        "##. ######",
+        "# $.$ ####",
+        "#    . ###",
+        "##########"
+      ],
+      "par": {
+        "pushes": 27,
+        "moves": 74,
+        "lurd": "ulllldRDDrdddlluRUUUddddrUdrruLdlluuuuluurDDDDDldRRRuLdlUUUUluurDDDrDuluuR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "8",
+      "title": "",
+      "comment": "hard/000.txt puzzle 7",
+      "rows": [
+        "##########",
+        "# @.     #",
+        "#  $ # $.#",
+        "# $####$ #",
+        "#. ####  #",
+        "# ######.#",
+        "# ########",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 21,
+        "moves": 78,
+        "lurd": "dlddrUluurrrrrdRurDDDuuulllllllddrUluRRRRRdrruLLLLdLLulDDurrrurrdrrddlUruulldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "9",
+      "title": "",
+      "comment": "hard/000.txt puzzle 8",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "######.###",
+        "#       @#",
+        "# $..$ $ #",
+        "# $##### #",
+        "#  .# #  #",
+        "#        #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 55,
+        "lurd": "llllllldRDuurrdLurrrdLLulllddrUluRRRRdrUrrdLLLulllddldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "10",
+      "title": "",
+      "comment": "hard/000.txt puzzle 9",
+      "rows": [
+        "##########",
+        "#####    #",
+        "##### $ ##",
+        "###### .##",
+        "#######  #",
+        "#   .  . #",
+        "# $   # .#",
+        "# $$ #####",
+        "### @#####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 24,
+        "moves": 73,
+        "lurd": "lUruurrruuuulldRurDDDrddlUllllllddRUluRRRRRRUrDllllllddRUluRRRdllddrUUruR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "11",
+      "title": "",
+      "comment": "hard/000.txt puzzle 10",
+      "rows": [
+        "##########",
+        "#     ####",
+        "# $   ####",
+        "#.  ######",
+        "#   ######",
+        "##  #  ###",
+        "#  $@$  ##",
+        "# . # .$ #",
+        "######  .#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 64,
+        "lurd": "LdlUrrRdrdrruLuLLLLrrdRurDulllldlluRRuuuuLulDrddDDrRRdrdRulluurD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "12",
+      "title": "",
+      "comment": "hard/000.txt puzzle 11",
+      "rows": [
+        "##########",
+        "#  .    .#",
+        "#  # $$$ #",
+        "######. ##",
+        "####@$ . #",
+        "#####    #",
+        "####### ##",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 42,
+        "lurd": "RdrruuUruLLLLrrDrdddlluRdrUUUluRllldRRurDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "13",
+      "title": "",
+      "comment": "hard/000.txt puzzle 12",
+      "rows": [
+        "##########",
+        "#.       #",
+        "#       .#",
+        "# $ # ## #",
+        "#  #  # .#",
+        "## #  ## #",
+        "#####$ . #",
+        "##@$   $ #",
+        "#####  # #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 21,
+        "moves": 101,
+        "lurd": "RRRUUUUdddrrruuuuulllldRRlddddddrUluRluuuuurrrddddddLruuuuuulldRlllldLdlUUrrrrddddrRllddrUrrUUddllluR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "14",
+      "title": "",
+      "comment": "hard/000.txt puzzle 13",
+      "rows": [
+        "##########",
+        "#  #######",
+        "# ########",
+        "#  #    ##",
+        "#  $$.. ##",
+        "#.$     ##",
+        "#@.#######",
+        "# $ ######",
+        "#  #######",
+        "##########"
+      ],
+      "par": {
+        "pushes": 22,
+        "moves": 50,
+        "lurd": "uRRRRuulDLdlluRRRRdLLullddrUluRRRurrrddLLLLLdlddrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "15",
+      "title": "",
+      "comment": "hard/000.txt puzzle 14",
+      "rows": [
+        "##########",
+        "#. ## @###",
+        "# $ $ .###",
+        "# .  $ ###",
+        "#  #######",
+        "# #####  #",
+        "# .####  #",
+        "# $# ##  #",
+        "#        #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 50,
+        "lurd": "ddLLLLdlUUdrruRdllluRRdrrruulDrdLLLuRRllllddddddrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "16",
+      "title": "",
+      "comment": "hard/000.txt puzzle 15",
+      "rows": [
+        "##########",
+        "##### .@ #",
+        "#### $ $ #",
+        "#### ..$ #",
+        "#######$.#",
+        "#######  #",
+        "######## #",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 9,
+        "moves": 31,
+        "lurd": "lddlluRurrrddLLURdrddlUruLuurDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "17",
+      "title": "",
+      "comment": "hard/000.txt puzzle 16",
+      "rows": [
+        "##########",
+        "##########",
+        "#### #####",
+        "### .  @##",
+        "### $$$###",
+        "####  $ ##",
+        "#####   ##",
+        "###  .. ##",
+        "### .    #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 49,
+        "lurd": "llDDDDuuuulldRurDDDrruLdlUluurrDLrDDullUdrdrrddlL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "18",
+      "title": "",
+      "comment": "hard/000.txt puzzle 17",
+      "rows": [
+        "##########",
+        "# .  .   #",
+        "#$$ $  $.#",
+        "#.#####  #",
+        "# ######@#",
+        "##########",
+        "##########",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 63,
+        "lurd": "uuullllldRRurrrddlUruLLLdRurrddlUruLdllllullDRRRRRRlluLLdrrrruL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "19",
+      "title": "",
+      "comment": "hard/000.txt puzzle 18",
+      "rows": [
+        "##########",
+        "#   ### ##",
+        "#   ### ##",
+        "# .###   #",
+        "#. ###$  #",
+        "#  ###@.##",
+        "## ###$. #",
+        "##  $  $ #",
+        "#       ##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 30,
+        "moves": 104,
+        "lurd": "rdrdLdlluLLdlUUUUUluurrdLulDDrdddddrrrrruLLrruulDuruulDDrdddlluRdrUUUlDrddlluRdrUllLLdlUUUUdddrrrruuuurD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "20",
+      "title": "",
+      "comment": "hard/000.txt puzzle 19",
+      "rows": [
+        "##########",
+        "## @######",
+        "## $ ## ##",
+        "### $##  #",
+        "###.$    #",
+        "###  #.  #",
+        "#    #####",
+        "# $. #####",
+        "#.   #####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 26,
+        "moves": 74,
+        "lurd": "DDDDDuuRluurDDRRdrruLLLLDldllddrrruUUlURRRdrruulDrdLullluulDrdddllDurrddlL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "21",
+      "title": "",
+      "comment": "hard/000.txt puzzle 20",
+      "rows": [
+        "##########",
+        "######   #",
+        "######.  #",
+        "#######  #",
+        "####@$   #",
+        "####$.#$ #",
+        "### $ #. #",
+        "### .  # #",
+        "#####    #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 10,
+        "moves": 63,
+        "lurd": "RddddrrruuuulDrdddlluluuuRldddlluRdrUddrrruuulUUdlllDDuurrruruL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "22",
+      "title": "",
+      "comment": "hard/000.txt puzzle 21",
+      "rows": [
+        "##########",
+        "#####    #",
+        "##### $@.#",
+        "#######$ #",
+        "####### .#",
+        "######## #",
+        "#######  #",
+        "##### $$ #",
+        "#  .    .#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 78,
+        "lurd": "ulldRurrdddddlDrdLLLLrrruuruuuuulldRurDDDDDuulUruulldRddrddlddlluRdrrUUUdlDldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "23",
+      "title": "",
+      "comment": "hard/000.txt puzzle 22",
+      "rows": [
+        "##########",
+        "##########",
+        "#######  #",
+        "#######$ #",
+        "##    .  #",
+        "##.$ #.$ #",
+        "###@###. #",
+        "###$#  # #",
+        "##       #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 13,
+        "moves": 67,
+        "lurd": "UrurrrDullldlluRRRRdrrdddlllllUUddrrrrruuullulldLurrrdrruLruulDDrdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "24",
+      "title": "",
+      "comment": "hard/000.txt puzzle 23",
+      "rows": [
+        "##########",
+        "##@   ####",
+        "###$ #####",
+        "###  #####",
+        "# #$######",
+        "# #. #####",
+        "#  .######",
+        "# $ ## $.#",
+        "#   .   ##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 59,
+        "lurd": "rrddlDDDllddrrrrruRdlllllluurrDuuuuruulDDDDDllddrUdRUUdlluR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "25",
+      "title": "",
+      "comment": "hard/000.txt puzzle 24",
+      "rows": [
+        "##########",
+        "#.   #####",
+        "# $  #####",
+        "#.  ######",
+        "## $@#####",
+        "## $ #####",
+        "##  ######",
+        "##$.# ####",
+        "##  .    #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 24,
+        "moves": 77,
+        "lurd": "dLdlUrUUdddddlUruuuulluurrDDDDDDuulUdrddlUUruuuullddRUrDDDDulUruLuruLdddddddR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "26",
+      "title": "",
+      "comment": "hard/000.txt puzzle 25",
+      "rows": [
+        "##########",
+        "#  .     #",
+        "# $  $#  #",
+        "# ## .####",
+        "#.$  . $@#",
+        "#  #   ###",
+        "##########",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 49,
+        "lurd": "LLdlluuuurDldddrruLdlUUUlulldddRRRuulLulDDurrrruL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "27",
+      "title": "",
+      "comment": "hard/000.txt puzzle 26",
+      "rows": [
+        "##########",
+        "#      ###",
+        "# .$.$ ###",
+        "# $#$ ####",
+        "#@ . #####",
+        "#.########",
+        "##########",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 58,
+        "lurd": "uuurrrdLLurrrrdLLLullDDDrrrUruulldRullldRDldRuuurrdLurrrdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "28",
+      "title": "",
+      "comment": "hard/000.txt puzzle 27",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "##########",
+        "####### ##",
+        "####.@ $ #",
+        "#### $$ .#",
+        "#####$ #.#",
+        "#.       #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 69,
+        "lurd": "rDDurrddlLLLLLrrrruuulldRRddlUruulldRddrrruuuLLLrDRllddrUluRurrDulldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "29",
+      "title": "",
+      "comment": "hard/000.txt puzzle 28",
+      "rows": [
+        "##########",
+        "#@ #######",
+        "#$.#######",
+        "# .#######",
+        "# $.  ####",
+        "# $  #####",
+        "#  #######",
+        "# $#######",
+        "#. #######",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 46,
+        "lurd": "rddldRlddrUdlddrUluuuuruulDDDDDDuurUUddlddrUUU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "30",
+      "title": "",
+      "comment": "hard/000.txt puzzle 29",
+      "rows": [
+        "##########",
+        "#. #######",
+        "# .$   ###",
+        "# $  #####",
+        "#  #######",
+        "#.$#######",
+        "#.$@######",
+        "#   ######",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 18,
+        "moves": 54,
+        "lurd": "LdlUUUUUddrDuluurDDldddrruLdlUUUrDlddrruLuuuulDDurrruL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "31",
+      "title": "",
+      "comment": "hard/000.txt puzzle 30",
+      "rows": [
+        "##########",
+        "# ###.####",
+        "#      @##",
+        "# $# $####",
+        "#  # $.###",
+        "# #    ###",
+        "# #   ####",
+        "# $ . ####",
+        "#   . ####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 64,
+        "lurd": "llldddrruLddddlllluRluuuuurrrrDlDRlDDlDlluuurUluRRRdrUddddlldldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "32",
+      "title": "",
+      "comment": "hard/000.txt puzzle 31",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "##  ##  ##",
+        "# .. $ $.#",
+        "# $  . $@#",
+        "#  #######",
+        "# ##### ##",
+        "#        #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 52,
+        "lurd": "LLLLrruRdllluRllllddrUluRRRdLullddrUrrrrruulDLLrrrdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "33",
+      "title": "",
+      "comment": "hard/000.txt puzzle 32",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "#####@####",
+        "###  $   #",
+        "#  ##. # #",
+        "# $ ###  #",
+        "# $ ###$ #",
+        "#.  ..   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 61,
+        "lurd": "DrrrddddllllllluRdrrrrrruulDrdLLLLLLuluurDrDulldRdRRlluurDldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "34",
+      "title": "",
+      "comment": "hard/000.txt puzzle 33",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "####### ##",
+        "######  .#",
+        "### $    #",
+        "###   #$ #",
+        "### $## .#",
+        "####@ .$.#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 61,
+        "lurd": "UluuRRRurrddddLuruuulldRurDDDlUruulldRllllddrUluRRRurrDDlUluR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "35",
+      "title": "",
+      "comment": "hard/000.txt puzzle 34",
+      "rows": [
+        "##########",
+        "##########",
+        "#######  #",
+        "# ###### #",
+        "# # . #  #",
+        "# #    $ #",
+        "#   $.# @#",
+        "# #.$#####",
+        "# $ .#####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 39,
+        "lurd": "uLLLullddRlddrUluuurrdLulDDllddRRUrUUlD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "36",
+      "title": "",
+      "comment": "hard/000.txt puzzle 35",
+      "rows": [
+        "##########",
+        "##       #",
+        "##   .  .#",
+        "###  ### #",
+        "###  ##  #",
+        "####  #  #",
+        "####$### #",
+        "####@$ $ #",
+        "####.$ . #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 21,
+        "moves": 66,
+        "lurd": "UUUUdddddRRuLdlUUUUluuRRRurrddddddLLLrrruuuuuulldRllllddrUluRddddD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "37",
+      "title": "",
+      "comment": "hard/000.txt puzzle 36",
+      "rows": [
+        "##########",
+        "#####    #",
+        "#####    #",
+        "#### ..###",
+        "#####.$###",
+        "#####  ###",
+        "# ###$####",
+        "# $ .$@###",
+        "#     ####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 11,
+        "moves": 27,
+        "lurd": "LUUUddddlluRdllluRRdrrUUUrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "38",
+      "title": "",
+      "comment": "hard/000.txt puzzle 37",
+      "rows": [
+        "##########",
+        "# .      #",
+        "# $ $$.$ #",
+        "# ## .#.@#",
+        "# ########",
+        "# ########",
+        "##########",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 46,
+        "lurd": "uulllDulldRRurrrddlUruLLLdRlllulldRRRRuLLrrrrD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "39",
+      "title": "",
+      "comment": "hard/000.txt puzzle 38",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "##########",
+        "##########",
+        "# $   .###",
+        "# $##$  ##",
+        "#  .#  # #",
+        "# .   .$@#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 39,
+        "lurd": "LLLLLulluuRRRRDDuullllddrrdrRuuulllDldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "40",
+      "title": "",
+      "comment": "hard/000.txt puzzle 39",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "###@ .####",
+        "# ##$$####",
+        "#     ####",
+        "# $#.#####",
+        "# . $ ####",
+        "#   . ####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 13,
+        "moves": 62,
+        "lurd": "rDDllldddrrrruLdlluluurrrDDrdLLruuurUdllllddrRdrUllldRRulluurD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "41",
+      "title": "",
+      "comment": "hard/000.txt puzzle 40",
+      "rows": [
+        "##########",
+        "#@ . #####",
+        "#. $ #####",
+        "#$ ##.####",
+        "#.    ####",
+        "##     ###",
+        "# $    # #",
+        "#    $   #",
+        "####    ##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 59,
+        "lurd": "rrrdLulDDDrdddlluRUddrUUddrdrUUUlllUUUluRdddlUdrdrruLLdrrrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "42",
+      "title": "",
+      "comment": "hard/000.txt puzzle 41",
+      "rows": [
+        "##########",
+        "#     . .#",
+        "# $.  #$ #",
+        "##  #.   #",
+        "### #$ ###",
+        "#####  ###",
+        "###### ###",
+        "# # # $###",
+        "# @    ###",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 58,
+        "lurd": "rrrrUUUlUUUdrrruullLddrrUdllddrUluuurRddLruulldlluRRlllldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "43",
+      "title": "",
+      "comment": "hard/000.txt puzzle 42",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "##########",
+        "###### ###",
+        "###### ###",
+        "##      ##",
+        "##.$.$.$ #",
+        "## $ @  .#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 8,
+        "moves": 34,
+        "lurd": "luullddRRuLurrrdLrdrruLullllddrRRR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "44",
+      "title": "",
+      "comment": "hard/000.txt puzzle 43",
+      "rows": [
+        "##########",
+        "# . $   .#",
+        "#.$ #    #",
+        "#  #######",
+        "#@$#######",
+        "#. #######",
+        "# $#######",
+        "#  #######",
+        "# ########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 24,
+        "moves": 68,
+        "lurd": "urUruRRRRlllldldlddrUUluuRRRRlldLulDDrddlddrUUUUluurrrrdrruLLLLdLdlD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "45",
+      "title": "",
+      "comment": "hard/000.txt puzzle 44",
+      "rows": [
+        "##########",
+        "# .#######",
+        "#  #######",
+        "#  ####  #",
+        "# $ #### #",
+        "#    .   #",
+        "#### $.. #",
+        "####$$   #",
+        "####  @  #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 44,
+        "lurd": "llURRuullllUUUdddrrrrddllURuLLulldRRRdddrrrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "46",
+      "title": "",
+      "comment": "hard/000.txt puzzle 45",
+      "rows": [
+        "##########",
+        "##########",
+        "#  ##  ###",
+        "#   $ $ ##",
+        "#.      ##",
+        "#### . ###",
+        "#####.####",
+        "#### $$ ##",
+        "#  .  @  #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 26,
+        "moves": 67,
+        "lurd": "lUUUruLLruLddrdddrruLdlUUUluurDDDDrdLLuruuurruLulDDDulLLuRRdrruulDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "47",
+      "title": "",
+      "comment": "hard/000.txt puzzle 46",
+      "rows": [
+        "##########",
+        "######  .#",
+        "###### $ #",
+        "###### $ #",
+        "#####@$. #",
+        "###### .$#",
+        "##### .  #",
+        "######  ##",
+        "######   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 12,
+        "moves": 35,
+        "lurd": "RuuurrddLruulldDDDrdrUUUlDuluurDDrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "48",
+      "title": "",
+      "comment": "hard/000.txt puzzle 47",
+      "rows": [
+        "##########",
+        "# @#######",
+        "#$$#######",
+        "#   ######",
+        "#  . #####",
+        "# .$ #####",
+        "#. $######",
+        "##.  #####",
+        "###   ####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 63,
+        "lurd": "DDrdrdLuulldRlddrUluuruulDDDDrUUddrruLdlddrUUlluurDDDuuuluurDDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "49",
+      "title": "",
+      "comment": "hard/000.txt puzzle 48",
+      "rows": [
+        "##########",
+        "#   . ####",
+        "# .  $#  #",
+        "##$.   $ #",
+        "##  # .$ #",
+        "#######  #",
+        "######## #",
+        "####### @#",
+        "#######  #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 88,
+        "lurd": "uuuuLrddlUllulldlUUluRddrrrdrrruulDLLLrrrrddlUlulluurDllluRdlddrUrRdrrruulDLLLuLrdrrrrdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "50",
+      "title": "",
+      "comment": "hard/000.txt puzzle 49",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "#  #######",
+        "# .#######",
+        "#$@#######",
+        "# $$ #####",
+        "# .# $ ###",
+        "#. .     #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 10,
+        "moves": 39,
+        "lurd": "ulDDDrUUdddrruuLrddrruLdllluluurDrrDrdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "51",
+      "title": "",
+      "comment": "hard/000.txt puzzle 50",
+      "rows": [
+        "##########",
+        "#        #",
+        "# .  $ #.#",
+        "######  @#",
+        "###### $ #",
+        "######## #",
+        "#####  . #",
+        "######$$ #",
+        "###  .   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 59,
+        "lurd": "dddllDurrddlLuurruuulldRurDDDllddrrUUUUUlluLLLrrrddrrddddlU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "52",
+      "title": "",
+      "comment": "hard/000.txt puzzle 51",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "###### .##",
+        "######$ .#",
+        "###### $ #",
+        "# $ $ .  #",
+        "#@   ## .#",
+        "######   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 46,
+        "lurd": "rruRRRuRDrUluulDrddrddlUUllldllluRRRRRRUUlDrrD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "53",
+      "title": "",
+      "comment": "hard/000.txt puzzle 52",
+      "rows": [
+        "##########",
+        "# $.  ####",
+        "# $ . ####",
+        "# @# #####",
+        "# $. #####",
+        "# # .  ###",
+        "# ##   ###",
+        "#####$ ###",
+        "#####    #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 55,
+        "lurd": "luRRurDDDldRuuullluRddldRuurrddddrruLdrddlUUlUUUdddrruL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "54",
+      "title": "",
+      "comment": "hard/000.txt puzzle 53",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "##########",
+        "#####@ ###",
+        "#####$$. #",
+        "#####    #",
+        "####  #$.#",
+        "#   ..$  #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 11,
+        "moves": 33,
+        "lurd": "rDrdrddlLLuuRRurDlllddrrUUluulDDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "55",
+      "title": "",
+      "comment": "hard/000.txt puzzle 54",
+      "rows": [
+        "##########",
+        "##      .#",
+        "# $  $   #",
+        "#  ####..#",
+        "# $ #### #",
+        "##@####  #",
+        "#######$ #",
+        "#  # #  .#",
+        "#        #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 23,
+        "moves": 80,
+        "lurd": "UluuRurrdRRurrddlUruLdllullldRRRRRdrddlDrddlluRuuruuluurDlllllllddrUluRRRRRluRRD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "56",
+      "title": "",
+      "comment": "hard/000.txt puzzle 55",
+      "rows": [
+        "##########",
+        "#        #",
+        "#   # $$ #",
+        "# #### $ #",
+        "# #. #   #",
+        "#      $ #",
+        "# . .@.###",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 26,
+        "moves": 80,
+        "lurd": "ururrdLLLLulDlluuuurrrrrDDDrdLLdlLuurDldRurrurruuLDuulDDrDrdLLLLdlUrrrdLurruulDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "57",
+      "title": "",
+      "comment": "hard/000.txt puzzle 56",
+      "rows": [
+        "##########",
+        "#  #######",
+        "# .# #####",
+        "#    $.###",
+        "#  #   ###",
+        "#.### $ ##",
+        "#  ##$  ##",
+        "#  .  $ ##",
+        "#    #@###",
+        "##########"
+      ],
+      "par": {
+        "pushes": 22,
+        "moves": 62,
+        "lurd": "UlUUddrruuLuuLLLrdRDrDrdLLLLLuluurUrrdrdDrdLLdlllUUddrrruruurU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "58",
+      "title": "",
+      "comment": "hard/000.txt puzzle 57",
+      "rows": [
+        "##########",
+        "##########",
+        "#####  ###",
+        "## .    .#",
+        "###    . #",
+        "#  ##   ##",
+        "#.$ $ # ##",
+        "#    $ $ #",
+        "#### # @##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 27,
+        "moves": 63,
+        "lurd": "UUUUruLLLLdrddLdRRdrUUUUdddlllllluurDldRRRRRdrUUUlldlLLrrruuurR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "59",
+      "title": "",
+      "comment": "hard/000.txt puzzle 58",
+      "rows": [
+        "##########",
+        "#  #######",
+        "#  #######",
+        "# ########",
+        "# .  #####",
+        "# $$@#####",
+        "#. #######",
+        "# $   $ ##",
+        "#   . .  #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 18,
+        "moves": 71,
+        "lurd": "ulllddrDldRRurrdrruLLLLdRRlllluurDldRRululuurDDuurrdLullddrUdlddrruLdlU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "60",
+      "title": "",
+      "comment": "hard/000.txt puzzle 59",
+      "rows": [
+        "##########",
+        "###.######",
+        "###  #####",
+        "# .$ #####",
+        "# .  #####",
+        "#   ######",
+        "# $. #####",
+        "# $$ #####",
+        "## @ #####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 11,
+        "moves": 39,
+        "lurd": "ruuluuruLdddrddlUUUllddRUUrUUUddddlddrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "61",
+      "title": "",
+      "comment": "hard/000.txt puzzle 60",
+      "rows": [
+        "##########",
+        "######@###",
+        "######$  #",
+        "#####  $ #",
+        "#####  # #",
+        "##### $$.#",
+        "#### .   #",
+        "##### .. #",
+        "#####    #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 51,
+        "lurd": "DrrddddllluurDldRdrruuLLrruuullDRurDDullDDDurDululD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "62",
+      "title": "",
+      "comment": "hard/000.txt puzzle 61",
+      "rows": [
+        "##########",
+        "####  # ##",
+        "#####@   #",
+        "#### $$$.#",
+        "#### $   #",
+        "####  ####",
+        "#   .. ###",
+        "#  .     #",
+        "#        #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 47,
+        "lurd": "rrrddllLrrruullDRullDDulDDDrdLuuuurrrdLLulDDurD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "63",
+      "title": "",
+      "comment": "hard/000.txt puzzle 62",
+      "rows": [
+        "##########",
+        "#@ #######",
+        "#$$ ######",
+        "#   ######",
+        "# .#######",
+        "#.$ ######",
+        "# . ######",
+        "# $ ######",
+        "# .   ####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 13,
+        "moves": 47,
+        "lurd": "DDDDDrUdrddllUdrruulDuuluurDDuuluurDDlddrrddllU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "64",
+      "title": "",
+      "comment": "hard/000.txt puzzle 63",
+      "rows": [
+        "##########",
+        "#@########",
+        "#$########",
+        "#  #######",
+        "# # ######",
+        "#.   #####",
+        "#.$$$#####",
+        "#  #. ####",
+        "#.    ####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 13,
+        "moves": 22,
+        "lurd": "DDDDrrrDDrdLLLuURuLrrD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "65",
+      "title": "",
+      "comment": "hard/000.txt puzzle 64",
+      "rows": [
+        "##########",
+        "#   .    #",
+        "# $#     #",
+        "#  ##### #",
+        "# #####  #",
+        "#.  ###  #",
+        "# .$ ##  #",
+        "##$$ ### #",
+        "##@. ### #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 8,
+        "moves": 31,
+        "lurd": "UUluuurUluRRlddldddrddrruuLDuuL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "66",
+      "title": "",
+      "comment": "hard/000.txt puzzle 65",
+      "rows": [
+        "##########",
+        "#  #######",
+        "#@ #######",
+        "#  ###  ##",
+        "# # ##$.##",
+        "# $      #",
+        "# #.$  $.#",
+        "#  ### .##",
+        "#  #### ##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 51,
+        "lurd": "dddRRdRRurrDulldRRuuulDrddlllluRdrrruulDrdLLLuRRdrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "67",
+      "title": "",
+      "comment": "hard/000.txt puzzle 66",
+      "rows": [
+        "##########",
+        "#    .  ##",
+        "#  # $  ##",
+        "#####.$ ##",
+        "#####$$ ##",
+        "#####   ##",
+        "###### @##",
+        "##### . ##",
+        "### .   ##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 58,
+        "lurd": "ullUdrruuuullldRurrddddlluUUdddrruuLDDDDuuuuruulDDDDDrddLL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "68",
+      "title": "",
+      "comment": "hard/000.txt puzzle 67",
+      "rows": [
+        "##########",
+        "##########",
+        "########@#",
+        "### #### #",
+        "#  .   $ #",
+        "#. $. .$ #",
+        "# ###  ###",
+        "# ## $####",
+        "#     ####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 10,
+        "moves": 42,
+        "lurd": "ddLLLdlLullddddrrrrUUruulLdlLrrurrdLurrrdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "69",
+      "title": "",
+      "comment": "hard/000.txt puzzle 68",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "## # # ###",
+        "#.     $@#",
+        "#  $ # #.#",
+        "#  #### $#",
+        "# $# ##  #",
+        "#.     . #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 18,
+        "moves": 66,
+        "lurd": "LLLLdLLdlddrrrrrrurUddllllllluurDldRRRRllluuuulDDDuurrruLLddddrrrR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "70",
+      "title": "",
+      "comment": "hard/000.txt puzzle 69",
+      "rows": [
+        "##########",
+        "# .    . #",
+        "# $  $ $ #",
+        "#..#######",
+        "#  #######",
+        "#$ #######",
+        "#@########",
+        "# ########",
+        "# ########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 24,
+        "moves": 85,
+        "lurd": "UruuluurrrrrdLLulllddrUluRRRdLrrrurrdLLLLuRRlllllddrUluRRRllddddlUruuurrdLulDrrrruLLL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "71",
+      "title": "",
+      "comment": "hard/000.txt puzzle 70",
+      "rows": [
+        "##########",
+        "######   #",
+        "###### $ #",
+        "# #####. #",
+        "# ######.#",
+        "#     .  #",
+        "# $.   $ #",
+        "###$ #####",
+        "##      @#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 90,
+        "lurd": "lllluuullldRRRddlUruLurrrdLurrrdLLulllddrUluRRRdLrrruuuuulDrddddlluRdrUlllllddrUluRRlllldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "72",
+      "title": "",
+      "comment": "hard/000.txt puzzle 71",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "###### ###",
+        "###### . #",
+        "###### . #",
+        "###### $ #",
+        "#@$ $.   #",
+        "#    #.$ #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 53,
+        "lurd": "drruRRRuurrdLrddLUUdllldllluRRRRRUrruullDDrUdrddlUUdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "73",
+      "title": "",
+      "comment": "hard/000.txt puzzle 72",
+      "rows": [
+        "##########",
+        "##### ####",
+        "#        #",
+        "#  #. .$ #",
+        "#.####   #",
+        "#  #### ##",
+        "#$  $@#  #",
+        "#  . # $ #",
+        "######   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 70,
+        "lurd": "LdlluuluuurrrrrrrdLLLrdrddrddlUUUUruLullllldlddrddlUUddrrruLdlluurDldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "74",
+      "title": "",
+      "comment": "hard/000.txt puzzle 73",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "####     #",
+        "#### $ $##",
+        "#### $. ##",
+        "# #####  #",
+        "# ### .$ #",
+        "# @  .  .#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 52,
+        "lurd": "rrrrrruulDuuluurDDDrddLLuRuuuullldRRurDDDrDLuuullldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "75",
+      "title": "",
+      "comment": "hard/000.txt puzzle 74",
+      "rows": [
+        "##########",
+        "#@########",
+        "# ########",
+        "#  ####  #",
+        "#     #$ #",
+        "# $$.$#  #",
+        "# #      #",
+        "###. # ###",
+        "###.   .##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 66,
+        "lurd": "dddrrDurrDldddrruuLulDDldRRRuururuulDDrdLLLulDDuulDuulldRRdrrrddlL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "76",
+      "title": "",
+      "comment": "hard/000.txt puzzle 75",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "#@########",
+        "#$########",
+        "#  #######",
+        "# $..### #",
+        "#.$ $ #  #",
+        "#  .     #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 11,
+        "moves": 35,
+        "lurd": "DDDRRddllUdrruulDrdrruLdlUlldRuuulD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "77",
+      "title": "",
+      "comment": "hard/000.txt puzzle 76",
+      "rows": [
+        "##########",
+        "#        #",
+        "# . $.$  #",
+        "##. ###. #",
+        "#  $###  #",
+        "##$ ######",
+        "##@#######",
+        "##########",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 73,
+        "lurd": "UUUruurrdRurDulllldRRRullllldRRRldlddrUUluurrdLurrrdLLurrrrdLLullllDurrdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "78",
+      "title": "",
+      "comment": "hard/000.txt puzzle 77",
+      "rows": [
+        "##########",
+        "## #######",
+        "## ####  #",
+        "# @ ### ##",
+        "#  ### . #",
+        "#   ## $ #",
+        "#  ###. .#",
+        "# ## #$$ #",
+        "# $   .  #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 12,
+        "moves": 44,
+        "lurd": "dddlddRRRRRUUrrddLruulldRuruullDurrddlUdddrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "79",
+      "title": "",
+      "comment": "hard/000.txt puzzle 78",
+      "rows": [
+        "##########",
+        "##########",
+        "#.########",
+        "# ########",
+        "#  #@#####",
+        "# ##$   ##",
+        "#      $##",
+        "# $. ..$ #",
+        "######   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 54,
+        "lurd": "DrddlluRllldRurrdrrdrruLLuurDlLLLLdlUUUUdddrrrrrddrruL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "80",
+      "title": "",
+      "comment": "hard/000.txt puzzle 79",
+      "rows": [
+        "##########",
+        "#    #####",
+        "#$ $ #####",
+        "#    #####",
+        "# #    ###",
+        "#.#  # ###",
+        "# .#######",
+        "#.$$ #####",
+        "#   @  . #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 18,
+        "moves": 53,
+        "lurd": "llluurDldRRRRRlluLdlUluuuurrruLullDDDDDuuuuurDrdLulDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "81",
+      "title": "",
+      "comment": "hard/000.txt puzzle 80",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "#  ### ###",
+        "#    . @ #",
+        "#. #  $$ #",
+        "#  ###  ##",
+        "# ####.$ #",
+        "# $  .   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 18,
+        "moves": 58,
+        "lurd": "DLdddrruLUUruLLLLLLrrdRurrddlUruLdllullddlddRRRllluuuruulD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "82",
+      "title": "",
+      "comment": "hard/000.txt puzzle 81",
+      "rows": [
+        "##########",
+        "### @#####",
+        "###$$#####",
+        "###     .#",
+        "###. . # #",
+        "####$ #  #",
+        "#### ### #",
+        "### $   .#",
+        "##      ##",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 51,
+        "lurd": "DDldRurrrrddddldlllluRRRlluUUluRuulDDrRRRlllddddrrR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "83",
+      "title": "",
+      "comment": "hard/000.txt puzzle 82",
+      "rows": [
+        "##########",
+        "#  #######",
+        "#  . $ $ #",
+        "#   #@$  #",
+        "# #####$.#",
+        "#  ####  #",
+        "#.###### #",
+        "#.##   # #",
+        "#        #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 30,
+        "moves": 89,
+        "lurd": "RuLLLdlluurDlddddddrrrrrrruuuuuLruLLLLLLulDDDDDuuuurrdLulDDDuuurrrrrrdrddlUUruLLLLrdRRurD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "84",
+      "title": "",
+      "comment": "hard/000.txt puzzle 83",
+      "rows": [
+        "##########",
+        "#####  # #",
+        "####@$ # #",
+        "#####$   #",
+        "##### #$.#",
+        "####  #. #",
+        "####     #",
+        "#####$   #",
+        "####  .. #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 25,
+        "moves": 77,
+        "lurd": "RDDDldRRddlUrrruulDuruullluurDldddldRRRDrdLuuuruulLulDDDldRRdrrUUlDDulluuurrD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "85",
+      "title": "",
+      "comment": "hard/000.txt puzzle 84",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "#### #####",
+        "#### #####",
+        "####  ####",
+        "##@$ .####",
+        "#.$  $$ .#",
+        "#     .  #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 15,
+        "moves": 40,
+        "lurd": "DldRurrdrURlluurDlddrruLLLLuRRdlldRRRurR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "86",
+      "title": "",
+      "comment": "hard/000.txt puzzle 85",
+      "rows": [
+        "##########",
+        "#  #######",
+        "#  .######",
+        "#   ######",
+        "#  ####  #",
+        "# $##    #",
+        "#  ###$$.#",
+        "# ###.$. #",
+        "#@       #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 18,
+        "moves": 85,
+        "lurd": "uurUUUdddlddrrrruRRUruulDlDurrdLddrUUddllluRdrruululDrrddlULuurDuurDldlddllllluuuuuuR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "87",
+      "title": "",
+      "comment": "hard/000.txt puzzle 86",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "##########",
+        "##@# ##.##",
+        "# $$     #",
+        "#     $. #",
+        "#####.$. #",
+        "##########",
+        "##########"
+      ],
+      "par": {
+        "pushes": 14,
+        "moves": 40,
+        "lurd": "DRRdrRurrddlLuurDlllullldRRRuRRdrUllldRR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "88",
+      "title": "",
+      "comment": "hard/000.txt puzzle 87",
+      "rows": [
+        "##########",
+        "##########",
+        "# ########",
+        "#   ## ###",
+        "# $.   $ #",
+        "#.  @#   #",
+        "# #####$ #",
+        "# $ ###  #",
+        "#.  ####.#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 74,
+        "lurd": "llldddrruLdlUUUrruulDulDDDDuuurrrrrdrruLLLLrrdrrddlUruulldRurDDDuuulllldlL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "89",
+      "title": "",
+      "comment": "hard/000.txt puzzle 88",
+      "rows": [
+        "##########",
+        "##       #",
+        "## $    .#",
+        "####@$# .#",
+        "#### . #.#",
+        "#####    #",
+        "######   #",
+        "######$$ #",
+        "######   #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 16,
+        "moves": 63,
+        "lurd": "uulldRRRRRdrdddddlUdlUURuruululllddrdRddrrUUUddlluRdrUllulluurD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "90",
+      "title": "",
+      "comment": "hard/000.txt puzzle 89",
+      "rows": [
+        "##########",
+        "#       ##",
+        "##  .$ $ #",
+        "##  #### #",
+        "#   #### #",
+        "#$ ####  #",
+        "#. ####  #",
+        "#. @###$ #",
+        "##.      #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 97,
+        "lurd": "drrrrruulDrdLLLLLuluuuuuurrrrdLLLulDrddldddrdrrrruuuruuuLLLulldlDDDDuulDuruuurrrdrrrddddddllllluL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "91",
+      "title": "",
+      "comment": "hard/000.txt puzzle 90",
+      "rows": [
+        "##########",
+        "#@$. .# ##",
+        "## $     #",
+        "####   $.#",
+        "####### ##",
+        "#### $  ##",
+        "####     #",
+        "###      #",
+        "###.     #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 24,
+        "moves": 51,
+        "lurd": "RdRRdrrurDDDDDrdLLLLuuuRRdrUUUruLdllluurDldRRRuLdlU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "92",
+      "title": "",
+      "comment": "hard/000.txt puzzle 91",
+      "rows": [
+        "##########",
+        "#######@##",
+        "###### $ #",
+        "######  ##",
+        "#  #### ##",
+        "#.  .$.. #",
+        "#  #     #",
+        "# # ##$$##",
+        "#        #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 18,
+        "moves": 76,
+        "lurd": "DDDDrdLulLLLLdlddrrrrrrUUruLLrdddlllllluururrdrRllulldlddrrrrrruUluLdrrddlUU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "93",
+      "title": "",
+      "comment": "hard/000.txt puzzle 92",
+      "rows": [
+        "##########",
+        "##########",
+        "##########",
+        "##########",
+        "######## #",
+        "#######  #",
+        "####@$ . #",
+        "####$$.$ #",
+        "####.  . #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 9,
+        "moves": 30,
+        "lurd": "RRddrruLruulDlDurrddlUlullDRdR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "94",
+      "title": "",
+      "comment": "hard/000.txt puzzle 93",
+      "rows": [
+        "##########",
+        "# ########",
+        "#. #######",
+        "#.$#######",
+        "#  #######",
+        "#   $ ####",
+        "#   $@####",
+        "#$.#######",
+        "#   .#####",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 59,
+        "lurd": "uLLdlluuuurDldddrruLdlUUUrDlddrddlUUUUrDDDldRRluuurrrdLLulD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "95",
+      "title": "",
+      "comment": "hard/000.txt puzzle 94",
+      "rows": [
+        "##########",
+        "##      ##",
+        "# $   $ ##",
+        "#  .#### #",
+        "##. .   @#",
+        "##  #  $ #",
+        "####### .#",
+        "#######$ #",
+        "#######  #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 24,
+        "moves": 85,
+        "lurd": "ddlUdrddlUUruuLLLLLulluRRdddlUUdrrrdrRurDullllluuurrdLurrrdLLullDDldRuuulDDuurrrdLulD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "96",
+      "title": "",
+      "comment": "hard/000.txt puzzle 95",
+      "rows": [
+        "##########",
+        "###      #",
+        "##  .  $ #",
+        "##$ ######",
+        "##. ######",
+        "###  # ###",
+        "### .# ###",
+        "##@$ $ # #",
+        "###.     #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 21,
+        "moves": 63,
+        "lurd": "RdrUdrruLdlluuuuuulDrdddddrruLdlUUUUUluRurrdLurrrrdLLLullDDDDDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "97",
+      "title": "",
+      "comment": "hard/000.txt puzzle 96",
+      "rows": [
+        "##########",
+        "##########",
+        "# ########",
+        "# ########",
+        "# ### @ ##",
+        "#  # $$.##",
+        "#  .  $###",
+        "#. # $   #",
+        "#####  . #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 17,
+        "moves": 39,
+        "lurd": "lDurrdLDLLLLulDrrrrrDuuulDrdLLdRdRUUluR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "98",
+      "title": "",
+      "comment": "hard/000.txt puzzle 97",
+      "rows": [
+        "##########",
+        "##. ######",
+        "#@$      #",
+        "# $ # #$$#",
+        "##  ###  #",
+        "##   ### #",
+        "## ..    #",
+        "##   # # #",
+        "##  ####.#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 22,
+        "moves": 53,
+        "lurd": "RurDDDDuuulldRurrrrrrDDDDDuuulUruLLLLLDDulUddddRluurD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "99",
+      "title": "",
+      "comment": "hard/000.txt puzzle 98",
+      "rows": [
+        "##########",
+        "#######  #",
+        "#######$.#",
+        "#######  #",
+        "#######$ #",
+        "#.#####  #",
+        "# ##### .#",
+        "#$### $  #",
+        "#      .@#",
+        "##########"
+      ],
+      "par": {
+        "pushes": 20,
+        "moves": 79,
+        "lurd": "uuuuulDDrdddlllllllUdrrrruRRdrUUUlDrddlluRdrUluuuuruulDDDDDDuurUUddlddldllllluU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "100",
+      "title": "",
+      "comment": "hard/000.txt puzzle 99",
+      "rows": [
+        "##########",
+        "###      #",
+        "### .  # #",
+        "### . ## #",
+        "###. ##  #",
+        "### $$ # #",
+        "####   $ #",
+        "###@.##$##",
+        "###      #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 19,
+        "moves": 108,
+        "lurd": "ruUUluurrdLdddrruLdlUUUruurrrdddddLLulldddrrrUdllluuurrdLuluuruurrrdddddLLrddllluUUUdrrdLulDrrrruuuuullllldD",
+        "solver": "push-astar/1"
+      }
+    }
+  ]
+}

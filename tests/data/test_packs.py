@@ -110,6 +110,18 @@ def test_microban_credit() -> None:
     assert pack.source.startswith(("http://", "https://"))
 
 
+def test_boxoban_pack_loads_with_its_licence() -> None:
+    pack, warnings = load_any(Path(str(LEVELS_DIR / "boxoban-hard.json")))
+    assert warnings == [] and pack.title == "Boxoban (hard)" and not pack.hidden
+    assert [e.id for e in pack.levels] == [str(i) for i in range(1, 101)]
+    assert "DeepMind" in pack.author and "Arthur Guez" in pack.author
+    assert pack.license.startswith("Apache License 2.0") and "boxoban-hard.LICENSE.txt" in pack.license
+    assert "An investigation of Model-free planning: boxoban levels" in pack.license
+    assert pack.source == "https://github.com/google-deepmind/boxoban-levels"
+    notice = (LEVELS_DIR / "boxoban-hard.LICENSE.txt").read_text(encoding="utf-8")
+    assert "Version 2.0, January 2004" in notice and "@misc{boxobanlevels" in notice
+
+
 def test_test_performance_fixture_is_an_invalid_level() -> None:
     with pytest.raises(FormatError, match="12 boxes but 14 goals"):
         load_any(FIXTURES / "legacy_test_performance.txt")
