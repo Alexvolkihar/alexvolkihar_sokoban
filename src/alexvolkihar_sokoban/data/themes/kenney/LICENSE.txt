@@ -1,0 +1,6 @@
+Sokoban pack by Kenney (www.kenney.nl), CC0 1.0 Universal
+https://kenney.nl/assets/sokoban
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Files: Character4.png, Crate_Brown.png, EndPoint_Brown.png, WallRound_Brown.png, empty.png, icon.png
+(copied unchanged from the original Sokoban-LAMA project, legacy/img/).

@@ -1,0 +1,104 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "alexvolkihar-sokoban"
+dynamic = ["version"]
+description = "Remake of Sokoban-LAMA: a Sokoban game with level packs, a push-based solver, benchmarks, themes and saves."
+readme = "README.en.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Antoine LAROCHE" },
+    { name = "Alexis MABANZA" },
+    { name = "Logan VIVIEN" },
+    { name = "Martin PACARY" },
+]
+keywords = ["sokoban", "puzzle", "game", "pygame", "solver"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Games/Entertainment :: Puzzle Games",
+]
+dependencies = [
+    "pygame-ce>=2.5",
+    "platformdirs>=4",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff", "mypy", "jsonschema"]
+media = ["imageio", "imageio-ffmpeg"]
+
+[project.scripts]
+alexvolkihar-sokoban = "alexvolkihar_sokoban.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Alexvolkihar/alexvolkihar_sokoban"
+Original = "https://github.com/Alexvolkihar/Sokoban-LAMA"
+
+[tool.hatch.version]
+path = "src/alexvolkihar_sokoban/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/alexvolkihar_sokoban"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["legacy/", ".github/", ".superpowers/"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = ["legacy"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "TID"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"pygame".msg = "pygame only in ui/"
+
+[tool.ruff.lint.per-file-ignores]
+"src/alexvolkihar_sokoban/ui/**" = ["TID251"]
+"src/alexvolkihar_sokoban/commands/play.py" = ["TID251"]
+"tests/ui/**" = ["TID251"]
+"scripts/**" = ["TID251"]
+
+[tool.mypy]
+files = ["src"]
+python_version = "3.11"
+warn_unused_configs = true
+warn_redundant_casts = true
+
+[[tool.mypy.overrides]]
+module = [
+    "alexvolkihar_sokoban",
+    "alexvolkihar_sokoban.__main__",
+    "alexvolkihar_sokoban.cli",
+    "alexvolkihar_sokoban.commands.*",
+    "alexvolkihar_sokoban.core.*",
+    "alexvolkihar_sokoban.formats.*",
+    "alexvolkihar_sokoban.solver.*",
+    "alexvolkihar_sokoban.generator.*",
+    "alexvolkihar_sokoban.scoring.*",
+    "alexvolkihar_sokoban.persistence.*",
+    "alexvolkihar_sokoban.benchmark.*",
+]
+# Per-module equivalent of --strict (a per-module `strict = true` leaks to every module).
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+warn_unused_ignores = true
+warn_return_any = true
+no_implicit_reexport = true
+strict_equality = true
+extra_checks = true
+
+[[tool.mypy.overrides]]
+module = ["pygame", "pygame.*"]
+ignore_missing_imports = true  # pygame-ce ships its own stubs; kept as a safety net
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
