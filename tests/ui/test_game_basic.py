@@ -46,6 +46,7 @@ ESCAPE = key(pygame.K_ESCAPE, 41)
 
 
 def game_app(level_id: str = "one", **settings: object) -> tuple[App, GameScene]:
+    settings.setdefault("animation", "off")
     app = App(Settings(**settings), headless=True)  # type: ignore[arg-type]
     app.push("main_menu")
     scene = app.push("game", pack=PACK, level_id=level_id)
@@ -53,12 +54,12 @@ def game_app(level_id: str = "one", **settings: object) -> tuple[App, GameScene]
     return app, scene
 
 
-def test_game_basic_win_pops() -> None:
+def test_game_basic_win_shows_victory() -> None:
     app, scene = game_app()
     app.step([RIGHT])  # "r"
     assert scene.state.lurd == "r" and app.top is scene
     app.step([UP])  # "U": the box lands on the goal
-    assert app.top is not None and app.top.name == "main_menu" and len(app.stack) == 1
+    assert [s.name for s in app.stack] == ["main_menu", "game", "victory"]
 
 
 def test_wasd_moves_the_player() -> None:
@@ -79,14 +80,14 @@ def test_undo_redo_restart() -> None:
     assert scene.state.lurd == "r"
     app.step([REDO])
     assert scene.state.lurd == "rr"
-    app.step([RESTART])
+    app.step([RESTART, RESTART])  # restart needs a double press
     assert scene.state.moves == 0
 
 
-def test_escape_returns_to_the_previous_scene() -> None:
+def test_escape_opens_the_pause_overlay() -> None:
     app, _ = game_app()
     app.step([ESCAPE])
-    assert app.top is not None and app.top.name == "main_menu"
+    assert [s.name for s in app.stack] == ["main_menu", "game", "pause"]
 
 
 def test_huge_level_draws_in_the_minimum_window_and_after_resizes() -> None:

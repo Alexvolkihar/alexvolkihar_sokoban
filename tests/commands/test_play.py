@@ -15,6 +15,15 @@ TEST1 = REPO / "legacy" / "level" / "test1.txt"
 XSB_TWO = "#####\n#@$.#\n#####\n\n######\n#@ $.#\n######\n"
 
 
+def _key(k: int, scancode: int) -> pygame.event.Event:
+    return pygame.event.Event(pygame.KEYDOWN, key=k, scancode=scancode, mod=0, unicode="")
+
+
+ESCAPE = _key(pygame.K_ESCAPE, 41)
+UP = _key(pygame.K_UP, 82)
+ENTER = _key(pygame.K_RETURN, 40)
+
+
 @pytest.fixture(autouse=True)
 def _restore_language():
     before = get_language()
@@ -81,8 +90,8 @@ def test_escape_in_the_game_returns_to_the_main_menu(monkeypatch: pytest.MonkeyP
     frames = Frames(monkeypatch)
     assert run_play(tmp_path, str(TEST1)) == 0
     app = frames.apps[0]
-    escape = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_ESCAPE, scancode=41, mod=0, unicode="")
-    app.step([escape])
+    app.step([ESCAPE])  # opens the pause menu
+    app.step([UP, ENTER])  # Up wraps to its last item: Main menu
     assert [s.name for s in app.stack] == ["main_menu"] and app.running
 
 
@@ -111,8 +120,8 @@ def test_file_warnings_reach_the_main_menu(monkeypatch: pytest.MonkeyPatch, tmp_
     assert run_play(tmp_path, str(path)) == 0
     app = frames.apps[0]
     assert app.context is not None
-    escape = pygame.event.Event(pygame.KEYDOWN, key=pygame.K_ESCAPE, scancode=41, mod=0, unicode="")
-    app.step([escape])  # back to the main menu, which shows the skipped level
+    app.step([ESCAPE])  # pause menu, then its last item: back to the main menu, which shows the skipped level
+    app.step([UP, ENTER])
     menu = app.top
     assert menu is not None and menu.name == "main_menu"
     assert any("mixed" in m for m in menu.messages)  # type: ignore[attr-defined]
