@@ -1,7 +1,7 @@
-"""Colour palettes taken from the themes of the Dobble 3D game, drawn as procedural Sokoban tiles.
+"""Mood palettes adapted from the author's Dobble 3D project, drawn as procedural Sokoban tiles.
 
-Only colours and theme names are reused: no picture, logo or symbol of those themes. Each palette keeps
-the Dobble 3D ``ambiance`` tokens (sky gradient stops, felt, rim, card, card back, accents) and its particle
+Only colours are reused, under neutral names that describe each palette's mood. Each palette keeps the
+``ambiance`` tokens (sky gradient stops, felt, rim, card, card back, accents) and its particle
 preset, which becomes a small motif on the floor tiles. :class:`PaletteTheme` assigns the board roles from
 those tokens, choosing for goals, boxes and the player the colours that stand out the most, so every
 palette stays legible.
@@ -39,7 +39,7 @@ Motif = Literal["none", "candles", "snow", "halftone", "sparkles", "stars", "pet
 
 @dataclass(frozen=True)
 class Palette:
-    """The Dobble 3D ambiance tokens of one theme (``#rrggbb`` strings, as in its manifest)."""
+    """The ambiance tokens of one palette (``#rrggbb`` strings)."""
 
     id: str
     name: str
@@ -133,7 +133,7 @@ PALETTES: tuple[Palette, ...] = (
     _p("picnic", "Picnic", "#5fb6f0 #a6dcf5 #c9ef9b #8fd16a", ("#69b84a", "#4f9a36"),
        ("#e3350d", "#9e2207"), ("#fbf6ea", "#d6c39b"), ("#e3350d", "#c72b08"), ("#1b5aa0", "#ffcb05"),
        "#1a5596", "none", False),
-    _p("pixel", "Super Pixel.", "#a9c41a #bccf3a #9bbc0f", ("#306230", "#0f380f"),
+    _p("pixel", "Pixel", "#a9c41a #bccf3a #9bbc0f", ("#306230", "#0f380f"),
        ("#c4c0b8", "#8b8780"), ("#f6f4ea", "#b9b6a8"), ("#306230", "#0f380f"), ("#2b5a2b", "#9a2257"),
        "#0f380f", "none", False),
     _p("deep-space", "Deep Space", "#03040b #0b1026 #1b1533", ("#2b4a6b", "#172b42"),
@@ -151,7 +151,7 @@ PALETTES: tuple[Palette, ...] = (
 )
 # fmt: on
 
-# Dobble 3D UI tokens (src/styles/tokens.css): ink, small text, paper, danger — light and dark variants.
+# UI tokens adapted from the same project: ink, small text, paper, danger — light and dark variants.
 _LIGHT_UI = {"text": "#2b2820", "muted": "#746a56", "panel": "#fbf6ea", "bad": "#a8371f", "good": "#24614f"}
 _DARK_UI = {"text": "#f3ead3", "muted": "#ab9b7e", "panel": "#231c33", "bad": "#ff8a70", "good": "#7fd18b"}
 

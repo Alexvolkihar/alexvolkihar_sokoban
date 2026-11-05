@@ -1,4 +1,4 @@
-"""Classic theme: flat procedural tiles in the colours of the Dobble 3D "Classique" theme."""
+"""Classic theme: flat procedural tiles, "classic" palette adapted from the author's Dobble 3D project."""
 
 from __future__ import annotations
 

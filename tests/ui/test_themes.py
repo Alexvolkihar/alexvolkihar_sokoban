@@ -17,8 +17,8 @@ from alexvolkihar_sokoban.ui.themes.registry import (
     get_theme,
 )
 
-# The 16 themes of the Dobble 3D game besides its "classic" one, reused as colour palettes.
-DOBBLE_IDS = (
+# Mood palettes adapted from the author's Dobble 3D project (colours only), besides "classic".
+MOOD_IDS = (
     "meadow",
     "arcade",
     "storybook",
@@ -80,9 +80,9 @@ def _mean(surface: pygame.Surface) -> RGB:
     )
 
 
-def test_registry_lists_the_plan_themes_first_then_the_dobble_palettes() -> None:
+def test_registry_lists_the_plan_themes_first_then_the_mood_palettes() -> None:
     assert THEME_IDS[:4] == ("kenney", "classic", "neon", "contrast")
-    assert set(THEME_IDS[4:]) == set(DOBBLE_IDS)
+    assert set(THEME_IDS[4:]) == set(MOOD_IDS)
     assert len(set(THEME_IDS)) == len(THEME_IDS)
     assert [t.id for t in available_themes()] == list(THEME_IDS)
 
@@ -92,7 +92,7 @@ def test_theme_classes() -> None:
     assert isinstance(get_theme("classic"), ClassicTheme)
     assert isinstance(get_theme("neon"), NeonTheme)
     assert isinstance(get_theme("contrast"), ContrastTheme)
-    for theme_id in DOBBLE_IDS:
+    for theme_id in MOOD_IDS:
         assert isinstance(get_theme(theme_id), PaletteTheme)
     assert all(isinstance(t, CachedTheme) for t in available_themes())
 
@@ -112,12 +112,14 @@ def test_themes_have_english_names() -> None:
     names = {t.id: t.name for t in available_themes()}
     assert names["classic"] == "Classic"
     assert names["contrast"] == "High contrast"
-    assert names["picnic"] == "Picnic"
+    assert names["picnic"] == "Picnic" and names["frost-keep"] == "Frost Keep"
+    for theme_id in MOOD_IDS:  # neutral names that say the mood, nothing else
+        assert names[theme_id] == theme_id.replace("-", " ").title()
     assert all(names.values())
 
 
-def test_palettes_cover_classic_and_the_dobble_themes() -> None:
-    assert {p.id for p in PALETTES} == {"classic", *DOBBLE_IDS}
+def test_palettes_cover_classic_and_the_mood_themes() -> None:
+    assert {p.id for p in PALETTES} == {"classic", *MOOD_IDS}
 
 
 @pytest.mark.parametrize("theme", THEME_PARAMS)
@@ -221,7 +223,7 @@ def test_kenney_box_on_goal_is_a_tinted_crate() -> None:
     assert done[1] > box[1] and done[1] - done[0] > box[1] - box[0]
 
 
-def test_dark_dobble_themes_get_light_text() -> None:
+def test_dark_mood_themes_get_light_text() -> None:
     by_id = {p.id: p for p in PALETTES}
     assert by_id["deep-space"].dark and not by_id["classic"].dark
     assert sum(get_theme("deep-space").palette.text) > sum(get_theme("classic").palette.text)

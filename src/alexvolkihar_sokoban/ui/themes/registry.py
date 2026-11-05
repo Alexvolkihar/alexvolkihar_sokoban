@@ -1,8 +1,8 @@
 """Theme lookup by id.
 
-The four themes of the spec come first (``kenney``, ``classic``, ``neon``, ``contrast``), then the palettes
-of the Dobble 3D themes, in the order of :data:`palettes.PALETTES`. Themes are created once, lazily, the
-first time the registry is used.
+The four themes of the spec come first (``kenney``, ``classic``, ``neon``, ``contrast``), then the mood
+palettes adapted from the author's Dobble 3D project, in the order of :data:`palettes.PALETTES`. Themes are
+created once, lazily, the first time the registry is used.
 """
 
 from __future__ import annotations
@@ -37,6 +37,6 @@ def available_themes() -> list[Theme]:
 
 
 def get_theme(theme_id: str) -> Theme:
-    """The theme with this id; an unknown id gives the default theme."""
+    """The theme with this id; an unknown id (e.g. a renamed theme in old settings) gives the default."""
     themes = _registry()
     return themes.get(theme_id, themes[DEFAULT_THEME_ID])
