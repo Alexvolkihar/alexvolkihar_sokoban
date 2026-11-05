@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Alexvolkihar/alexvolkihar_sokoban/schemas/session.schema.json",
+  "title": "Alexvolkihar Sokoban saved session",
+  "description": "The game in progress: the move history and redo stack in LURD, replayed through the core rules on resume.",
+  "type": "object",
+  "required": [
+    "format",
+    "version",
+    "pack_id",
+    "level_id",
+    "level_hash",
+    "lurd",
+    "redo_lurd",
+    "elapsed_ms",
+    "assisted",
+    "saved_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format": { "const": "alexvolkihar-sokoban/session" },
+    "version": { "const": 1 },
+    "pack_id": { "type": "string", "minLength": 1 },
+    "level_id": { "type": "string", "minLength": 1 },
+    "level_hash": {
+      "description": "Level.canonical_hash() of the level being played.",
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "lurd": {
+      "description": "Moves played so far: l u r d walk, L U R D push.",
+      "type": "string",
+      "pattern": "^[lurdLURD]*$"
+    },
+    "redo_lurd": {
+      "description": "Undone moves that can be redone, in the order they would be replayed.",
+      "type": "string",
+      "pattern": "^[lurdLURD]*$"
+    },
+    "elapsed_ms": { "type": "integer", "minimum": 0 },
+    "assisted": {
+      "description": "True once a hint or the solver replay was used on this attempt.",
+      "type": "boolean"
+    },
+    "saved_at": {
+      "description": "ISO-8601 UTC timestamp.",
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    }
+  }
+}

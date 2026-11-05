@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Alexvolkihar/alexvolkihar_sokoban/schemas/settings.schema.json",
+  "title": "Alexvolkihar Sokoban settings",
+  "description": "User settings. Readers stay tolerant: an invalid field falls back to its default.",
+  "type": "object",
+  "required": [
+    "format",
+    "version",
+    "language",
+    "theme",
+    "fullscreen",
+    "window",
+    "animation",
+    "show_timer",
+    "keybindings"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "alexvolkihar-sokoban/settings"
+    },
+    "version": {
+      "const": 1
+    },
+    "language": {
+      "enum": [
+        "fr",
+        "en"
+      ]
+    },
+    "theme": {
+      "description": "Theme id; an unknown id falls back to the default theme.",
+      "type": "string",
+      "minLength": 1
+    },
+    "fullscreen": {
+      "type": "boolean"
+    },
+    "window": {
+      "description": "Windowed size [width, height] in pixels, at least 640x480.",
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 640
+        },
+        {
+          "type": "integer",
+          "minimum": 480
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "animation": {
+      "enum": [
+        "off",
+        "normal",
+        "fast"
+      ]
+    },
+    "show_timer": {
+      "type": "boolean"
+    },
+    "keybindings": {
+      "description": "Keys per action: \"[ctrl+]key:<key name>\" or \"[ctrl+]scan:<SDL scancode>\".",
+      "type": "object",
+      "required": [
+        "up",
+        "down",
+        "left",
+        "right",
+        "undo",
+        "redo",
+        "restart",
+        "hint",
+        "pause",
+        "confirm",
+        "back"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "up": {
+          "$ref": "#/$defs/bindings"
+        },
+        "down": {
+          "$ref": "#/$defs/bindings"
+        },
+        "left": {
+          "$ref": "#/$defs/bindings"
+        },
+        "right": {
+          "$ref": "#/$defs/bindings"
+        },
+        "undo": {
+          "$ref": "#/$defs/bindings"
+        },
+        "redo": {
+          "$ref": "#/$defs/bindings"
+        },
+        "restart": {
+          "$ref": "#/$defs/bindings"
+        },
+        "hint": {
+          "$ref": "#/$defs/bindings"
+        },
+        "pause": {
+          "$ref": "#/$defs/bindings"
+        },
+        "confirm": {
+          "$ref": "#/$defs/bindings"
+        },
+        "back": {
+          "$ref": "#/$defs/bindings"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^(ctrl\\+)?(key:\\S.*|scan:[0-9]+)$"
+      }
+    }
+  }
+}
