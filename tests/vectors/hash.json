@@ -1,0 +1,11 @@
+{
+  "format": "alexvolkihar-sokoban/vectors-hash",
+  "version": 1,
+  "description": "Canonical level hash vectors: rows rendered as XSB, '-'/'_' as space, trailing spaces stripped, leading/trailing empty rows dropped, joined with LF, UTF-8, SHA-256. Each hash was computed with sha256sum on the canonical text shown in 'canonical'.",
+  "cases": [
+    {"rows": ["#####", "#@$.#", "#####"], "canonical": "#####\n#@$.#\n#####", "hash": "sha256:d64cfb9a722ee1300ebfd1147186324bf7a38f6246f0e9b7356b3dbd02aef4e9"},
+    {"rows": ["######  ", "#.  .#", "#    #", "# $$ #", "#@   #", "######", ""], "canonical": "######\n#.  .#\n#    #\n# $$ #\n#@   #\n######", "hash": "sha256:0dd969f52bb5bd0419ca0488a86a66a7dadb3ba3eb7ffa260fdf4c4d3c3a1768"},
+    {"rows": ["--####", "###--#", "#@$.-#", "######"], "canonical": "  ####\n###  #\n#@$. #\n######", "hash": "sha256:e641e2cca051259b12ef3fb00a33c8474a813f1e615f7da84ab5e7b52bcf9847"},
+    {"rows": ["", "######", "#+$*_#", "######"], "canonical": "######\n#+$* #\n######", "hash": "sha256:4c5c02c8f8b6d3b2624de93bcfac17253d870453567a6853f3fc6a11e821d6c3"}
+  ]
+}

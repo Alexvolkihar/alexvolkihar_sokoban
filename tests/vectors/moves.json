@@ -1,0 +1,73 @@
+{
+  "format": "alexvolkihar-sokoban/vectors-moves",
+  "version": 1,
+  "description": "Move conformance vectors. 'input' is plain udlr keys (case-insensitive) played one by one; a blocked step changes nothing and is only counted in blocked_steps. Coordinates are [row, col], row 0 at the top. 'boxes' is sorted.",
+  "cases": [
+    {
+      "name": "walk",
+      "rows": ["#######", "#     #", "# @$ .#", "#     #", "#######"],
+      "input": "ul",
+      "expected": {"player": [1, 1], "boxes": [[2, 3]], "moves": 2, "pushes": 0, "solved": false, "blocked_steps": 0}
+    },
+    {
+      "name": "push",
+      "rows": ["#######", "#     #", "# @$ .#", "#     #", "#######"],
+      "input": "r",
+      "expected": {"player": [2, 3], "boxes": [[2, 4]], "moves": 1, "pushes": 1, "solved": false, "blocked_steps": 0}
+    },
+    {
+      "name": "win",
+      "rows": ["#######", "#     #", "# @$ .#", "#     #", "#######"],
+      "input": "rr",
+      "expected": {"player": [2, 4], "boxes": [[2, 5]], "moves": 2, "pushes": 2, "solved": true, "blocked_steps": 0}
+    },
+    {
+      "name": "blocked by wall",
+      "rows": ["#######", "#     #", "# @$ .#", "#     #", "#######"],
+      "input": "uu",
+      "expected": {"player": [1, 2], "boxes": [[2, 3]], "moves": 1, "pushes": 0, "solved": false, "blocked_steps": 1}
+    },
+    {
+      "name": "box blocked by wall, then walk away after the win",
+      "rows": ["#######", "#     #", "# @$ .#", "#     #", "#######"],
+      "input": "rrrl",
+      "expected": {"player": [2, 3], "boxes": [[2, 5]], "moves": 3, "pushes": 2, "solved": true, "blocked_steps": 1}
+    },
+    {
+      "name": "push onto goal without winning",
+      "rows": ["#######", "#  .  #", "# @$ .#", "#  $  #", "#######"],
+      "input": "rr",
+      "expected": {"player": [2, 4], "boxes": [[2, 5], [3, 3]], "moves": 2, "pushes": 2, "solved": false, "blocked_steps": 0}
+    },
+    {
+      "name": "vertical push onto goal",
+      "rows": ["#######", "#  .  #", "# @$ .#", "#  $  #", "#######"],
+      "input": "dru",
+      "expected": {"player": [2, 3], "boxes": [[1, 3], [3, 4]], "moves": 3, "pushes": 2, "solved": false, "blocked_steps": 0}
+    },
+    {
+      "name": "input with blocked steps",
+      "rows": ["#######", "#  .  #", "# @$ .#", "#  $  #", "#######"],
+      "input": "uuuldd",
+      "expected": {"player": [3, 1], "boxes": [[2, 3], [3, 3]], "moves": 4, "pushes": 0, "solved": false, "blocked_steps": 2}
+    },
+    {
+      "name": "push off goal",
+      "rows": ["######", "#@*  #", "# $ .#", "######"],
+      "input": "r",
+      "expected": {"player": [1, 2], "boxes": [[1, 3], [2, 2]], "moves": 1, "pushes": 1, "solved": false, "blocked_steps": 0}
+    },
+    {
+      "name": "blocked by two boxes",
+      "rows": ["#######", "#@$$..#", "#######"],
+      "input": "r",
+      "expected": {"player": [1, 1], "boxes": [[1, 2], [1, 3]], "moves": 0, "pushes": 0, "solved": false, "blocked_steps": 1}
+    },
+    {
+      "name": "upper-case keys are plain keys",
+      "rows": ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"],
+      "input": "RUUDRDRUULUL",
+      "expected": {"player": [1, 2], "boxes": [[1, 1], [1, 4]], "moves": 12, "pushes": 6, "solved": true, "blocked_steps": 0}
+    }
+  ]
+}
