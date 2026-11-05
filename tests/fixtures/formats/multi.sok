@@ -1,0 +1,21 @@
+Title: Three small levels
+Author: The test suite
+
+; first level
+#####
+#@$.#
+#####
+Title: Corridor
+Author: Someone
+
+######
+#@$ .#
+######
+Title: Longer corridor
+Comment: two cells to push
+
+  ####
+###  #
+#@$ .#
+######
+Title: Bent
