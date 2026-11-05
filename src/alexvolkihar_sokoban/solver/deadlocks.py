@@ -33,6 +33,11 @@ class FreezeChecker:
 
     def is_deadlock(self, occ: bytearray, cell: int) -> bool:
         """True when the box on ``cell`` can never move again and the frozen group has a box off goal."""
+        nbr, dead, base = self.nbr, self.dead, cell * 4
+        for first, second in _AXES:  # fast path: an axis with two free, live neighbours lets the box move
+            a, b = nbr[base + first], nbr[base + second]
+            if a >= 0 and b >= 0 and not occ[a] and not occ[b] and not (dead[a] and dead[b]):
+                return False
         group: list[int] = []
         if not self._frozen(occ, cell, set(), group):
             return False

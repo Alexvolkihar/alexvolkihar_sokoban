@@ -136,10 +136,21 @@ class _Search:
         ):
             return self._result(SolveStatus.UNSOLVABLE)
 
+        # every push a box on each cell could make: (push code, target, cell the player pushes from),
+        # leaving out pushes onto walls and dead squares
+        push_moves = tuple(
+            tuple(
+                (cell * 4 + d, nbr[cell * 4 + d], nbr[cell * 4 + OPPOSITE[d]])
+                for d in range(4)
+                if nbr[cell * 4 + d] >= 0 and not dead[nbr[cell * 4 + d]] and nbr[cell * 4 + OPPOSITE[d]] >= 0
+            )
+            for cell in range(board.size)
+        )
+        is_deadlock = self.freeze.is_deadlock
         push_bits, player_bits = self.push_bits, self.player_bits
         push_mask = (1 << push_bits) - 1
         start_mask = sum(1 << b for b in self.start_boxes)
-        # expanded states, by id: key (box mask << player_bits | normalised player), parent id, push, g, moves
+        # expanded states, by id: key (box mask << player_bits | normalised player), parent id, push, pushes
         keys: list[int] = []
         parents = array("i")
         push_codes = array("i")
@@ -147,13 +158,14 @@ class _Search:
         closed: set[int] = set()
         # one integer per open entry: p1 | p2 | moves | parent id + 1 (0 = start) | push code
         heap: list[int] = [0]
+        popped = 0
         next_check = 0
         next_progress = PROGRESS_EVERY
         should_stop = self.should_stop
 
         while heap:
-            if self.expanded >= next_check:
-                next_check = self.expanded + CHECK_EVERY
+            if popped >= next_check:  # counted on pops: duplicates cost a walk too
+                next_check = popped + CHECK_EVERY
                 if should_stop is not None and should_stop():
                     return self._result(SolveStatus.CANCELLED)
                 if time.monotonic() >= self.deadline:
@@ -165,6 +177,7 @@ class _Search:
                 self.on_progress(self.expanded, self._elapsed_ms())
 
             entry = heapq.heappop(heap)
+            popped += 1
             code = entry & push_mask
             entry >>= push_bits
             parent = (entry & _F32) - 1
@@ -173,7 +186,7 @@ class _Search:
                 mask, player, g = start_mask, self.start_player, 0
             else:
                 box, d = divmod(code, 4)
-                mask = keys[parent] >> player_bits ^ (1 << box) ^ (1 << nbr[box * 4 + d])
+                mask = (keys[parent] >> player_bits) ^ (1 << box) ^ (1 << nbr[box * 4 + d])
                 player, g = box, gs[parent] + 1
 
             boxes = _bits(mask)
@@ -192,21 +205,15 @@ class _Search:
 
             h = lower_bound(costs, boxes)
             for box in boxes:
-                base = box * 4
-                for d in range(4):
-                    target = nbr[base + d]
-                    if target < 0 or occ[target] or dead[target]:
-                        continue
-                    behind = nbr[base + OPPOSITE[d]]
-                    if behind < 0 or walk[behind] < 0:
+                for child_code, target, behind in push_moves[box]:
+                    if occ[target] or walk[behind] < 0:
                         continue
                     occ[box], occ[target] = 0, 1
-                    frozen = self.freeze.is_deadlock(occ, target)
+                    frozen = is_deadlock(occ, target)
                     occ[box], occ[target] = 1, 0
                     if frozen:
                         continue
                     self.generated += 1
-                    child_code = base + d
                     child_mask = mask ^ (1 << box) ^ (1 << target)
                     if child_mask == self.goal_mask:
                         return self._result(

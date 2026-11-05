@@ -31,6 +31,9 @@ class Board:
             for d in DIRECTIONS:
                 nbr.append(self.index.get(step(pos, d), NO_CELL))
         self.nbr: tuple[int, ...] = tuple(nbr)
+        self.adj: tuple[tuple[int, ...], ...] = tuple(
+            tuple(n for n in nbr[i * 4 : i * 4 + 4] if n >= 0) for i in range(self.size)
+        )
         self.goals: frozenset[int] = frozenset(self.index[g] for g in level.goals)
 
     def occupancy(self, boxes: Iterable[int]) -> bytearray:
@@ -41,18 +44,17 @@ class Board:
 
     def walk(self, occ: bytearray, start: int) -> list[int]:
         """Walking distance from ``start`` to every cell (``-1`` when unreachable without pushing)."""
-        nbr = self.nbr
+        adj = self.adj
         dist = [-1] * self.size
         dist[start] = 0
         queue = [start]
+        append = queue.append
         for cell in queue:  # the list grows while it is iterated: a breadth-first queue
             nd = dist[cell] + 1
-            base = cell * 4
-            for k in range(base, base + 4):
-                n = nbr[k]
-                if n >= 0 and dist[n] < 0 and not occ[n]:
+            for n in adj[cell]:
+                if dist[n] < 0 and not occ[n]:
                     dist[n] = nd
-                    queue.append(n)
+                    append(n)
         return dist
 
     def region(self, occ: bytearray, start: int) -> tuple[list[int], int]:
