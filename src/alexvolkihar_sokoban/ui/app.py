@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import dataclass
 from importlib.resources import files
+from typing import TYPE_CHECKING
 
 import pygame
 
@@ -15,6 +16,9 @@ from alexvolkihar_sokoban.ui.scene import Scene
 from alexvolkihar_sokoban.ui.scenes import load_scene_class
 from alexvolkihar_sokoban.ui.themes.base import Theme
 from alexvolkihar_sokoban.ui.themes.registry import get_theme
+
+if TYPE_CHECKING:
+    from alexvolkihar_sokoban.ui.context import AppContext
 
 WINDOW_TITLE = "Alexvolkihar Sokoban"
 FPS = 60
@@ -36,10 +40,17 @@ class App:
     """Owns the window and a stack of scenes; only the top scene gets input and updates.
 
     ``headless=True`` renders into an off-screen surface and never opens a window (tests, captures).
+    ``context`` (packs, saves, warnings) is ``None`` only in tests of the shell itself; when it is set, the
+    settings are saved when the app stops.
     """
 
-    def __init__(self, settings: Settings, *, context: object | None = None, headless: bool = False) -> None:
-        pygame.init()
+    def __init__(
+        self, settings: Settings, *, context: AppContext | None = None, headless: bool = False
+    ) -> None:
+        # Only what the game uses: pygame.init() would also open the audio device, which can block on a
+        # machine without a usable sound card, and the game has no sound.
+        pygame.display.init()
+        pygame.font.init()
         self.settings = settings
         self.context = context
         self.headless = headless
@@ -91,13 +102,21 @@ class App:
         if self._stack:
             self._stack[-1].on_resume()
         else:
-            self.running = False
+            self._stop()
 
     def quit(self) -> None:
         """Exit every scene, top first (so a game in progress can save), then stop the loop."""
         while self._stack:
             self._stack.pop().on_exit()
+        self._stop()
+
+    def _stop(self) -> None:
+        """Stop the loop once and save the settings (window size, theme…) when there is a context."""
+        if not self.running:
+            return
         self.running = False
+        if self.context is not None:
+            self.context.save_settings()
 
     # -- display -----------------------------------------------------------------------------------------
 

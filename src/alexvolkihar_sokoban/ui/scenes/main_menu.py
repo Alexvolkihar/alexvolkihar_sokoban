@@ -1,4 +1,9 @@
-"""Main menu (spec 7.9): Continue, Level select, Random level, Benchmark, Themes, Settings, Credits, Quit."""
+"""Main menu (spec 7.9): Continue, Level select, Random level, Benchmark, Themes, Settings, Credits, Quit.
+
+Continue resumes the saved session, or opens the last played level. Warnings collected by the app context
+(damaged or too-new save files, broken level files, failed saves) are shown in a box over the menu until the
+player dismisses them with confirm, back or a click.
+"""
 
 from __future__ import annotations
 
@@ -26,8 +31,14 @@ _STRIP = (
 
 
 class MainMenuScene(Scene):
+    messages: list[str]
+    message_rect: pygame.Rect | None
+
     def on_enter(self, **params: object) -> None:
         app = self.app
+        self.messages = []
+        self.message_rect = None
+        self._wrapped: tuple[tuple[tuple[str, ...], int], list[str]] = (((), 0), [])
 
         def opener(name: str) -> MenuItem:
             def open_scene() -> None:
@@ -37,8 +48,7 @@ class MainMenuScene(Scene):
 
         self.menu = MenuList(
             [
-                # Plan Task 10 enables Continue (saved session or last played level) and sets its action.
-                MenuItem(lambda: t("Continue", "Continuer"), lambda: None, enabled=False),
+                MenuItem(lambda: t("Continue", "Continuer"), self._continue, enabled=False),
                 opener("level_select"),
                 opener("generate"),
                 opener("benchmark"),
@@ -48,11 +58,43 @@ class MainMenuScene(Scene):
                 MenuItem(lambda: t("Quit", "Quitter"), app.quit),
             ]
         )
+        self._refresh()
+        if self.menu.items[0].enabled:
+            self.menu.selected = 0
+
+    def on_resume(self) -> None:
+        self._refresh()
+
+    def _refresh(self) -> None:
+        """Enable Continue when there is something to continue; collect the context's new warnings."""
+        context = self.app.context
+        cont = self.menu.items[0]
+        cont.enabled = context is not None and context.continue_target() is not None
+        if not cont.enabled and self.menu.selected == 0:
+            self.menu.selected = 1
+        if context is not None:
+            self.messages.extend(context.pop_warnings())
+
+    def _continue(self) -> None:
+        context = self.app.context
+        target = context.continue_target() if context is not None else None
+        if target is None:
+            self._refresh()
+            return
+        self.app.push("game", pack=target.pack, level_id=target.level_id, resume=target.session)
 
     def handle_action(self, action: Action) -> None:
+        if self.messages:
+            if action in (Action.CONFIRM, Action.BACK):
+                self.messages.clear()
+            return
         self.menu.handle_action(action)
 
     def handle_event(self, event: pygame.event.Event) -> None:
+        if self.messages:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.messages.clear()
+            return
         self.menu.handle_event(event)
 
     def draw(self, surface: pygame.Surface) -> None:
@@ -88,6 +130,79 @@ class MainMenuScene(Scene):
         top = y0 + tile + margin
         menu_rect = pygame.Rect(rect.left, top, rect.width, hint_rect.top - margin - top)
         self.menu.draw(surface, menu_rect, fonts.normal, palette)
+        self.message_rect = None
+        if self.messages:
+            self._draw_messages(surface)
+
+    def _draw_messages(self, surface: pygame.Surface) -> None:
+        palette = self.app.theme.palette
+        fonts = self.app.fonts
+        screen = surface.get_rect()
+        shade = pygame.Surface(screen.size, pygame.SRCALPHA)
+        shade.fill((0, 0, 0, 150))
+        surface.blit(shade, (0, 0))
+
+        margin = max(12, screen.width // 40)
+        pad = max(10, fonts.small.get_height() // 2)
+        box_w = min(screen.width - 2 * margin, 900)
+        text_w = box_w - 2 * pad
+        line_h = fonts.small.get_linesize()
+        title = fonts.normal.render(t("Warning", "Attention"), True, palette.bad)
+        hint = fonts.small.render(t("Enter: OK", "Entrée : OK"), True, palette.muted)
+        fixed_h = title.get_height() + hint.get_height() + 4 * pad
+        max_lines = max(1, (screen.height - 2 * margin - fixed_h) // line_h)
+
+        key = (tuple(self.messages), text_w)
+        if self._wrapped[0] != key:
+            wrapped = [line for m in self.messages for line in _wrap(f"• {m}", fonts.small, text_w)]
+            self._wrapped = (key, wrapped)
+        lines = list(self._wrapped[1])
+        if len(lines) > max_lines:
+            hidden = len(lines) - (max_lines - 1)
+            lines = lines[: max_lines - 1] + [
+                t(f"… and {hidden} more lines", f"… et {hidden} lignes de plus")
+            ]
+
+        box = pygame.Rect(0, 0, box_w, fixed_h + line_h * len(lines))
+        box.center = screen.center
+        radius = max(4, pad // 2)
+        pygame.draw.rect(surface, palette.panel, box, border_radius=radius)
+        pygame.draw.rect(surface, palette.bad, box, width=2, border_radius=radius)
+        y = box.top + pad
+        surface.blit(title, title.get_rect(midtop=(box.centerx, y)))
+        y += title.get_height() + pad
+        for line in lines:
+            surface.blit(fonts.small.render(line, True, palette.text), (box.left + pad, y))
+            y += line_h
+        surface.blit(hint, hint.get_rect(midbottom=(box.centerx, box.bottom - pad)))
+        self.message_rect = box
+
+
+def _wrap(text: str, font: pygame.font.Font, width: int) -> list[str]:
+    """Split ``text`` into lines no wider than ``width``; a word too long for one line is cut."""
+    lines: list[str] = []
+    current = ""
+    for word in text.split():
+        candidate = f"{current} {word}" if current else word
+        if font.size(candidate)[0] <= width:
+            current = candidate
+            continue
+        if current:
+            lines.append(current)
+        current = word
+        while font.size(current)[0] > width and len(current) > 1:
+            lo, hi = 1, len(current) - 1  # longest prefix that fits, by bisection
+            while lo < hi:
+                mid = (lo + hi + 1) // 2
+                if font.size(current[:mid])[0] <= width:
+                    lo = mid
+                else:
+                    hi = mid - 1
+            lines.append(current[:lo])
+            current = current[lo:]
+    if current:
+        lines.append(current)
+    return lines
 
 
 _LABELS = {

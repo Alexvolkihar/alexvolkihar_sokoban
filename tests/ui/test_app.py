@@ -1,4 +1,5 @@
 from collections.abc import Callable
+from pathlib import Path
 
 import pygame
 import pytest
@@ -6,6 +7,7 @@ import pytest
 from alexvolkihar_sokoban.persistence.settings import Settings
 from alexvolkihar_sokoban.ui import app as app_module
 from alexvolkihar_sokoban.ui.app import App
+from alexvolkihar_sokoban.ui.context import AppContext
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
 from alexvolkihar_sokoban.ui.scenes import load_scene_class
@@ -179,3 +181,45 @@ def test_run_starts_on_the_main_menu_and_stops_on_quit(monkeypatch: pytest.Monke
     monkeypatch.setattr(pygame.event, "get", fake_get)
     app.run()
     assert seen == ["main_menu"] and not app.running
+
+
+def test_settings_saved_on_window_close(tmp_path: Path) -> None:
+    ctx = AppContext.load(tmp_path, bundled=[])
+    app = App(ctx.settings, context=ctx, headless=True)
+    app.push("main_menu")
+    app.step([pygame.event.Event(pygame.VIDEORESIZE, w=800, h=600, size=(800, 600))])
+    app.set_theme("neon")
+    app.step([pygame.event.Event(pygame.QUIT)])
+    saved = AppContext.load(tmp_path, bundled=[]).settings
+    assert saved.window == (800, 600) and saved.theme == "neon"
+
+
+def test_settings_saved_when_the_last_scene_pops(tmp_path: Path) -> None:
+    ctx = AppContext.load(tmp_path, bundled=[])
+    app = App(ctx.settings, context=ctx, headless=True)
+    app.push("main_menu")
+    app.set_theme("contrast")
+    app.pop()
+    assert not app.running
+    assert AppContext.load(tmp_path, bundled=[]).settings.theme == "contrast"
+
+
+def test_quit_without_context_saves_nothing(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.chdir(tmp_path)
+    app = App(Settings(), headless=True)
+    app.push("main_menu")
+    app.quit()
+    assert list(tmp_path.iterdir()) == []
+
+
+def test_app_never_starts_the_audio_mixer(monkeypatch: pytest.MonkeyPatch) -> None:
+    # The game has no sound; pygame.init() also opens the audio device, which can block forever on a
+    # machine without a usable sound card (seen on WSL), so the app only starts display and fonts.
+    def no_full_init() -> tuple[int, int]:
+        raise AssertionError("pygame.init() starts the mixer")
+
+    monkeypatch.setattr(pygame, "init", no_full_init)
+    app = App(Settings(), headless=True)
+    app.push("main_menu")
+    app.step([])
+    assert pygame.display.get_init() and pygame.font.get_init()
