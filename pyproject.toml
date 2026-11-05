@@ -53,6 +53,10 @@ extend-exclude = ["legacy"]
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "TID"]
 
+[tool.ruff.lint.flake8-bugbear]
+# Frozen dataclasses used as default arguments (e.g. `limits: SolveLimits = SolveLimits()`).
+extend-immutable-calls = ["alexvolkihar_sokoban.solver.api.SolveLimits"]
+
 [tool.ruff.lint.flake8-tidy-imports.banned-api]
 "pygame".msg = "pygame only in ui/"
 
@@ -102,3 +106,5 @@ ignore_missing_imports = true  # pygame-ce ships its own stubs; kept as a safety
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# importlib mode: test files in different folders may share a basename (no __init__.py in tests/).
+addopts = ["--import-mode=importlib"]
