@@ -10,6 +10,11 @@ Rules:
   closing the window) and every 10 s of play. A game without moves saves nothing and deletes this level's
   session, so merely opening another level never discards a saved game.
 - On a win: ``Progress.record_run``, progress saved, this level's session deleted, ``victory`` pushed.
+- Hint (``hint`` action): the solver runs in a ``SolverWorker`` from the current state (3 s / 500,000 nodes,
+  ``optimal``, then ``fast`` once if a limit was hit). An answer is shown only while the state is still the
+  one it was asked for (``GameState.signature()``): the walk to the next push, the box, and an arrow where
+  the box goes, until the next move; a move, undo, redo or restart cancels a pending hint. Any hint marks
+  the run assisted.
 """
 
 from __future__ import annotations
@@ -28,11 +33,13 @@ from alexvolkihar_sokoban.core.pack import LevelEntry, Pack
 from alexvolkihar_sokoban.core.state import GameState, MoveOutcome
 from alexvolkihar_sokoban.persistence.session import SavedSession
 from alexvolkihar_sokoban.scoring.records import LastPlayed, Progress, RunResult
+from alexvolkihar_sokoban.solver.api import Mode, SolveLimits, SolveResult, SolveStatus
 from alexvolkihar_sokoban.ui.board_renderer import BoardLayout, BoardRenderer
 from alexvolkihar_sokoban.ui.hud import HudData, draw_hud, draw_toast, hud_stats, key_hints
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
+from alexvolkihar_sokoban.ui.solver_worker import SolverWorker
 from alexvolkihar_sokoban.ui.themes.base import TileKind
 
 if TYPE_CHECKING:
@@ -47,13 +54,15 @@ _MOVES = {
     Action.RIGHT: Direction.RIGHT,
 }
 # Actions that end a running tween (and drop the queued moves) before they apply.
-_COMMANDS = frozenset({Action.PAUSE, Action.BACK, Action.UNDO, Action.REDO, Action.RESTART})
+_COMMANDS = frozenset({Action.PAUSE, Action.BACK, Action.UNDO, Action.REDO, Action.RESTART, Action.HINT})
 ANIMATION_MS = {"off": 0, "normal": 120, "fast": 60}
 MAX_QUEUED_MOVES = 2
 RESTART_WINDOW_MS = 1_500
 AUTOSAVE_MS = 10_000
 SAVE_FAILED_MS = 3_000
 _NOWHERE: Pos = (-1, -1)  # a player position off the board, to draw a board without the player
+HINT_LIMITS = SolveLimits(time_s=3.0, max_nodes=500_000)
+HINT_MESSAGE_MS = 4_000
 
 
 def utc_now() -> str:
@@ -86,6 +95,41 @@ def leave_game(app: App, target: str, *, pack_id: str | None = None) -> None:
     if target != "main_menu":
         params: dict[str, object] = {} if pack_id is None else {"pack_id": pack_id}
         app.push(target, **params)
+
+
+@dataclass(frozen=True)
+class Hint:
+    """A solver answer for ``signature``: the walk then the box to push (``highlight``), and an arrow on the
+    cell the box is pushed to, pointing the push's way (drawn there, it leaves the box itself visible)."""
+
+    signature: tuple[Pos, frozenset[Pos]]
+    highlight: tuple[Pos, ...]
+    arrow: tuple[Pos, Direction]
+
+
+def next_push(player: Pos, lurd: str) -> tuple[tuple[Pos, ...], tuple[Pos, Direction]] | None:
+    """The walk of ``lurd`` up to its first push then the pushed box, and ``(box destination, direction)``.
+
+    ``None`` when ``lurd`` has no push or is not LURD.
+    """
+    cells: list[Pos] = []
+    pos = player
+    for ch in lurd:
+        try:
+            d = Direction.from_char(ch)
+        except ValueError:
+            return None
+        if ch.isupper():
+            box = step(pos, d)
+            return (*cells, box), (step(box, d), d)
+        pos = step(pos, d)
+        cells.append(pos)
+    return None
+
+
+def format_count(n: int) -> str:
+    """``12,345`` in English, ``12 345`` (narrow no-break space) in French."""
+    return t(f"{n:,}", f"{n:,}".replace(",", "\u202f"))
 
 
 @dataclass
@@ -136,6 +180,9 @@ class GameScene(Scene):
         self._message_until = 0
         self._tween: _Tween | None = None
         self._queue: deque[Direction] = deque()
+        self.worker = SolverWorker()
+        self._hint: Hint | None = None
+        self._hint_mode: Mode | None = None  # the mode of the pending hint search, if any
         self._remember_last_played()
 
     def _start(self, resume: SavedSession | None) -> tuple[GameState, int, bool]:
@@ -163,8 +210,27 @@ class GameScene(Scene):
         return self._tween is not None
 
     @property
+    def hint(self) -> Hint | None:
+        """The hint on show: only while the state is the one it was computed for."""
+        hint = self._hint
+        if hint is not None and hint.signature == self.state.signature():
+            return hint
+        return None
+
+    @property
+    def hint_pending(self) -> bool:
+        """``True`` while the solver looks for a hint."""
+        return self._hint_mode is not None
+
+    @property
     def message(self) -> str | None:
-        """The prompt or warning shown over the board, if any."""
+        """The prompt or warning shown over the board, if any (the hint search progress first)."""
+        if self._hint_mode is not None:
+            text = t("Looking for a hint…", "Recherche d'un indice…")
+            progress = self.worker.progress
+            if progress is not None and progress[0] > 0:
+                text += f" {format_count(progress[0])} positions"  # the same word in French
+            return text
         if self._message is not None and self._clock_ms < self._message_until:
             return self._message
         return None
@@ -173,8 +239,57 @@ class GameScene(Scene):
         """The player got help (hint, solver replay): this run earns no stars and no records."""
         self.assisted = True
 
+    def request_hint(self) -> None:
+        """Look for the next push from the current state; the run becomes assisted at once."""
+        self.mark_assisted()
+        if self._hint_mode is not None or self.hint is not None:
+            return  # already looking, or already shown
+        self._disarm_restart()
+        self._message = None
+        self._start_hint("optimal")
+
+    def _start_hint(self, mode: Mode) -> None:
+        state = self.state
+        self._hint = None
+        self._hint_mode = mode
+        self.worker.start(state.level, state.boxes, state.player, HINT_LIMITS, mode, tag=state.signature())
+
+    def _drop_hint(self) -> None:
+        """The state changed: hide the hint and stop looking for one."""
+        self._hint = None
+        if self._hint_mode is not None:
+            self._hint_mode = None
+            self.worker.cancel()
+
+    def _poll_hint(self) -> None:
+        got = self.worker.poll()
+        if got is None:
+            return
+        tag, result = got
+        mode, self._hint_mode = self._hint_mode, None
+        if mode is None or tag != self.state.signature():
+            return  # asked about another position: never drawn on this one
+        self._use_hint(result, mode)
+
+    def _use_hint(self, result: SolveResult, mode: Mode) -> None:
+        status = result.status
+        if status is SolveStatus.SOLVED:
+            found = next_push(self.state.player, result.lurd or "")
+            if found is not None:
+                self._hint = Hint(self.state.signature(), found[0], found[1])
+        elif status is SolveStatus.UNSOLVABLE:
+            self._show(t("Dead end — undo some moves", "Impasse — annulez quelques coups"), HINT_MESSAGE_MS)
+        elif status in (SolveStatus.LIMIT_TIME, SolveStatus.LIMIT_NODES):
+            if mode == "optimal":
+                self._start_hint("fast")  # a quick, maybe longer answer beats none
+            else:
+                self._show(t("No hint found in time", "Pas d'indice trouvé à temps"), HINT_MESSAGE_MS)
+        elif status is SolveStatus.INVALID:
+            self._show(t("No hint available", "Aucun indice disponible"), HINT_MESSAGE_MS)
+
     def restart(self) -> None:
         """Back to the start position, timer included (the assisted flag stays: the help was seen)."""
+        self._drop_hint()
         self._tween = None
         self._queue.clear()
         self.state.restart()
@@ -210,6 +325,7 @@ class GameScene(Scene):
     # -- scene hooks -------------------------------------------------------------------------------------
 
     def on_exit(self) -> None:
+        self._drop_hint()
         self.save_session()
 
     def on_resume(self) -> None:
@@ -232,12 +348,16 @@ class GameScene(Scene):
         if action in (Action.PAUSE, Action.BACK):
             self._disarm_restart()
             self._open_pause()
+        elif action is Action.HINT:
+            self.request_hint()
         elif action is Action.UNDO:
             self._disarm_restart()
-            self.state.undo()
+            if self.state.undo() is not None:
+                self._drop_hint()
         elif action is Action.REDO:
             self._disarm_restart()
-            self.state.redo()
+            if self.state.redo() is not None:
+                self._drop_hint()
             if self.state.is_solved:
                 self._win()
         elif action is Action.RESTART:
@@ -253,6 +373,7 @@ class GameScene(Scene):
 
     def update(self, dt_ms: int) -> None:
         self._clock_ms += dt_ms
+        self._poll_hint()
         if self._restart_until is not None and self._clock_ms >= self._restart_until:
             self._restart_until = None
         if not self.won and not self.paused and self.focused:
@@ -281,6 +402,7 @@ class GameScene(Scene):
         outcome = self.state.move(direction)
         if outcome is MoveOutcome.BLOCKED:
             return
+        self._drop_hint()
         duration = ANIMATION_MS.get(self.app.settings.animation, 0)
         if duration <= 0:
             if self.state.is_solved:
@@ -337,6 +459,7 @@ class GameScene(Scene):
 
     def _win(self) -> None:
         self.won = True
+        self._drop_hint()
         self._tween = None
         self._queue.clear()
         self._disarm_restart()
@@ -384,8 +507,15 @@ class GameScene(Scene):
             board = area
         self.renderer.theme = theme
         if self._tween is None:
+            hint = self.hint
             self.board_layout = self.renderer.draw(
-                surface, self.state.level, self.state.player, self.state.boxes, board
+                surface,
+                self.state.level,
+                self.state.player,
+                self.state.boxes,
+                board,
+                highlight=() if hint is None else hint.highlight,
+                arrow=None if hint is None else hint.arrow,
             )
         else:
             self.board_layout = self._draw_tween(surface, board, self._tween)

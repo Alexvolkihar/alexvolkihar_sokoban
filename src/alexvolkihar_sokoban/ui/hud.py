@@ -73,6 +73,7 @@ _HINTS: tuple[tuple[str, Callable[[], str], bool], ...] = (
     ("redo", lambda: t("redo", "rétablir"), False),
     ("restart", lambda: t("restart", "recommencer"), True),
     ("pause", lambda: t("pause", "pause"), False),
+    ("hint", lambda: t("hint", "indice"), False),
 )
 
 
