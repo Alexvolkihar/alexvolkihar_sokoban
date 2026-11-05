@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Alexvolkihar/alexvolkihar_sokoban/schemas/pack.schema.json",
+  "title": "alexvolkihar-sokoban level pack",
+  "type": "object",
+  "required": ["format", "version", "id", "title", "levels"],
+  "properties": {
+    "format": { "const": "alexvolkihar-sokoban/pack" },
+    "version": { "const": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string" },
+    "author": { "type": "string" },
+    "license": { "type": "string" },
+    "source": { "type": "string" },
+    "hidden": { "type": "boolean" },
+    "levels": { "type": "array", "items": { "$ref": "#/$defs/entry" } }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": ["id", "rows"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "comment": { "type": "string" },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^[#@+$*. _-]*$" }
+        },
+        "par": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/par" }] },
+        "seed": { "type": ["integer", "null"] }
+      }
+    },
+    "par": {
+      "type": "object",
+      "required": ["pushes", "moves", "lurd", "solver"],
+      "properties": {
+        "pushes": { "type": "integer", "minimum": 0 },
+        "moves": { "type": "integer", "minimum": 0 },
+        "lurd": { "type": "string", "pattern": "^[lurdLURD]*$" },
+        "solver": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
