@@ -1,0 +1,52 @@
+{
+  "format": "alexvolkihar-sokoban/pack",
+  "version": 1,
+  "id": "lama-unsolvable",
+  "title": "LAMA — unsolvable",
+  "author": "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY (groupe LAMA)",
+  "license": "Same licence as the code (see LICENSE). The unsolvable test levels of Sokoban-LAMA (2022), kept for tests and benchmarks; hidden from level select.",
+  "source": "https://github.com/Alexvolkihar/Sokoban-LAMA",
+  "hidden": true,
+  "levels": [
+    {
+      "id": "test12",
+      "title": "Test 12",
+      "rows": [
+        "####",
+        "# .#",
+        "#  ###",
+        "##@  #",
+        "#  $ #",
+        "#  ###",
+        "####"
+      ],
+      "par": null
+    },
+    {
+      "id": "test13",
+      "title": "Test 13",
+      "rows": [
+        "#####",
+        "#@  ##",
+        "#.$# #",
+        "#  # #",
+        "#    #",
+        "######"
+      ],
+      "par": null
+    },
+    {
+      "id": "test14",
+      "title": "Test 14",
+      "rows": [
+        "########",
+        "#      #",
+        "# .##$@#",
+        "#      #",
+        "#####  #",
+        "   ####"
+      ],
+      "par": null
+    }
+  ]
+}
