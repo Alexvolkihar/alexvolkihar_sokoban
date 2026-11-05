@@ -42,7 +42,7 @@ class PauseScene(Scene):
         self.game.restart()
 
     def _watch(self) -> None:
-        """Open the solver replay (Task 18); watching it marks the run assisted through ``on_watch``."""
+        """Open the solver replay; it marks the run assisted through ``on_watch`` as soon as it opens."""
         game = self.game
         self.app.pop()
         self.app.push("replay", pack=game.pack, level_id=game.entry.id, on_watch=game.mark_assisted)

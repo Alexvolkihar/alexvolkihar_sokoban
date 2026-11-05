@@ -87,11 +87,8 @@ def test_watch_solution_opens_the_replay_and_marks_the_run_assisted(
     assert names(app) == ["main_menu", "game", "replay"]
     name, params = pushed[0]
     assert name == "replay" and params["pack"] == PACK and params["level_id"] == "one"
-    assert not game.assisted
-    on_watch = params["on_watch"]
-    assert callable(on_watch)
-    on_watch()
-    assert game.assisted
+    assert params["on_watch"] == game.mark_assisted
+    assert game.assisted  # the replay calls on_watch as soon as it opens
 
 
 def test_level_select_item_opens_level_select_and_keeps_the_session(tmp_path: Path) -> None:
