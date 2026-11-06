@@ -374,7 +374,7 @@ def _caption_band(frame: pygame.Surface, caption: str, accent: tuple[int, int, i
 
 
 def _end_card(frame: pygame.Surface, shot: dict[str, Any], t_s: float) -> None:
-    """The closing card: name, credits to the LAMA group, how to install; lines appear one by one."""
+    """The closing card: name, author and origin, how to install; lines appear one by one."""
     w, h = frame.get_size()
     frame.fill(BAND)
     theme = get_theme("kenney")

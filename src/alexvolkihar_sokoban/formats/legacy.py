@@ -1,4 +1,4 @@
-"""The original Sokoban-LAMA level format: one level per file; `X` wall, `*` box, `.` goal, `@` player.
+"""The legacy level format of Sokoban-LAMA: one level per file; `X` wall, `*` box, `.` goal, `@` player.
 
 It has no symbol for a box or the player on a goal.
 """

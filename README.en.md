@@ -13,16 +13,13 @@ Links in this file are absolute because it is also the package's long descriptio
 
 [Demo video (MP4, 30 s)](https://github.com/Alexvolkihar/alexvolkihar_sokoban/blob/main/docs/media/demo.mp4)
 
-A Sokoban game in Python and pygame-ce: push the boxes onto the goals, you can never pull them. It takes
-Sokoban-LAMA, a 2022 student project, and turns it into a complete game: menus, more than 100 levels, a
-solver that gives hints and sets each level's reference score, a random level generator, a benchmark mode
-to compare machines, 20 themes, saves, and a French and English interface.
+A Sokoban game in Python and pygame-ce by **Alexis MABANZA**: push the boxes onto the goals, you can never
+pull them. A complete game: menus, more than 100 levels, a solver that gives hints and sets each level's
+reference score, a random level generator, a benchmark mode to compare machines, 20 themes, saves, and a
+French and English interface.
 
-This project is a remake of
-[Sokoban-LAMA](https://github.com/Alexvolkihar/Sokoban-LAMA), the first-year (L1) university group project
-of **Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN and Martin PACARY (groupe LAMA)**. The original code is
-kept unchanged in [`legacy/`](https://github.com/Alexvolkihar/alexvolkihar_sokoban/tree/main/legacy/). The
-other credits are at the [end of this page](#credits).
+Remake of [Sokoban-LAMA](https://github.com/Alexvolkihar/Sokoban-LAMA), my first-year university project (2022).
+The credits are at the [end of this page](#credits).
 
 ## Contents
 
@@ -34,7 +31,6 @@ other credits are at the [end of this page](#credits).
 - [Benchmark](#benchmark)
 - [Data and saves](#data-and-saves)
 - [Formats and ports](#formats-and-ports)
-- [What changed since Sokoban-LAMA](#what-changed-since-sokoban-lama)
 - [Development](#development)
 - [Credits](#credits)
 - [Licence](#licence)
@@ -60,7 +56,7 @@ The interface follows the system language on first run and can be switched in th
 
 ![The same level in the Kenney, Classic, Neon and High contrast themes](https://github.com/Alexvolkihar/alexvolkihar_sokoban/raw/main/docs/media/themes.png)
 
-20 themes: the Kenney sprites of the original game, `classic`, `neon`, `contrast` (Okabe-Ito palette and
+20 themes: the Kenney sprites, `classic`, `neon`, `contrast` (Okabe-Ito palette and
 distinct shapes: ring goals, crossed boxes, a check mark on a placed box, so nothing relies on colour alone)
 and 16 mood palettes. The theme picker shows a live preview.
 
@@ -109,7 +105,7 @@ environment, uninstall it first (`pip uninstall pygame`): the two cannot live si
 ## Playing
 
 `alexvolkihar-sokoban` without arguments opens the main menu. `alexvolkihar-sokoban play FILE` starts a
-level straight from an XSB, SOK, JSON or original LAMA file.
+level straight from an XSB, SOK or JSON file, or one in the old text format (`X` for a wall, `*` for a box).
 
 | Action | Default keys |
 |---|---|
@@ -134,7 +130,7 @@ without stars or records.
 
 | Pack | Content | Authors and licence |
 |---|---|---|
-| Sokoban-LAMA | the 11 levels of Sokoban-LAMA (`test1` to `test11`) | the LAMA group, same licence as the code |
+| First steps | 12 hand-made beginner levels, 1 to 4 boxes | Alexis MABANZA, MIT |
 | Boxoban (hard) | the first 100 levels of `hard/000.txt` (10×10, 4 boxes) | DeepMind, Apache-2.0 ([licence and citation](https://github.com/Alexvolkihar/alexvolkihar_sokoban/blob/main/src/alexvolkihar_sokoban/data/levels/boxoban-hard.LICENSE.txt)) |
 | Generated | the generator's levels you played or saved | yours |
 | Custom | files dropped in `<data dir>/levels/` | yours |
@@ -144,8 +140,9 @@ To add your own levels, drop `.xsb`, `.sok`, `.txt` or `.json` files in the `lev
 invalid level gives a warning, not a crash.
 
 Microban (David W. Skinner) is not shipped: its licence asks for the levels to be distributed unchanged,
-which rules out dropping the ones borrowed from other authors or converting them. Levels `test12` to
-`test14` (unsolvable on purpose) and `test_performance` are only used by the tests and the benchmark.
+which rules out dropping the ones borrowed from other authors or converting them. The benchmark also uses a
+hidden pack, `bench-extra` (Alexis MABANZA, MIT): levels from the generator, three levels that are
+unsolvable on purpose and one very large level.
 
 ## Command line
 
@@ -157,11 +154,11 @@ alexvolkihar-sokoban play
 alexvolkihar-sokoban play my-levels.sok --level 3
 
 # Solve a level
-alexvolkihar-sokoban solve legacy/level/test3.txt
+alexvolkihar-sokoban solve twins.xsb
 alexvolkihar-sokoban solve pack.json --level 7 --time-limit 30 --max-nodes 2000000 --mode fast
 
-# Convert between XSB/SOK, the original LAMA format and JSON (output format from the extension)
-alexvolkihar-sokoban convert legacy/level/test3.txt test3.xsb
+# Convert between XSB/SOK, the old text format and JSON (output format from the extension)
+alexvolkihar-sokoban convert old-level.txt level.xsb
 
 # Compute the par of every level of a JSON pack (the file is rewritten)
 alexvolkihar-sokoban annotate my-pack.json --time-limit 60
@@ -178,13 +175,13 @@ alexvolkihar-sokoban generate --preset hard --seed 42 --out hard-42.xsb
 unknown level, 3 when a limit is hit. Sample output:
 
 ```text
-level: test3/1
+level: twins/1
 status: solved
-pushes: 4
-moves: 25
-nodes: 8 expanded, 22 generated
+pushes: 6
+moves: 26
+nodes: 25 expanded, 54 generated
 time: 0 ms
-lurd: LrdrddrddllllUUddrrrruulD
+lurd: dlUrrruullDLrurrddlLulDrdL
 ```
 
 ## Benchmark
@@ -195,9 +192,9 @@ second.
 
 | Suite | Levels | Limits per level |
 |---|---|---|
-| `quick` | the 11 LAMA levels, a few seconds | 10 s / 1,000,000 nodes |
-| `standard` | LAMA and the first 40 Boxoban levels | 30 s / 3,000,000 nodes |
-| `stress` | unsolvable levels, the repaired `test_performance` and all 100 Boxoban levels | 60 s / 5,000,000 nodes (limit hits are expected) |
+| `quick` | the 12 First steps levels, a few seconds | 10 s / 1,000,000 nodes |
+| `standard` | First steps, 8 generated levels (medium) and the first 40 Boxoban levels | 30 s / 3,000,000 nodes |
+| `stress` | `bench-extra` (hard generated, unsolvable and very large levels) and all 100 Boxoban levels | 60 s / 5,000,000 nodes (limit hits are expected) |
 
 Run it from the *Benchmark* menu or with `alexvolkihar-sokoban bench`. Each result is saved in
 `<data dir>/benchmarks/` as JSON (and CSV on request). `bench compare A B` shows the time and node
@@ -234,22 +231,6 @@ conformance vectors in
 port reads the same levels and the same saves. Changes are listed in
 [`CHANGELOG.md`](https://github.com/Alexvolkihar/alexvolkihar_sokoban/blob/main/CHANGELOG.md).
 
-## What changed since Sokoban-LAMA
-
-The original game (about 545 lines) ran a single level from the command line. Reading it again:
-
-- Its "A\*" was not one: the priority queue always removed the first item, so the search was a
-  breadth-first search over moves that kept the full path in every node and could run out of memory. The
-  new solver is an A\* over pushes, with deadlock detection and time and node limits.
-- The board was drawn transposed (rows and columns swapped); the solution replay made up for it by swapping
-  directions. It is now drawn the right way round.
-- The `*` of the LAMA format (a box) clashed with the `*` of the standard XSB format (a box on a goal). Each
-  format is now read by its own rules.
-- `lvlultime` was a copy of `test8`, and `test_performance` (12 boxes, 14 goals) could never be won; a
-  repaired version exists for the benchmark. `wiki.txt` is level 1 of Thinking Rabbit's Sokoban (1982),
-  which is not ours: it stays only in `legacy/`.
-- Images were reloaded on every move and rescaled on every frame; the game now caches them.
-
 ## Development
 
 ```bash
@@ -277,10 +258,7 @@ The shot list is in `scripts/storyboard.json`.
 
 ## Credits
 
-- **Sokoban-LAMA** (2022): Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN and Martin PACARY (groupe LAMA),
-  <https://github.com/Alexvolkihar/Sokoban-LAMA>. The deadlock patterns of its solver were credited to
-  KnightofLuna on GitHub.
-- **This remake**: Alexis MABANZA.
+- **Code, First steps levels and `bench-extra`**: Alexis MABANZA.
 - **Kenney theme sprites**: the "Sokoban" pack by [Kenney](https://www.kenney.nl), CC0 1.0 (public domain).
 - **Mood theme palettes**: adapted from the author's Dobble 3D project.
 - **Boxoban levels**: Arthur Guez, Mehdi Mirza, Karol Gregor, Rishabh Kabra, Sebastien Racaniere, Theophane
@@ -292,5 +270,6 @@ The shot list is in `scripts/storyboard.json`.
 
 ## Licence
 
-Not licensed yet: the licence awaits the agreement of the original co-authors. Until then, all rights are
-reserved. The Kenney sprites (CC0) and the Boxoban levels (Apache-2.0) keep their own licences.
+The code and the levels of this repository (First steps, `bench-extra`) are under the
+[MIT licence](https://github.com/Alexvolkihar/alexvolkihar_sokoban/blob/main/LICENSE), © 2026 Alexis
+MABANZA. The Kenney sprites (CC0 1.0) and the Boxoban levels (Apache-2.0) keep their own licences.

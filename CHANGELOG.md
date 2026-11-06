@@ -7,7 +7,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.0] - 2026-11-06
 
-First release of alexvolkihar_sokoban, a remake of Sokoban-LAMA as a finished pygame-ce game.
+First release of alexvolkihar_sokoban, a remake of Sokoban-LAMA as a finished pygame-ce game, under the MIT
+licence.
 
 ### Added
 
@@ -22,16 +23,17 @@ First release of alexvolkihar_sokoban, a remake of Sokoban-LAMA as a finished py
 - French and English interface, chosen from the system language on first run.
 - 20 themes: Kenney sprites (CC0), classic, neon, high contrast, and 16 palettes adapted from the author's
   Dobble 3D project.
-- Level packs: the 11 original LAMA levels, the 100 first Boxoban (hard) puzzles by DeepMind
-  (Apache-2.0), generated levels, and custom levels dropped in the data folder.
-- Level files: XSB/SOK (multi-level, run-length encoding, metadata), the original LAMA format, and a
-  JSON pack format. CRLF, byte order marks, tabs and broken levels are handled without crashing.
+- Level packs: First steps (12 hand-made beginner levels), the 100 first Boxoban (hard) puzzles by
+  DeepMind (Apache-2.0), generated levels, and custom levels dropped in the data folder.
+- Level files: XSB/SOK (multi-level, run-length encoding, metadata), the old text format of Sokoban-LAMA
+  (`X` walls, `*` boxes), and a JSON pack format. CRLF, byte order marks, tabs and broken levels are handled without crashing.
 - Push-based A* solver with push-optimal solutions, dead-square and freeze deadlock detection, time and
   node limits, and cancellation. Every bundled level stores its par.
 - Random level generator with easy, medium and hard presets and reproducible seeds, checked by the
   solver.
-- Benchmark mode on the command line and in the game: quick, standard and stress suites, machine
-  information without host or user names, JSON and CSV export, comparison of two runs.
+- Benchmark mode on the command line and in the game: quick, standard and stress suites built from First
+  steps, Boxoban and a hidden pack of generated, unsolvable and very large levels; machine information
+  without host or user names, JSON and CSV export, comparison of two runs.
 - Saves: settings, progress (keyed by a level hash, so renaming or reordering packs keeps scores) and the
   game in progress, written atomically, with versioned formats, migrations and backups of corrupt files.
 - Command line: `play`, `solve`, `convert`, `annotate`, `bench`, `bench compare` and `generate`, plus
@@ -39,26 +41,27 @@ First release of alexvolkihar_sokoban, a remake of Sokoban-LAMA as a finished py
 - Format reference for ports in `docs/formats.md`, JSON Schemas in `schemas/` and conformance vectors in
   `tests/vectors/`.
 - Tests, Ruff, mypy and continuous integration on Linux, Windows and macOS.
+- MIT licence (`LICENSE`, declared in the package metadata). The Kenney sprites (CC0 1.0) and the Boxoban
+  levels (Apache-2.0) keep their own licences.
 
 ### Changed
 
 - The board is drawn in the right orientation (the original game drew it transposed).
-- The original level files are read in their own format; their `*` (a box) no longer clashes with the
+- Files in the old text format are read by their own rules; their `*` (a box) no longer clashes with the
   XSB `*` (a box on a goal).
 - The solver is rewritten from scratch: the original "A*" ignored its priorities and searched breadth-first
   over moves.
 
 ### Removed
 
-- `lvlultime` (a copy of `test8`), `wiki.txt` (level 1 of the 1982 Sokoban by Thinking Rabbit, not ours to
-  distribute) and the unplayable `test_performance` (12 boxes, 14 goals) from the playable levels. A
-  repaired `test_performance` is kept for the stress benchmark.
+- The copy of the original project's code (`legacy/`), its levels and everything derived from them (level
+  packs, benchmark levels, test fixtures). This repository ships only its author's own work, plus the
+  third-party assets listed in the credits; the original project stays available in its own repository.
 
 ## [0.0.0] - 2022
 
-Sokoban-LAMA, the original student project by the LAMA group: Antoine LAROCHE, Alexis MABANZA, Logan
-VIVIEN and Martin PACARY. A pygame Sokoban with its own level format, 17 levels and an automatic solver.
-Its code is kept in `legacy/`. Source: <https://github.com/Alexvolkihar/Sokoban-LAMA>.
+Sokoban-LAMA, my first-year university project (2022): a pygame Sokoban with its own level format and an
+automatic solver. Source: <https://github.com/Alexvolkihar/Sokoban-LAMA>.
 
 [1.0.0]: https://github.com/Alexvolkihar/alexvolkihar_sokoban/releases/tag/v1.0.0
 [0.0.0]: https://github.com/Alexvolkihar/Sokoban-LAMA

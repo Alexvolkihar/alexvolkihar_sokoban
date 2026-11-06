@@ -13,7 +13,6 @@ from alexvolkihar_sokoban.ui.i18n import get_language, set_language
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scenes.credits import CreditsScene, credit_sections
 
-LAMA = ("Antoine LAROCHE", "Alexis MABANZA", "Logan VIVIEN", "Martin PACARY")
 BOXOBAN_CITATION = "An investigation of Model-free planning: boxoban levels"
 
 
@@ -48,14 +47,14 @@ def _text(scene: CreditsScene) -> str:
     return " ".join(scene.text_lines())
 
 
-def test_credits_list_lama_members_and_pack_authors(tmp_path: Path) -> None:
+def test_credits_name_the_author_the_original_project_and_pack_authors(tmp_path: Path) -> None:
     app, scene = credits_app(tmp_path)
     app.step([])
     text = _text(scene)
-    for name in LAMA:
-        assert name in text
-    assert "groupe LAMA" in text and "Sokoban-LAMA" in text
+    assert "Alexis MABANZA" in text and "MIT" in text
+    assert "Remake of Sokoban-LAMA, my first-year university project (2022)." in text
     assert "https://github.com/Alexvolkihar/Sokoban-LAMA" in text
+    assert "Levels: First steps" in text
     assert "Arthur Guez" in text and "Victor Valdes" in text and "DeepMind" in text
     assert BOXOBAN_CITATION in text and "Apache" in text
 
@@ -67,7 +66,6 @@ def test_credits_cover_assets_libraries_and_palettes(tmp_path: Path) -> None:
     assert "pygame-ce" in text and "LGPL" in text
     assert "platformdirs" in text
     assert "Dobble 3D" in text
-    assert "KnightofLuna" in text
 
 
 def test_microban_is_not_credited(tmp_path: Path) -> None:
@@ -106,7 +104,7 @@ def test_credit_sections_follow_the_language() -> None:
     set_language("fr")
     french = [s.title for s in credit_sections(packs)]
     assert english != french
-    assert "Original game" in english and "Jeu original" in french
+    assert "This game" in english and "Ce jeu" in french
 
 
 def test_scrolls_with_up_and_down_within_bounds(tmp_path: Path) -> None:

@@ -30,7 +30,7 @@
       "id": "menu",
       "seconds": 2.2,
       "theme": "kenney",
-      "caption": "Sokoban-LAMA, remade from the ground up",
+      "caption": "My first-year Sokoban, remade from the ground up",
       "start": {"scene": "main_menu"},
       "steps": [{"wait": 0.7}, {"keys": ["down", "down", "up"], "every": 0.45}]
     },
@@ -105,8 +105,8 @@
       "caption": "",
       "start": {"scene": "end_card"},
       "title": "alexvolkihar_sokoban",
-      "subtitle": "A remake of Sokoban-LAMA (2022) by the LAMA group",
-      "credits": "Antoine LAROCHE · Alexis MABANZA · Logan VIVIEN · Martin PACARY",
+      "subtitle": "A Sokoban game by Alexis MABANZA, MIT licence",
+      "credits": "Remake of Sokoban-LAMA, my first-year university project (2022)",
       "install": "pipx install git+https://github.com/Alexvolkihar/alexvolkihar_sokoban"
     }
   ],

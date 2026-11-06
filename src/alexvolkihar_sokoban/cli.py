@@ -21,7 +21,7 @@ COMMANDS: dict[str, tuple[ModuleType, str]] = {
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="alexvolkihar-sokoban",
-        description="Alexvolkihar Sokoban, a remake of Sokoban-LAMA by the LAMA group.",
+        description="Alexvolkihar Sokoban, a Sokoban game by Alexis MABANZA.",
     )
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     parser.add_argument("--data-dir", metavar="PATH", default=None, help="override the data directory")

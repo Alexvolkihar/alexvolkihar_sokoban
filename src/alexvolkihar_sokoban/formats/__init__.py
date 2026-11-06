@@ -1,4 +1,4 @@
-"""Level file formats: XSB/SOK, the original LAMA format and JSON packs (spec 7.3, 9.2)."""
+"""Level file formats: XSB/SOK, the legacy format of Sokoban-LAMA and JSON packs (spec 7.3, 9.2)."""
 
 from __future__ import annotations
 

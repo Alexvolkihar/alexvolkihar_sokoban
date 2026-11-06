@@ -2,18 +2,20 @@
 
 Date: 2026-11-05
 Status: draft, written without a live conversation with the owner (see "Decisions made without the user").
-Implementation plan: `docs/superpowers/plans/2026-11-05-alexvolkihar-sokoban.md`. "Phase 1/2/3" in this
-document are the plan's phases (1 = foundation and frozen contracts, 2 = features, 3 = release); the Godot
+Update 2026-11-06: the repository now ships only its author's own work. The copy of the original project
+(`legacy/`), its levels and everything derived from them were removed; the bundled packs are `first-steps`
+(hand-made) and `boxoban-hard`, the benchmark extras are generated and hand-made levels, and the code is
+under the MIT licence. The sections below are updated accordingly.
+Implementation plan: completed, then removed from the repository (it stays in the git history). "Phase
+1/2/3" in this document are the plan's phases (1 = foundation and frozen contracts, 2 = features, 3 = release); the Godot
 remake is the separate follow-up of section 14.
 
 ## 1. Intent
 
 **alexvolkihar_sokoban** (GitHub: <https://github.com/Alexvolkihar/alexvolkihar_sokoban>, public) is an
-improved remake of **Sokoban-LAMA**, the first-year (L1) university group project
-by **Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN and Martin PACARY** (original repository:
-<https://github.com/Alexvolkihar/Sokoban-LAMA>, imported as the first commit of this repository). The four
-original authors stay credited everywhere the project presents itself: README (FR and EN), credits screen,
-package metadata, and the licence file.
+improved remake of **Sokoban-LAMA**, the owner's first-year university project (2022), original
+repository: <https://github.com/Alexvolkihar/Sokoban-LAMA>. The remake names it as its origin in the
+READMEs, the credits screen and the main menu subtitle.
 
 The owner's wish, in his words: *"améliore le projet, menu, sélection de niveaux, niveaux etc, pourquoi pas
 une partie benchmark de machine, un sélecteur de thèmes, un système de sauvegarde, de score"*. A later phase
@@ -21,7 +23,7 @@ will remake the game in **Godot**, so the game rules and every data format must 
 documented well enough to be reimplemented.
 
 What makes it worth doing: it turns a ~545-line student prototype (single level from the command line, no
-menu, a solver that can exhaust RAM) into a small, finished, well-tested game that the group can show
+menu, a solver that can exhaust RAM) into a small, finished, well-tested game that the owner can show
 publicly, and that doubles as a machine benchmark thanks to its solver.
 
 ## 2. Current state (the original code)
@@ -43,28 +45,21 @@ Findings from reading it (they shape the redesign and are worth mentioning in th
 - Images are reloaded on every cell move and rescaled on every frame; files are opened without being closed.
 - Level format: `X` wall, space floor, `*` box, `.` goal, `@` player. No "box on goal" or "player on goal"
   symbol. **The `*` symbol conflicts with the standard XSB format, where `*` means box on goal.**
-- Level data issues:
-  - `test8.txt` and `lvlultime.txt` are byte-identical.
-  - `test12`, `test13`, `test14` are intentionally unsolvable (solver test cases).
-  - `test_performance.txt` has **12 boxes and 14 goals**, so it can never be won (the original win check
-    requires every goal to be covered); one row is also one character shorter.
-  - `wiki.txt` is **level 1 of the original 1982 Sokoban by Thinking Rabbit** (the level shown in
-    Wikipedia's animation). Its copyright belongs to Thinking Rabbit / its successors, not to the group.
-- The deadlock patterns in `AStar.isFailed` credit "KnightofLuna on GitHub"; the new solver is rewritten from
-  scratch, but the README keeps that historical credit.
-- No licence file (see section 12).
+- Level data: the original levels stay in the original repository; none of them is shipped here (section 8).
+- The solver of this remake is written from scratch; nothing of the original search code is reused.
+- No licence file; this repository is under the MIT licence (section 12).
 
 ## 3. Goals
 
 1. A complete game loop: main menu → level select → play → victory → next level, with pause, undo/redo,
    restart, hint, "watch the solver" replay and settings.
-2. More content: the original LAMA levels plus at least one freely licensed classic set (Microban), standard
+2. More content: hand-made levels plus at least one freely licensed classic set (Boxoban), standard
    `.xsb`/`.sok` import, and a procedural generator whose levels are validated by the solver.
 3. A real solver: push-based A* with deadlock detection, compact state hashing, and hard time/node limits so
    it can never exhaust memory. It reports "unsolvable" with proof when the search space is exhausted.
 4. A benchmark mode: run the solver over a level suite, measure time, nodes and memory per level, show machine
    information, export JSON/CSV and compare two runs.
-5. Themes: a theme selector with the original Kenney sprites plus procedurally drawn themes, including a
+5. Themes: a theme selector with Kenney sprites plus procedurally drawn themes, including a
    colour-blind-safe one; the choice is persisted.
 6. Saves and scores: settings, progress, per-level best scores and the in-progress level survive restarts;
    stars are given relative to the solver's par.
@@ -87,7 +82,7 @@ Findings from reading it (they shape the redesign and are worth mentioning in th
 
 ## 5. Anti-goals (would make the project a failure even if it "works")
 
-- Losing or diluting the credit to the four original authors.
+- Shipping code or levels that are not the owner's own work, other than the credited third-party assets.
 - Shipping any asset or level whose licence does not allow redistribution in a public repository.
 - Game rules that only exist inside pygame code (the Godot port must not need to reverse-engineer them).
 - A solver that can still freeze the game or exhaust memory.
@@ -116,7 +111,6 @@ Findings from reading it (they shape the redesign and are worth mentioning in th
 
 ```
 alexvolkihar_sokoban/
-├── legacy/                     # the original project, moved as-is (git mv), still runnable from there
 ├── src/alexvolkihar_sokoban/
 │   ├── __init__.py             # __version__
 │   ├── __main__.py             # python -m alexvolkihar_sokoban → cli.main()
@@ -144,9 +138,9 @@ alexvolkihar_sokoban/
 │   │   └── scenes/             # main_menu, level_select, game, pause, victory, settings, themes,
 │   │                           # keybindings, benchmark, generate, credits, placeholder
 │   └── data/
-│       ├── levels/             # lama-original.json, lama-unsolvable.json, microban-1.json, boxoban-hard.json (pack JSON)
-│       ├── benchmarks/suites.json
-│       └── themes/kenney/      # the 6 original PNGs + LICENSE.txt (CC0)
+│       ├── levels/             # first-steps.json, boxoban-hard.json (pack JSON)
+│       ├── benchmarks/         # suites.json, extra.json (hidden bench-extra pack)
+│       └── themes/kenney/      # four Kenney PNGs + LICENSE.txt (CC0)
 ├── schemas/                    # JSON Schemas: level, pack, settings, progress, session, benchmark
 ├── tests/                      # mirrors src; tests/vectors/*.json are cross-engine conformance vectors
 ├── docs/formats.md             # human-readable format reference for the Godot port
@@ -155,7 +149,7 @@ alexvolkihar_sokoban/
 ├── .github/workflows/ci.yml
 ├── pyproject.toml              # hatchling build, entry point `alexvolkihar-sokoban`
 ├── README.md (FR) and README.en.md (EN)
-└── LICENSE                     # pending the group's consent (section 12)
+└── LICENSE                     # MIT (section 12)
 ```
 
 ### 7.2 Core rules (`core/`)
@@ -189,7 +183,7 @@ alexvolkihar_sokoban/
 - **XSB/SOK reader**: one or many levels per file; levels separated by non-board lines; `Title:`/`Author:`/
   `Comment:` metadata lines; `;` comments; run-length encoding (`4#`, `3-`) and `|` row separators accepted.
 - **XSB writer**: plain XSB, one level or a collection with `Title:` lines.
-- **Legacy reader** (the original LAMA format): `X` → `#`, `*` → `$`, `.`, `@`, space. Auto-detection treats
+- **Legacy reader** (the text format of Sokoban-LAMA): `X` → `#`, `*` → `$`, `.`, `@`, space. Auto-detection treats
   a file as legacy when it contains `X` and no `#`; `--format legacy|xsb|json` overrides detection.
 - **JSON pack** (canonical bundled format, section 9.2), reader and writer.
 - `load_any(path) -> Pack`: single entry point used by the CLI, the game and the benchmark. A single-level
@@ -219,8 +213,8 @@ alexvolkihar_sokoban/
   pointers are stored per state rather than full paths, so memory grows with states, not with path length.
 - Exhausting the open set returns `UNSOLVABLE` (a proof under the deadlock rules, which are sound).
 - `should_stop()` is polled at least every 1,000 expansions for cancellation from the UI thread.
-- Acceptance: every solvable original LAMA level is solved and every unsolvable one (`test12`–`test14`) is
-  reported `UNSOLVABLE`, each within 5 s on CI; solutions replay to a solved state through `core.lurd`.
+- Acceptance: every First steps level is solved and every hand-made unsolvable test level (`sealed`,
+  `divide`, `bend`) is reported `UNSOLVABLE`, each within 5 s on CI; solutions replay to a solved state through `core.lurd`.
 
 ### 7.5 Scoring (`scoring/`)
 
@@ -254,9 +248,10 @@ alexvolkihar_sokoban/
 
 ### 7.7 Benchmark (`benchmark/`)
 
-- Suites in `data/benchmarks/suites.json`: `quick` (≈10 small levels, < 30 s total on a laptop),
-  `standard` (LAMA original + Microban subset), `stress` (larger levels including the repaired
-  `test_performance`; limit hits are expected results, not failures). Each suite fixes its `SolveLimits`.
+- Suites in `data/benchmarks/suites.json`: `quick` (the 12 First steps levels, a few seconds on a laptop),
+  `standard` (First steps, 8 generated medium levels and the first 40 Boxoban hard levels), `stress`
+  (`bench-extra`: generated hard, unsolvable and very large levels, plus all 100 Boxoban levels; limit hits
+  are expected results, not failures). Each suite fixes its `SolveLimits`.
 - The runner solves levels sequentially in-process with `tracemalloc` on (peak bytes per level), and records
   status, pushes, moves, nodes expanded/generated, elapsed ms and peak memory. A level is never retried.
 - Machine info: OS and version (WSL detected via `/proc/version`), architecture, CPU model (Linux
@@ -290,7 +285,7 @@ alexvolkihar_sokoban/
 - Scenes, all reachable by keyboard; mouse clicks on menu items are a bonus:
   - **Main menu**: Continue (resumes the saved session or the last played level), Level select, Random level
     (generator), Benchmark, Themes, Settings, Credits, Quit.
-  - **Level select**: packs on the left (LAMA original, Microban I, Generated, Custom), a level grid with
+  - **Level select**: packs on the left (First steps, Boxoban, Generated, Custom), a level grid with
     thumbnails on the right; each tile shows completion, stars and best moves/pushes; the pack header shows
     "completed X / N".
   - **Game**: HUD with pack/level name, moves, pushes, time, par (pushes/moves) and key reminders. Undo/redo
@@ -321,7 +316,7 @@ alexvolkihar_sokoban/
   `background` colour, and a small UI palette (`text`, `muted`, `accent`, `panel`, `good`, `bad`).
   `TileKind` = `FLOOR`, `WALL`, `GOAL`, `BOX`, `BOX_ON_GOAL`, `PLAYER`, `PLAYER_ON_GOAL`, `OUTSIDE`.
 - Bundled themes:
-  - `kenney`: the original sprites (Kenney Sokoban pack, CC0); `BOX_ON_GOAL` and `PLAYER_ON_GOAL` are
+  - `kenney`: sprites from the Kenney Sokoban pack (CC0); `BOX_ON_GOAL` and `PLAYER_ON_GOAL` are
     composited procedurally (crate tinted plus a goal marker; player over the goal sprite).
   - `classic`: flat colours, procedurally drawn.
   - `neon`: dark background, glowing outlines, procedurally drawn.
@@ -333,17 +328,15 @@ alexvolkihar_sokoban/
 
 | Pack id | Content | Source / licence |
 |---|---|---|
-| `lama-original` | `test1`–`test11` (and `lvlultime` dropped as a duplicate of `test8`) | the group, same licence as the code |
-| `lama-unsolvable` | `test12`–`test14` and `test_performance` (12 boxes / 14 goals); hidden from level select, used by tests and benchmarks | the group |
-| `microban-1` | Microban (155 levels) by David W. Skinner | free distribution provided the levels stay credited (to verify, see 12) |
-| `boxoban-hard` | Boxoban by DeepMind: the first 100 puzzles of `hard/000.txt` (10×10, 4 boxes), shown after Microban | Apache-2.0, full text and requested citation in `data/levels/boxoban-hard.LICENSE.txt` (see 12) |
+| `first-steps` | 12 hand-made beginner levels (1 to 4 boxes) | Alexis MABANZA, MIT |
+| `bench-extra` | generated levels (seeds kept), 3 levels unsolvable on purpose and 1 very large level; hidden, benchmarks only | Alexis MABANZA, MIT |
+| `microban-1` | Microban (155 levels) by David W. Skinner; **not shipped** (licence, see 12) | — |
+| `boxoban-hard` | Boxoban by DeepMind: the first 100 puzzles of `hard/000.txt` (10×10, 4 boxes) | Apache-2.0, full text and requested citation in `data/levels/boxoban-hard.LICENSE.txt` (see 12) |
 | `generated` | levels made by the player's generator, stored in the user data dir | generated |
 | `custom` | files dropped in `<data dir>/levels/` | the player's own |
 
-- `wiki.txt` (Thinking Rabbit's level 1) is **not** bundled; it stays only in `legacy/` as part of the imported
-  history (owner to decide whether to drop it from `legacy/` too).
-- A repaired copy of `test_performance` (two goals removed, row padded) is part of the `stress` benchmark
-  suite and documented as modified.
+- No level of the original game is bundled; the unsolvable and very large levels used by the tests and the
+  `stress` suite are hand-made.
 - Microban levels are bundled only after checking each level's own notes; any level credited to another
   author is excluded.
 - `par` is precomputed with `alexvolkihar-sokoban annotate` (limits: 60 s / 5,000,000 nodes per level) and stored in
@@ -365,12 +358,12 @@ level's layout naturally starts a fresh record.
 ```json
 {
   "format": "alexvolkihar-sokoban/pack", "version": 1,
-  "id": "lama-original", "title": "LAMA — original", "author": "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY",
-  "license": "see LICENSE", "source": "https://github.com/Alexvolkihar/Sokoban-LAMA", "hidden": false,
+  "id": "first-steps", "title": "First steps", "author": "Alexis MABANZA",
+  "license": "MIT (see LICENSE)", "source": "https://github.com/Alexvolkihar/alexvolkihar_sokoban", "hidden": false,
   "levels": [
-    { "id": "test1", "title": "Test 1",
-      "rows": ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"],
-      "par": { "pushes": 4, "moves": 9, "lurd": "...", "solver": "push-astar/1" } }
+    { "id": "2", "title": "Two crates",
+      "rows": ["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"],
+      "par": { "pushes": 6, "moves": 14, "lurd": "...", "solver": "push-astar/1" } }
   ]
 }
 ```
@@ -420,8 +413,8 @@ alexvolkihar-sokoban generate [--preset P] [--seed N] [--out FILE]
 global: --data-dir DIR, --version
 ```
 
-`python -m alexvolkihar_sokoban` is equivalent. The legacy invocation `python main.py play level/test1.txt` keeps
-working from inside `legacy/`; `alexvolkihar-sokoban play legacy/level/test1.txt` plays the same file in the new game.
+`python -m alexvolkihar_sokoban` is equivalent. `alexvolkihar-sokoban play old-level.txt` plays a file in the
+legacy text format.
 
 ## 11. Quality
 
@@ -447,7 +440,7 @@ working from inside `legacy/`; `alexvolkihar-sokoban play legacy/level/test1.txt
 - Storyboard: follow the owner's starred video skill `latent-spaces/brag` (brag-slim variant) as guidance for
   a short "brag" demo: hook in the first seconds (a solved level snapping into place), then menu → level
   select → play with undo → hint → "watch the solver" → theme switch → benchmark table → end card with the
-  project name and the LAMA credit.
+  project name, its author and its origin.
 - Deterministic: fixed seed, fixed theme order, fixed window size (1280×720), so re-running the script
   reproduces the same media.
 - The README embeds the GIF inline and links the MP4 (GitHub renders an uploaded MP4 inline when it is
@@ -455,21 +448,18 @@ working from inside `legacy/`; `alexvolkihar-sokoban play legacy/level/test1.txt
 
 ## 12. Licensing
 
-- **Code**: the original repository has **no licence**, so it is "all rights reserved" by its four authors.
-  Proposed: MIT, copyright "2022 Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY" and
-  "2026 Alexis MABANZA". **This needs the consent of the three other authors.** The new repository is
-  already public (the owner published it on 2026-11-05), like the original one, which has been public
-  without a licence since 2022; until consent is given no `LICENSE` file is committed and the README says
-  the licence is pending (plan Task 25 is blocked on it). GitHub Actions minutes are free for public
-  repositories, so the CI matrix is not constrained.
-- **Kenney sprites**: the six images are from Kenney's "Sokoban" pack (kenney.nl/assets/sokoban), licence
+- **Code and own levels**: MIT, `Copyright (c) 2026 Alexis MABANZA` (`LICENSE`, declared in
+  `pyproject.toml`). The repository ships only the owner's own work plus the credited third-party assets
+  below; the original project, its code and its levels stay in their own repository. GitHub Actions minutes
+  are free for public repositories, so the CI matrix is not constrained.
+- **Kenney sprites**: the four images are from Kenney's "Sokoban" pack (kenney.nl/assets/sokoban), licence
   CC0 1.0. Recorded in `data/themes/kenney/LICENSE.txt`; credit given anyway.
 - **Microban**: by David W. Skinner. Secondary sources quote his terms as "these sets may be freely
   distributed provided they remain properly credited"; his original page (users.bentonrea.com/~sasquatch)
   is offline. Gate (plan Task 11): Microban is committed only if the downloaded collection carries
   Skinner's own copyright/distribution notice (header of his `.txt`/`.sok` file), copied verbatim into the
   pack's `license` field with its source URL. Otherwise the pack is left out, the task reports it as
-  blocked, and every feature still works with the LAMA pack, generated levels and custom imports
+  blocked, and every feature still works with the other bundled packs, generated levels and custom imports
   (benchmark suites skip missing packs with a warning). The credit goes in the pack's `author`/`license`
   fields, the credits screen and the README.
 - **Microban gate outcome (Task 11, 2026-11-05)**: blocked. Skinner's own file (`m1`, archived on the Wayback
@@ -479,7 +469,6 @@ working from inside `legacy/`; `alexvolkihar-sokoban play legacy/level/test1.txt
 - **Boxoban** (`boxoban-hard`): DeepMind's boxoban-levels repository, Apache-2.0 (licence file checked in the
   downloaded repository). Pack metadata names the authors, the source, the selection, the change (format
   conversion) and the citation their README requests; the licence text ships next to the pack.
-- **Thinking Rabbit level 1** (`wiki.txt`): not redistributed in the new packs.
 - **pygame-ce**: LGPL-2.1-or-later, used as an unmodified dependency, compatible with MIT.
 
 ## 13. Decisions made without the user
@@ -491,8 +480,8 @@ Each can be revisited; none is hard to change before plan Phase 2 starts unless 
 2. **Python ≥ 3.11** — `StrEnum`, `Self`, better error messages; 3.10 is near end of life.
 3. **`src/` layout, package `alexvolkihar_sokoban`, hatchling build, entry point `alexvolkihar-sokoban`** — standard,
    keeps tests honest about installed imports.
-4. **Original code moved to `legacy/` (not deleted)** — preserves the group's work, runnable, visible in the
-   repository; history is in git anyway.
+4. **Original code not shipped** — it stays in the original repository (it was first kept in `legacy/`,
+   removed on 2026-11-06).
 5. **Row/column coordinates and a non-transposed display** — fixes the original mirror bug.
 6. **Bundled levels stored as JSON packs, not `.xsb`** — one format that carries metadata and par, trivially
    read by Godot; `.xsb` stays fully supported for import/export.
@@ -514,9 +503,9 @@ Each can be revisited; none is hard to change before plan Phase 2 starts unless 
 16. **No sound, no editor, no web build in this phase** — scope control.
 17. **Benchmark measures with `tracemalloc` always on** — memory column always available; overhead is equal
     between runs of the same version, so comparisons stay fair. Results contain no hostname.
-18. **`test_performance` treated as an invalid level** (kept for tests; a repaired copy in the `stress`
-    suite), **`lvlultime` dropped as a duplicate**, **`wiki.txt` not bundled** (copyright).
-19. **Licence: MIT proposed but not committed** until the other three authors agree.
+18. **Hand-made test levels** — the unsolvable and very large levels of the tests and the `stress` suite are
+    made for this repository, not taken from the original game.
+19. **Licence: MIT**, `Copyright (c) 2026 Alexis MABANZA`.
 20. **Microban I only** (not Sasquatch etc.) at first — small levels suit a Python solver and new players;
     more sets can be added once their licences are checked.
 21. **Runtime dependencies limited to pygame-ce and platformdirs** — no psutil; machine info comes from the
@@ -524,7 +513,7 @@ Each can be revisited; none is hard to change before plan Phase 2 starts unless 
 22. **Names**: repository and project name `alexvolkihar_sokoban` (owner's choice); Python package
     `alexvolkihar_sokoban`; command `alexvolkihar-sokoban`; JSON format ids `alexvolkihar-sokoban/<kind>`;
     data directory `alexvolkihar-sokoban`; window title "Alexvolkihar Sokoban" with the subtitle
-    "remake of Sokoban-LAMA" on the main menu. The LAMA group credit stays everywhere.
+    "remake of Sokoban-LAMA" on the main menu.
 23. **Media are captured from pygame itself** (dummy video driver + `pygame.image.save`, encoded with
     `imageio-ffmpeg` as a dev-only extra) — the only reliable way to film a pygame window in CI-like
     headless conditions.

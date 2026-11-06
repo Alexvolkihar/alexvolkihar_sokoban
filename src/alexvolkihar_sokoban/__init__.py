@@ -1,7 +1,6 @@
-"""Alexvolkihar Sokoban: a remake of Sokoban-LAMA.
+"""Alexvolkihar Sokoban, by Alexis MABANZA.
 
-Sokoban-LAMA is the first-year group project of Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN and
-Martin PACARY (groupe LAMA).
+A remake of Sokoban-LAMA, his first-year university project (2022).
 """
 
 __version__ = "1.0.0"

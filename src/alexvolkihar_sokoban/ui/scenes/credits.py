@@ -1,4 +1,4 @@
-"""Credits screen: the original LAMA group, the remake, graphics, level packs and libraries.
+"""Credits screen: the game and where it comes from, graphics, level packs and libraries.
 
 The level-pack credits come from each bundled pack's ``title``, ``author``, ``license`` and ``source``, so a
 new pack shows up here without touching this file. The player's own packs (generated, custom) are left out.
@@ -18,12 +18,12 @@ from alexvolkihar_sokoban.ui.context import CUSTOM_ID, GENERATED_ID, load_bundle
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
+from alexvolkihar_sokoban.ui.scenes.game import pack_title
 from alexvolkihar_sokoban.ui.widgets import wrap_text
 
 if TYPE_CHECKING:
     from alexvolkihar_sokoban.ui.app import App
 
-LAMA_MEMBERS = "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY"
 ORIGINAL_URL = "https://github.com/Alexvolkihar/Sokoban-LAMA"
 MAX_BODY_WIDTH = 900
 WHEEL_LINES = 3
@@ -39,37 +39,27 @@ def credit_sections(packs: Sequence[Pack]) -> list[CreditSection]:
     """Every credit in the current language; one section per bundled level pack (player packs skipped)."""
     sections = [
         CreditSection(
-            t("Original game", "Jeu original"),
+            t("This game", "Ce jeu"),
             (
                 t(
-                    "Sokoban-LAMA (2022), a first-year (L1) university project by "
-                    f"{LAMA_MEMBERS} (groupe LAMA).",
-                    f"Sokoban-LAMA (2022), projet de licence 1 de {LAMA_MEMBERS} (groupe LAMA).",
+                    "Alexvolkihar Sokoban by Alexis MABANZA, MIT licence.",
+                    "Alexvolkihar Sokoban par Alexis MABANZA, licence MIT.",
+                ),
+                t(
+                    "Remake of Sokoban-LAMA, my first-year university project (2022).",
+                    "Remake de Sokoban-LAMA, mon projet universitaire de première année (2022).",
                 ),
                 ORIGINAL_URL,
-                t(
-                    "The deadlock patterns of its solver were credited to KnightofLuna on GitHub.",
-                    "Les motifs de blocage de son solveur étaient crédités à KnightofLuna sur GitHub.",
-                ),
-            ),
-        ),
-        CreditSection(
-            t("This remake", "Ce remake"),
-            (
-                t(
-                    "Alexvolkihar Sokoban, remake of Sokoban-LAMA by Alexis MABANZA.",
-                    "Alexvolkihar Sokoban, remake de Sokoban-LAMA par Alexis MABANZA.",
-                ),
             ),
         ),
         CreditSection(
             t("Graphics", "Graphismes"),
             (
                 t(
-                    "Kenney theme: the sprites of the original game, from the Sokoban pack by Kenney "
-                    "(www.kenney.nl), CC0 1.0 (public domain).",
-                    "Thème Kenney : les sprites du jeu original, issus du pack Sokoban de Kenney "
-                    "(www.kenney.nl), CC0 1.0 (domaine public).",
+                    "Kenney theme: sprites from the Sokoban pack by Kenney (www.kenney.nl), "
+                    "CC0 1.0 (public domain).",
+                    "Thème Kenney : sprites du pack Sokoban de Kenney (www.kenney.nl), "
+                    "CC0 1.0 (domaine public).",
                 ),
                 t(
                     "Colour palettes of the mood themes adapted from the author's Dobble 3D project.",
@@ -88,7 +78,7 @@ def credit_sections(packs: Sequence[Pack]) -> list[CreditSection]:
             lines.append(t("Licence: ", "Licence : ") + pack.license)
         if pack.source:
             lines.append(t("Source: ", "Source : ") + pack.source)
-        sections.append(CreditSection(t("Levels: ", "Niveaux : ") + pack.title, tuple(lines)))
+        sections.append(CreditSection(t("Levels: ", "Niveaux : ") + pack_title(pack), tuple(lines)))
     sections.append(
         CreditSection(
             t("Software", "Logiciels"),
