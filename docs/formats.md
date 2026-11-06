@@ -222,9 +222,9 @@ exported packs use this format. Example (two levels of the bundled `lama-origina
   "format": "alexvolkihar-sokoban/pack",
   "version": 1,
   "id": "lama-original",
-  "title": "LAMA — original",
+  "title": "Sokoban-LAMA",
   "author": "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY (groupe LAMA)",
-  "license": "Same licence as the code (see LICENSE).",
+  "license": "Same licence as the code, which is not licensed yet: all rights reserved until the original co-authors agree on a licence.",
   "source": "https://github.com/Alexvolkihar/Sokoban-LAMA",
   "hidden": false,
   "levels": [

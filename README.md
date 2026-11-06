@@ -135,7 +135,7 @@ solution compte comme terminée, sans étoiles ni record.
 
 | Pack | Contenu | Auteurs et licence |
 |---|---|---|
-| LAMA, original | les 11 niveaux de Sokoban-LAMA (`test1` à `test11`) | groupe LAMA, même licence que le code |
+| Sokoban-LAMA | les 11 niveaux de Sokoban-LAMA (`test1` à `test11`) | groupe LAMA, même licence que le code |
 | Boxoban (difficile) | les 100 premiers niveaux de `hard/000.txt` (10×10, 4 caisses) | DeepMind, Apache-2.0 ([licence et citation](src/alexvolkihar_sokoban/data/levels/boxoban-hard.LICENSE.txt)) |
 | Générés | les niveaux du générateur que vous avez joués ou enregistrés | les vôtres |
 | Perso | les fichiers déposés dans `<dossier de données>/levels/` | les vôtres |

@@ -134,7 +134,7 @@ without stars or records.
 
 | Pack | Content | Authors and licence |
 |---|---|---|
-| LAMA, original | the 11 levels of Sokoban-LAMA (`test1` to `test11`) | the LAMA group, same licence as the code |
+| Sokoban-LAMA | the 11 levels of Sokoban-LAMA (`test1` to `test11`) | the LAMA group, same licence as the code |
 | Boxoban (hard) | the first 100 levels of `hard/000.txt` (10×10, 4 boxes) | DeepMind, Apache-2.0 ([licence and citation](https://github.com/Alexvolkihar/alexvolkihar_sokoban/blob/main/src/alexvolkihar_sokoban/data/levels/boxoban-hard.LICENSE.txt)) |
 | Generated | the generator's levels you played or saved | yours |
 | Custom | files dropped in `<data dir>/levels/` | yours |

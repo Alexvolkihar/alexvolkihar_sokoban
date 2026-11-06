@@ -102,6 +102,22 @@ def test_lama_packs_credit_the_group(pack_id: str) -> None:
     assert pack.license and pack.source.startswith("https://")
 
 
+@pytest.mark.parametrize("pack_id", ["lama-original", "lama-unsolvable"])
+def test_lama_pack_titles_name_the_original_game(pack_id: str) -> None:
+    assert PACKS[pack_id].title.startswith("Sokoban-LAMA")
+
+
+def test_pack_licences_match_the_licence_state_of_the_repository() -> None:
+    """While there is no LICENSE file, the LAMA packs say so instead of pointing at it."""
+    extra = json.loads((files("alexvolkihar_sokoban.data") / "benchmarks" / "extra.json").read_text("utf-8"))
+    lama = [data for data in [*RAW.values(), extra] if "groupe LAMA" in str(data.get("author", ""))]
+    assert len(lama) == 3
+    for data in lama:
+        text = str(data["license"])
+        if not (ROOT / "LICENSE").exists():
+            assert "LICENSE" not in text and "all rights reserved" in text, data["id"]
+
+
 def test_boxoban_pack_loads_with_its_licence() -> None:
     pack, warnings = load_any(Path(str(LEVELS_DIR / "boxoban-hard.json")))
     assert warnings == [] and pack.title == "Boxoban (hard)" and not pack.hidden

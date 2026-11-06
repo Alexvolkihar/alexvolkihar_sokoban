@@ -2,9 +2,9 @@
   "format": "alexvolkihar-sokoban/pack",
   "version": 1,
   "id": "lama-original",
-  "title": "LAMA — original",
+  "title": "Sokoban-LAMA",
   "author": "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY (groupe LAMA)",
-  "license": "Same licence as the code (see LICENSE). The original levels of Sokoban-LAMA (2022); lvlultime is left out as a duplicate of test8.",
+  "license": "Same licence as the code, which is not licensed yet: all rights reserved until the original co-authors agree on a licence. The original levels of Sokoban-LAMA (2022); lvlultime is left out as a duplicate of test8.",
   "source": "https://github.com/Alexvolkihar/Sokoban-LAMA",
   "hidden": false,
   "levels": [
