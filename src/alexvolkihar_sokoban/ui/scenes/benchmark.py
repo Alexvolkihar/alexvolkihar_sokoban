@@ -41,15 +41,15 @@ _SUITES: dict[str, tuple[tuple[str, str], tuple[str, str]]] = {
     "quick": (
         ("Quick", "Rapide"),
         (
-            "The original LAMA levels, under 30 s on a laptop.",
-            "Les niveaux LAMA d'origine, moins de 30 s sur un portable.",
+            "The First steps levels, a few seconds on a laptop.",
+            "Les niveaux Premiers pas, quelques secondes sur un portable.",
         ),
     ),
     "standard": (
         ("Standard", "Standard"),
         (
-            "The original LAMA levels and the first 40 Boxoban (hard) levels.",
-            "Les niveaux LAMA d'origine et les 40 premiers niveaux Boxoban (difficiles).",
+            "First steps, generated levels and the first 40 Boxoban (hard) levels.",
+            "Premiers pas, des niveaux générés et les 40 premiers niveaux Boxoban (difficiles).",
         ),
     ),
     "stress": (

@@ -3,49 +3,430 @@
   "version": 1,
   "id": "bench-extra",
   "title": "Benchmark extras",
-  "author": "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY (groupe LAMA)",
-  "license": "Same licence as the code, which is not licensed yet: all rights reserved until the original co-authors agree on a licence. Modified from the original test_performance level of Sokoban-LAMA (12 boxes, 14 goals, unplayable): rows 3 to 13 padded to the full width, two goals removed from the bottom row, and two wall cells opened (row 9, column 20 and row 11, column 21) so that every box can reach a goal. Used by the stress benchmark only.",
-  "source": "https://github.com/Alexvolkihar/Sokoban-LAMA",
+  "author": "Alexis MABANZA",
+  "license": "MIT (see LICENSE). Levels made by hand or by this game's generator (the seed is kept); unsolvable levels have no par. Used by the benchmark suites only.",
+  "source": "https://github.com/Alexvolkihar/alexvolkihar_sokoban",
   "hidden": true,
   "levels": [
     {
-      "id": "test_performance",
-      "title": "Test performance (repaired)",
+      "id": "medium-1",
+      "title": "",
+      "comment": "generator, preset medium, seed 1",
       "rows": [
-        "##################################",
-        "#                                #",
-        "# @ #    #######     ######      #",
-        "#   #  ###     ###  ##    ##     #",
-        "#   ####         ####      ##    #",
-        "#    ##   $   $   ##   $    #    #",
-        "#    ##  $#$ $#$  ##  $ $   #    #",
-        "#     #   #   #    #  $ $   #    #",
-        "#     #   #   #        $    #    #",
-        "#     #             #       #    #",
-        "#     #  ##########      ####    #",
-        "#     #  #        # #    #       #",
-        "#     ####        # ######       #",
-        "#                 #              #",
-        "#    ##############     #######  #",
-        "#                       #        #",
-        "#   ####                #        #",
-        "#      #  ############# #        #",
-        "#      #  #           # #        #",
-        "#      ####      .    # #        #",
-        "#                .    # #        #",
-        "#      #    ########## #         #",
-        "#      #    #          #         #",
-        "#      ######          #         #",
-        "#                      #         #",
-        "#      #               #         #",
-        "#      #    ########### #        #",
-        "#      #    #           #        #",
-        "#      #####            #        #",
-        "#           ..          #        #",
-        "#          ....         #        #",
-        "#          ....         #        #",
-        "#                       #        #",
-        "##################################"
+        "########",
+        "#  #   #",
+        "#  #$#@#",
+        "#    $ #",
+        "##  ## #",
+        "# .## .#",
+        "# . $ ##",
+        "####### "
+      ],
+      "seed": 1,
+      "par": {
+        "pushes": 20,
+        "moves": 78,
+        "lurd": "dLLLdlUluurDDDurrrruullDurrddlLLdlUluurDldRRRuurrddddldLLrruruuuullddRluurrdDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "medium-2",
+      "title": "",
+      "comment": "generator, preset medium, seed 2",
+      "rows": [
+        "########",
+        "#. ##  #",
+        "# . #$ #",
+        "# .$#  #",
+        "# @$   #",
+        "#  # # #",
+        "#  #   #",
+        "########"
+      ],
+      "seed": 2,
+      "par": {
+        "pushes": 23,
+        "moves": 64,
+        "lurd": "RRddrruuLLLLdlUUUrrDldRRddrruuLLLullddrUUdrrruruulDDrdLLLullddrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "medium-3",
+      "title": "",
+      "comment": "generator, preset medium, seed 3",
+      "rows": [
+        "########",
+        "#  *#  #",
+        "#  $@$ #",
+        "#  ##  #",
+        "#.  ## #",
+        "#      #",
+        "##  . ##",
+        " ###### "
+      ],
+      "seed": 3,
+      "par": {
+        "pushes": 15,
+        "moves": 82,
+        "lurd": "LLulDDrddrrrruuuLLLrrdrddlllululuurDDurrrdrddlllllUdrrrrruuulllldDldRurDldRuuluulD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "medium-4",
+      "title": "",
+      "comment": "generator, preset medium, seed 4",
+      "rows": [
+        "########",
+        "#  ##  #",
+        "#      #",
+        "#.. $ ##",
+        "###$#  #",
+        "#  $ . #",
+        "#@  #  #",
+        "########"
+      ],
+      "seed": 4,
+      "par": {
+        "pushes": 19,
+        "moves": 54,
+        "lurd": "urRUURuLrrDDrddlULLuulluurDrddddlluRdrUUUruLLulDrrdrrD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "medium-5",
+      "title": "",
+      "comment": "generator, preset medium, seed 5",
+      "rows": [
+        " #######",
+        " #    .#",
+        "##$    #",
+        "# $   ##",
+        "# # # ##",
+        "# #$#. #",
+        "#@  #. #",
+        "########"
+      ],
+      "seed": 5,
+      "par": {
+        "pushes": 19,
+        "moves": 50,
+        "lurd": "rrUUUdddlluuuRRRurDDDuuuulllDRddddlluuuRRRUluRRdDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "medium-6",
+      "title": "",
+      "comment": "generator, preset medium, seed 6",
+      "rows": [
+        " ###### ",
+        "##    ##",
+        "#    $ #",
+        "# .##*@#",
+        "#  .#  #",
+        "#   #$ #",
+        "#   #  #",
+        "########"
+      ],
+      "seed": 6,
+      "par": {
+        "pushes": 13,
+        "moves": 37,
+        "lurd": "uLLLulDDurrrrddlUdrddlUUruuLLLulDlddR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "medium-7",
+      "title": "",
+      "comment": "generator, preset medium, seed 7",
+      "rows": [
+        "####### ",
+        "#  #  ##",
+        "#  # $ #",
+        "# ## * #",
+        "#  # # #",
+        "#.$    #",
+        "#@ ## .#",
+        "########"
+      ],
+      "seed": 7,
+      "par": {
+        "pushes": 12,
+        "moves": 20,
+        "lurd": "uRRRuuRluurDrDDDLLLL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "medium-8",
+      "title": "",
+      "comment": "generator, preset medium, seed 8",
+      "rows": [
+        " #######",
+        "##     #",
+        "#. ##  #",
+        "# ######",
+        "# .   .#",
+        "# $#$$ #",
+        "##@   ##",
+        " ###### "
+      ],
+      "seed": 8,
+      "par": {
+        "pushes": 15,
+        "moves": 42,
+        "lurd": "rrrUruLLLLrrrddlllUlURRRRddlUruLLrddlluluU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "hard-1",
+      "title": "",
+      "comment": "generator, preset hard, seed 1",
+      "rows": [
+        "##########",
+        "#     #  #",
+        "# ###    #",
+        "#   #. ###",
+        "# #    . #",
+        "#  #   #$#",
+        "#*$ $ # .#",
+        "# @#  #  #",
+        "##########"
+      ],
+      "seed": 1,
+      "par": {
+        "pushes": 20,
+        "moves": 77,
+        "lurd": "lUUUUdddRuluurrdrdrddlUruullulldddrRRUddrUUUrrrDulluulullllDDDurrdRRRlllulldD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "hard-2",
+      "title": "",
+      "comment": "generator, preset hard, seed 2",
+      "rows": [
+        "##########",
+        "#   ##   #",
+        "# #    . #",
+        "#    # $ #",
+        "#  #  $###",
+        "# . .#  ##",
+        "#.#$# @$ #",
+        "#        #",
+        "##########"
+      ],
+      "seed": 2,
+      "par": {
+        "pushes": 30,
+        "moves": 114,
+        "lurd": "drruLulUUdlluurRurrdLrdLuLLLdllluurrDrddrrUruLLLdddlluuRlddlddrrUdrrrUUUUdlldLddlluuuuuurrDrDDuLLruulldDDDuurrurrR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "hard-3",
+      "title": "",
+      "comment": "generator, preset hard, seed 3",
+      "rows": [
+        "##########",
+        "#   .  $ #",
+        "#   # $$@#",
+        "#    # ###",
+        "###  #   #",
+        "# $ #. # #",
+        "#   #    #",
+        "#  .#   .#",
+        "##########"
+      ],
+      "seed": 3,
+      "par": {
+        "pushes": 30,
+        "moves": 77,
+        "lurd": "uLLLLLrrrDDDDDuuuuurrdLulDDDDlddRRuLdlUruuuuullldlluRRdddddlluRdrUUUluurDDDDD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "hard-4",
+      "title": "",
+      "comment": "generator, preset hard, seed 4",
+      "rows": [
+        " ######## ",
+        "##      ##",
+        "#  #$# $@#",
+        "#.  $.#  #",
+        "##.## #$##",
+        "#.       #",
+        "# ###    #",
+        "#     #  #",
+        "##########"
+      ],
+      "seed": 4,
+      "par": {
+        "pushes": 23,
+        "moves": 95,
+        "lurd": "dlDDrdLLuluuLLLuurrDullddddrrruuLLruurrrDDDuuulllddrddllllddrrrrUUdrrruLLLUdLLLrrrrruuuullllldD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "hard-5",
+      "title": "",
+      "comment": "generator, preset hard, seed 5",
+      "rows": [
+        "##########",
+        "#     #.@#",
+        "# ## $$$ #",
+        "#  #.   ##",
+        "#  # ## ##",
+        "# ##.#   #",
+        "# #  # # #",
+        "#.  $    #",
+        "##########"
+      ],
+      "seed": 5,
+      "par": {
+        "pushes": 21,
+        "moves": 61,
+        "lurd": "lDDllluurDlddddldRRRuurUUULLulDDDuurrdrddrddLLLLLLrrrruuruulL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "hard-6",
+      "title": "",
+      "comment": "generator, preset hard, seed 6",
+      "rows": [
+        " ######## ",
+        "##  ##  ##",
+        "# .* # $ #",
+        "#  # # #@#",
+        "#.     $ #",
+        "## ####$ #",
+        "#.   #  ##",
+        "#  #   ## ",
+        "########  "
+      ],
+      "seed": 6,
+      "par": {
+        "pushes": 30,
+        "moves": 112,
+        "lurd": "dLLLLLLddrrdrrurUruLLLLuuLulDDDDuuurrddLrrrrruuLulDDurrddlLLLrrrddldllulLuUUluRddddrrdrruruulllLrrrrddldllulluUU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "hard-7",
+      "title": "",
+      "comment": "generator, preset hard, seed 7",
+      "rows": [
+        "######### ",
+        "# .$ #  ##",
+        "# # ..   #",
+        "#  ###   #",
+        "#     #  #",
+        "# ##$    #",
+        "# $ $ .@##",
+        "#       # ",
+        "######### "
+      ],
+      "seed": 7,
+      "par": {
+        "pushes": 25,
+        "moves": 75,
+        "lurd": "dlllluRRRdllllluRRRRdrrUUUUlulluLdrrrdrruLLLrdrddllulDrdRdllluRRdrrUUUUruLL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "hard-8",
+      "title": "",
+      "comment": "generator, preset hard, seed 8",
+      "rows": [
+        "  ########",
+        "###  #   #",
+        "#   .#$  #",
+        "# # #  $ #",
+        "# #.# #$ #",
+        "# #   . $#",
+        "# #  # #+#",
+        "#        #",
+        "##########"
+      ],
+      "seed": 8,
+      "par": {
+        "pushes": 30,
+        "moves": 99,
+        "lurd": "UUULDrdLuuuurDDDDlLLLdlUUUddrruuRlddrruruulDDrdLLLLdlUrruurruulDrdddlluuRurDDrdLuullddlddllluuuuurR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "sealed",
+      "title": "Sealed",
+      "comment": "unsolvable on purpose",
+      "rows": [
+        "#######",
+        "#@  #.#",
+        "# $ $.#",
+        "#   # #",
+        "#######"
+      ],
+      "par": null
+    },
+    {
+      "id": "divide",
+      "title": "Divide",
+      "comment": "unsolvable on purpose",
+      "rows": [
+        "#########",
+        "#.  #   #",
+        "# $ # . #",
+        "# $   ###",
+        "# @ ###",
+        "#####"
+      ],
+      "par": null
+    },
+    {
+      "id": "bend",
+      "title": "Bend",
+      "comment": "unsolvable on purpose",
+      "rows": [
+        "######",
+        "#@   ###",
+        "# $$   #",
+        "##  #. #",
+        " #  . ##",
+        " ######"
+      ],
+      "par": null
+    },
+    {
+      "id": "hangar",
+      "title": "Hangar",
+      "comment": "large open level; a limit hit is an expected result",
+      "rows": [
+        "####################",
+        "#@     #     #     #",
+        "#  $   #  $  #  $  #",
+        "#    $    $     $  #",
+        "#  #####  #  #  #  #",
+        "#      #  #  $  #  #",
+        "#  $   #  ####  #  #",
+        "#      #        #  #",
+        "####  ####  #####  #",
+        "#        ....      #",
+        "#   ##   ....  ##  #",
+        "#                  #",
+        "####################"
       ],
       "par": null
     }

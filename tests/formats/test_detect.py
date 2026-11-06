@@ -8,11 +8,11 @@ from alexvolkihar_sokoban.core.pack import LevelEntry, Pack, Par
 from alexvolkihar_sokoban.formats import FormatError, detect, jsonfmt
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures" / "formats"
-TEST1 = ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"]
+ROOM = ["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"]
 
 
 def test_detect_legacy_vs_xsb(tmp_path: Path) -> None:
-    assert detect.detect_format(FIXTURES / "legacy_test1.txt") == "legacy"
+    assert detect.detect_format(FIXTURES / "legacy_room.txt") == "legacy"
     assert detect.detect_format(FIXTURES / "multi.sok") == "xsb"
     assert detect.detect_format(FIXTURES / "rle.xsb") == "xsb"
     (tmp_path / "pack.txt").write_text('  {"format": "x"}', encoding="utf-8")
@@ -20,10 +20,10 @@ def test_detect_legacy_vs_xsb(tmp_path: Path) -> None:
 
 
 def test_load_legacy_file_as_single_level_pack() -> None:
-    pack, warnings = detect.load_any(FIXTURES / "legacy_test1.txt")
+    pack, warnings = detect.load_any(FIXTURES / "legacy_room.txt")
     assert warnings == []
-    assert pack.id == "legacy_test1" and [e.id for e in pack.levels] == ["1"]
-    assert pack.levels[0].level == Level.from_rows(TEST1)
+    assert pack.id == "legacy_room" and [e.id for e in pack.levels] == ["1"]
+    assert pack.levels[0].level == Level.from_rows(ROOM)
 
 
 def test_load_xsb_collection_keeps_warnings() -> None:
@@ -47,7 +47,7 @@ def test_forced_format_overrides_detection(tmp_path: Path) -> None:
 
 
 def test_json_pack_and_single_level_files(tmp_path: Path) -> None:
-    entry = LevelEntry("t1", Level.from_rows(TEST1, title="T"), par=Par(1, 2, "rR", "push-astar/1"))
+    entry = LevelEntry("t1", Level.from_rows(ROOM, title="T"), par=Par(1, 2, "rR", "push-astar/1"))
     pack = Pack(id="p", title="P", levels=(entry,))
     (tmp_path / "pack.json").write_text(json.dumps(jsonfmt.pack_to_dict(pack)), encoding="utf-8")
     (tmp_path / "one.json").write_text(json.dumps(jsonfmt.level_to_dict(entry)), encoding="utf-8")
@@ -57,7 +57,7 @@ def test_json_pack_and_single_level_files(tmp_path: Path) -> None:
 
 
 def test_json_pack_with_an_invalid_level_gives_a_warning(tmp_path: Path) -> None:
-    data = jsonfmt.pack_to_dict(Pack(id="p", title="P", levels=(LevelEntry("a", Level.from_rows(TEST1)),)))
+    data = jsonfmt.pack_to_dict(Pack(id="p", title="P", levels=(LevelEntry("a", Level.from_rows(ROOM)),)))
     data["levels"] = [*data["levels"], {"id": "b", "rows": ["#####", "#@$ #", "#####"]}]  # type: ignore[misc]
     (tmp_path / "p.json").write_text(json.dumps(data), encoding="utf-8")
     pack, warnings = detect.load_any(tmp_path / "p.json")
@@ -103,7 +103,7 @@ def test_save_any_roundtrip(tmp_path: Path, name: str) -> None:
 
 
 def test_save_any_writes_lf_utf8(tmp_path: Path) -> None:
-    pack = Pack(id="p", title="LAMA — original", levels=(LevelEntry("1", Level.from_rows(TEST1)),))
+    pack = Pack(id="p", title="First steps — demo", levels=(LevelEntry("1", Level.from_rows(ROOM)),))
     detect.save_any(pack, tmp_path / "p.json")
     raw = (tmp_path / "p.json").read_bytes()
     assert b"\r\n" not in raw and "—".encode() in raw and raw.endswith(b"\n")

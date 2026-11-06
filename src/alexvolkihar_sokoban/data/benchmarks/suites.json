@@ -5,25 +5,33 @@
     {
       "id": "quick",
       "title": "Quick",
-      "description": "The 11 original LAMA levels, under 30 s on a laptop.",
+      "description": "The 12 First steps levels, a few seconds on a laptop.",
       "limits": {
         "time_ms": 10000,
         "max_nodes": 1000000
       },
       "items": [
-        "lama-original"
+        "first-steps"
       ]
     },
     {
       "id": "standard",
       "title": "Standard",
-      "description": "LAMA original and the first 40 Boxoban (hard) levels.",
+      "description": "First steps, 8 generated levels (medium) and the first 40 Boxoban (hard) levels.",
       "limits": {
         "time_ms": 30000,
         "max_nodes": 3000000
       },
       "items": [
-        "lama-original",
+        "first-steps",
+        "bench-extra/medium-1",
+        "bench-extra/medium-2",
+        "bench-extra/medium-3",
+        "bench-extra/medium-4",
+        "bench-extra/medium-5",
+        "bench-extra/medium-6",
+        "bench-extra/medium-7",
+        "bench-extra/medium-8",
         "boxoban-hard/1",
         "boxoban-hard/2",
         "boxoban-hard/3",
@@ -69,13 +77,12 @@
     {
       "id": "stress",
       "title": "Stress",
-      "description": "Unsolvable LAMA levels, the repaired test_performance and all 100 Boxoban (hard) levels; limit hits are expected results.",
+      "description": "Benchmark extras (generated hard levels, unsolvable and very large levels) and all 100 Boxoban (hard) levels; limit hits are expected results.",
       "limits": {
         "time_ms": 60000,
         "max_nodes": 5000000
       },
       "items": [
-        "lama-unsolvable",
         "bench-extra",
         "boxoban-hard"
       ]

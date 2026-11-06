@@ -20,7 +20,7 @@ def check_solution(level: Level, r: SolveResult) -> None:
 
 
 @pytest.mark.parametrize("name", SOLVABLE)
-def test_solves_original_levels_and_solution_replays(name: str) -> None:
+def test_solves_bundled_levels_and_solution_replays(name: str) -> None:
     check_solution(LEVELS[name], solve(LEVELS[name], limits=LIMITS))
 
 
@@ -60,7 +60,7 @@ def test_walks_are_part_of_the_solution() -> None:
 
 
 def test_solve_from_mid_game_state() -> None:
-    level = LEVELS["test1"]
+    level = LEVELS["room"]
     state = replay(level, "rU")
     r = solve(level, boxes=state.boxes, player=state.player, limits=LIMITS)
     assert r.status is SolveStatus.SOLVED and r.lurd is not None
@@ -87,11 +87,11 @@ def test_fast_mode_returns_valid_solution(name: str) -> None:
 
 
 def test_fast_mode_detects_unsolvable() -> None:
-    assert solve(LEVELS["test12"], limits=LIMITS, mode="fast").status is SolveStatus.UNSOLVABLE
+    assert solve(LEVELS["sealed"], limits=LIMITS, mode="fast").status is SolveStatus.UNSOLVABLE
 
 
 def test_counts_nodes() -> None:
-    r = solve(LEVELS["test3"], limits=LIMITS)
+    r = solve(LEVELS["twins"], limits=LIMITS)
     assert r.nodes_expanded >= 1 and r.nodes_generated >= r.nodes_expanded - 1
 
 
@@ -123,6 +123,6 @@ def reference_min_pushes(level: Level) -> int | None:
     return None
 
 
-@pytest.mark.parametrize("name", ["test1", "test2", "test4", "test5", "test6", "test9", "test10"])
+@pytest.mark.parametrize("name", ["first-push", "room", "twins", "spiral", "hallway", "pillars", "three-way"])
 def test_optimal_mode_matches_a_plain_breadth_first_search(name: str) -> None:
     assert solve(LEVELS[name], limits=LIMITS).pushes == reference_min_pushes(LEVELS[name])

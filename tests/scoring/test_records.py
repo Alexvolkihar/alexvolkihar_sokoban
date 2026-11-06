@@ -148,8 +148,8 @@ def test_no_par_gives_one_star() -> None:
 def test_record_follows_the_latest_pack_and_level_ids() -> None:
     p = Progress()
     p.record_run(H1, "custom", "a.xsb#1", run(), PAR)
-    rec = p.record_run(H1, "lama-original", "test1", run(), PAR).record
-    assert (rec.pack_id, rec.level_id) == ("lama-original", "test1")
+    rec = p.record_run(H1, "first-steps", "1", run(), PAR).record
+    assert (rec.pack_id, rec.level_id) == ("first-steps", "1")
 
 
 def test_completed_count() -> None:

@@ -12,11 +12,11 @@ from alexvolkihar_sokoban.core.pack import LevelEntry, Pack
 from alexvolkihar_sokoban.solver.api import SolveStatus
 
 FIXTURE = Pack(
-    "lama-original",
-    "LAMA fixture",
+    "first-steps",
+    "Fixture",
     (
-        LevelEntry("test1", Level.from_rows(["#####", "#@$.#", "#####"])),
-        LevelEntry("test2", Level.from_rows(["######", "#@$ .#", "#    #", "######"])),
+        LevelEntry("1", Level.from_rows(["#####", "#@$.#", "#####"])),
+        LevelEntry("2", Level.from_rows(["######", "#@$ .#", "#    #", "######"])),
     ),
 )
 
@@ -37,10 +37,10 @@ def test_bench_cli_quick_on_fixture_pack(
     run = read_json(written[0])
     assert run.suite_id == "quick" and written[0].stem == run.run_id
     assert [(r.level_id, r.status) for r in run.results] == [
-        ("test1", SolveStatus.SOLVED),
-        ("test2", SolveStatus.SOLVED),
+        ("1", SolveStatus.SOLVED),
+        ("2", SolveStatus.SOLVED),
     ]
-    assert "lama-original/test1" in out and "lama-original/test2" in out
+    assert "first-steps/1" in out and "first-steps/2" in out
     assert "solved 2/2" in out.lower()
     assert "nodes/s" in out.lower()
     assert "cpu" in out.lower()
@@ -75,7 +75,7 @@ def test_bench_cli_reports_missing_items_and_nothing_to_run(
     monkeypatch.setattr(suites, "load_bundled_packs", lambda root=None: ({}, ["pack x skipped"]))
     assert main(["--data-dir", str(tmp_path), "bench"]) == 2
     err = capsys.readouterr().err
-    assert "lama-original" in err and "pack x skipped" in err
+    assert "first-steps" in err and "pack x skipped" in err
 
 
 def test_bench_compare(tmp_path: Path, capsys: pytest.CaptureFixture[str], fixture_packs: None) -> None:
@@ -86,7 +86,7 @@ def test_bench_compare(tmp_path: Path, capsys: pytest.CaptureFixture[str], fixtu
     capsys.readouterr()
     assert main(["bench", "compare", str(a), str(b)]) == 0
     out = capsys.readouterr().out
-    assert "lama-original/test1" in out and run.run_id in out
+    assert "first-steps/1" in out and run.run_id in out
 
 
 def test_bench_compare_unreadable_file(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:

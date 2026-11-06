@@ -12,6 +12,7 @@ from alexvolkihar_sokoban.ui.app import App
 from alexvolkihar_sokoban.ui.context import AppContext
 from alexvolkihar_sokoban.ui.i18n import get_language, set_language
 from alexvolkihar_sokoban.ui.scene import Scene
+from alexvolkihar_sokoban.ui.scenes.game import pack_title
 from alexvolkihar_sokoban.ui.scenes.level_select import LevelSelectScene
 
 
@@ -99,6 +100,16 @@ def test_pack_titles_translated_for_generated_and_custom(tmp_path: Path) -> None
     assert titles == ["Pack alpha", "Pack beta", "Generated", "Custom"]
     set_language("fr")
     assert [scene.pack_title(p) for p in scene.packs][2:] == ["Niveaux générés", "Mes niveaux"]
+
+
+def test_bundled_first_steps_pack_title_is_translated(tmp_path: Path) -> None:
+    ctx = AppContext.load(tmp_path)
+    first = ctx.packs[0]
+    assert first.id == "first-steps"
+    set_language("en")
+    assert pack_title(first) == "First steps"
+    set_language("fr")
+    assert pack_title(first) == "Premiers pas"
 
 
 def test_starts_on_first_pack_or_requested_pack(tmp_path: Path) -> None:

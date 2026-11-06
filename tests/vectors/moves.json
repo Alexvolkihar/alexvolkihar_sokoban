@@ -65,9 +65,9 @@
     },
     {
       "name": "upper-case keys are plain keys",
-      "rows": ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"],
-      "input": "RUUDRDRUULUL",
-      "expected": {"player": [1, 2], "boxes": [[1, 1], [1, 4]], "moves": 12, "pushes": 6, "solved": true, "blocked_steps": 0}
+      "rows": ["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"],
+      "input": "RUURRULLDDRRRU",
+      "expected": {"player": [2, 5], "boxes": [[1, 1], [1, 5]], "moves": 14, "pushes": 6, "solved": true, "blocked_steps": 0}
     }
   ]
 }

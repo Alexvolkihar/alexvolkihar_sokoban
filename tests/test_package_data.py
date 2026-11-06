@@ -23,7 +23,7 @@ DIST = os.environ.get("AVS_DIST")
 PACKAGE_DIR = Path(alexvolkihar_sokoban.__file__).resolve().parent
 INSTALLED = not PACKAGE_DIR.is_relative_to(REPO / "src")
 
-LEVEL_PACKS = ["lama-original.json", "lama-unsolvable.json", "boxoban-hard.json", "boxoban-hard.LICENSE.txt"]
+LEVEL_PACKS = ["first-steps.json", "boxoban-hard.json", "boxoban-hard.LICENSE.txt"]
 BENCHMARKS = ["suites.json", "extra.json"]
 KENNEY = [
     "Character4.png",

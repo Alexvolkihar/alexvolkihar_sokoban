@@ -15,7 +15,7 @@ SCHEMAS = Path(__file__).resolve().parents[2] / "schemas"
 HASH = "sha256:" + "ab" * 32
 
 SESSION = SavedSession(
-    pack_id="lama-original",
+    pack_id="first-steps",
     level_id="1",
     level_hash=HASH,
     lurd="rrUld",
@@ -34,7 +34,7 @@ def test_constants() -> None:
 def test_session_roundtrip() -> None:
     d = SESSION.to_dict()
     assert d == {
-        "pack_id": "lama-original",
+        "pack_id": "first-steps",
         "level_id": "1",
         "level_hash": HASH,
         "lurd": "rrUld",

@@ -53,7 +53,7 @@ def test_rle_and_pipe_rows() -> None:
 
 def test_rle_fixture_expands_counts_and_dash_floor() -> None:
     pack, _ = xsb.parse(_read("rle.xsb"), pack_id="rle")
-    expected = ["#######", "#.@ # #", "#$* $ #", "#   $ #", "# ..  #", "#  *  #", "#######"]
+    expected = ["########", "#@ $ . #", "# **   #", "#  $.  #", "########"]
     assert pack.levels[0].level.canonical_hash() == Level.from_rows(expected).canonical_hash()
 
 

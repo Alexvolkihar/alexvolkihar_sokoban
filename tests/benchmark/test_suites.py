@@ -14,6 +14,7 @@ from alexvolkihar_sokoban.benchmark.suites import (
     resolve,
 )
 from alexvolkihar_sokoban.core.level import Level
+from alexvolkihar_sokoban.core.lurd import replay
 from alexvolkihar_sokoban.core.pack import LevelEntry, Pack
 from alexvolkihar_sokoban.solver.api import SolveLimits
 from alexvolkihar_sokoban.solver.deadlocks import dead_squares
@@ -30,13 +31,17 @@ def test_suites_load_and_items_parse() -> None:
     suites = load_suites()
     assert list(suites) == ["quick", "standard", "stress"]
     quick = suites["quick"]
-    assert quick == Suite("quick", quick.title, SolveLimits(10.0, 1_000_000), ("lama-original",))
+    assert quick == Suite("quick", quick.title, SolveLimits(10.0, 1_000_000), ("first-steps",))
     standard = suites["standard"]
     assert standard.limits == SolveLimits(30.0, 3_000_000)
-    assert standard.items == ("lama-original", *(f"boxoban-hard/{i}" for i in range(1, 41)))
+    assert standard.items == (
+        "first-steps",
+        *(f"{EXTRA_PACK_ID}/medium-{i}" for i in range(1, 9)),
+        *(f"boxoban-hard/{i}" for i in range(1, 41)),
+    )
     stress = suites["stress"]
     assert stress.limits == SolveLimits(60.0, 5_000_000)
-    assert stress.items == ("lama-unsolvable", EXTRA_PACK_ID, "boxoban-hard")
+    assert stress.items == (EXTRA_PACK_ID, "boxoban-hard")
     assert all(s.title for s in suites.values())
 
 
@@ -76,16 +81,21 @@ def test_resolve_splits_on_the_first_slash_only() -> None:
     assert [e.id for _, e in items] == ["dir/level"] and missing == []
 
 
-def test_extra_pack_holds_the_repaired_test_performance() -> None:
+def test_extra_pack_holds_generated_unsolvable_and_large_levels() -> None:
     pack = load_extra_pack()
     assert pack.id == EXTRA_PACK_ID and pack.hidden
-    assert "modified" in pack.license.lower()
-    entry = pack.entry("test_performance")
-    level = entry.level
-    assert len(level.boxes) == len(level.goals) == 12
-    # The original left boxes in rooms no box could leave: every box must now be able to reach a goal.
-    assert not level.boxes & dead_squares(level)
-    assert (level.width, level.height) == (34, 34)
+    ids = [e.id for e in pack.levels]
+    generated = [f"{preset}-{seed}" for preset in ("medium", "hard") for seed in range(1, 9)]
+    assert ids == [*generated, "sealed", "divide", "bend", "hangar"]
+    for entry in pack.levels[: len(generated)]:
+        # Made by the generator: the seed is kept and the solver's par replays.
+        assert entry.seed is not None and entry.id.endswith(f"-{entry.seed}")
+        assert entry.par is not None and replay(entry.level, entry.par.lurd).is_solved
+    for entry in pack.levels[len(generated) :]:
+        assert entry.par is None
+        assert not entry.level.boxes & dead_squares(entry.level)  # no box starts on a dead square
+    hangar = pack.entry("hangar").level
+    assert len(hangar.boxes) == len(hangar.goals) == 8 and (hangar.width, hangar.height) == (20, 13)
 
 
 def test_extra_pack_validates_against_the_pack_schema() -> None:

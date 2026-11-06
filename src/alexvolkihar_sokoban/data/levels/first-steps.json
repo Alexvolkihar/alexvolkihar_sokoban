@@ -1,0 +1,245 @@
+{
+  "format": "alexvolkihar-sokoban/pack",
+  "version": 1,
+  "id": "first-steps",
+  "title": "First steps",
+  "author": "Alexis MABANZA",
+  "license": "MIT (see LICENSE)",
+  "source": "https://github.com/Alexvolkihar/alexvolkihar_sokoban",
+  "hidden": false,
+  "levels": [
+    {
+      "id": "1",
+      "title": "First push",
+      "rows": [
+        "########",
+        "#   #  #",
+        "# $   .#",
+        "#@ ##  #",
+        "########"
+      ],
+      "par": {
+        "pushes": 4,
+        "moves": 5,
+        "lurd": "uRRRR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "2",
+      "title": "Two crates",
+      "rows": [
+        "#######",
+        "#.   .#",
+        "#  $  #",
+        "# $   #",
+        "#@    #",
+        "#######"
+      ],
+      "par": {
+        "pushes": 6,
+        "moves": 14,
+        "lurd": "rUURRulLddrrrU",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "3",
+      "title": "Twins",
+      "rows": [
+        "  #####",
+        "###   #",
+        "#. $# #",
+        "# $@  #",
+        "#.  ###",
+        "#####"
+      ],
+      "par": {
+        "pushes": 6,
+        "moves": 26,
+        "lurd": "dlUrrruullDLrurrddlLulDrdL",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "4",
+      "title": "Spiral",
+      "rows": [
+        "##########",
+        "#        #",
+        "# ###### #",
+        "# #.  $  #",
+        "# # $$ # #",
+        "# #. .   #",
+        "# ########",
+        "#@ #",
+        "####"
+      ],
+      "par": {
+        "pushes": 6,
+        "moves": 31,
+        "lurd": "uuuuuurrrrrrrddlLLLDurrddlLuurD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "5",
+      "title": "Crossroads",
+      "rows": [
+        "  #####",
+        "  #   #",
+        "###$# ###",
+        "#  . .  #",
+        "# $ @ $ #",
+        "#  . .  #",
+        "### #$###",
+        "  #   #",
+        "  #####"
+      ],
+      "par": {
+        "pushes": 6,
+        "moves": 47,
+        "lurd": "ullDrdrrrUluuullDurrdddrruLddlllddrrUdlluuulldR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "6",
+      "title": "Hallway",
+      "rows": [
+        "#########",
+        "#@  #   #",
+        "# $   $ #",
+        "#   #   #",
+        "## ### ##",
+        "#.     .#",
+        "#########"
+      ],
+      "par": {
+        "pushes": 8,
+        "moves": 41,
+        "lurd": "rDDDuurrrdrddlllLuuurrrurDDDuullldlddrrrR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "7",
+      "title": "Loop",
+      "rows": [
+        "#########",
+        "#   .   #",
+        "# # # # #",
+        "# $ @ $ #",
+        "# # # # #",
+        "#   .   #",
+        "#########"
+      ],
+      "par": {
+        "pushes": 8,
+        "moves": 51,
+        "lurd": "luullddRlddrruUUdddrrrruuLruulldDDurrddlLuulllluurR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "8",
+      "title": "Three ways",
+      "rows": [
+        "  ####",
+        "###  ####",
+        "#  $ $  #",
+        "# #.@.# #",
+        "#   $   #",
+        "###.  ###",
+        "  #####"
+      ],
+      "par": {
+        "pushes": 8,
+        "moves": 20,
+        "lurd": "uulDDDRdrUrruulLLulD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "9",
+      "title": "Pillars",
+      "rows": [
+        "#########",
+        "#   #   #",
+        "# $   $ #",
+        "#  #.#  #",
+        "#   .   #",
+        "## #@# ##",
+        " #     #",
+        " #######"
+      ],
+      "par": {
+        "pushes": 9,
+        "moves": 38,
+        "lurd": "uuululDDldRuurrrurDDrdLLrddlluUddlluuR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "10",
+      "title": "Courtyard",
+      "rows": [
+        " ########",
+        " #  #   #",
+        "## $  $ #",
+        "#  ##.# #",
+        "# $ ... #",
+        "#  ## $ ##",
+        "## @     #",
+        " #########"
+      ],
+      "par": {
+        "pushes": 9,
+        "moves": 40,
+        "lurd": "luluRRluuRRllddddrrrrUruuuullDDuurrdLulD",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "11",
+      "title": "Warehouse",
+      "rows": [
+        "##########",
+        "#    #   #",
+        "# $  # $ #",
+        "#  #   # #",
+        "## #.#.  #",
+        "#   ..   #",
+        "# $  $ #@#",
+        "#      # #",
+        "##########"
+      ],
+      "par": {
+        "pushes": 11,
+        "moves": 42,
+        "lurd": "uuuuLulDDllddddrUdlllUluRuuluRRurDDulldddR",
+        "solver": "push-astar/1"
+      }
+    },
+    {
+      "id": "12",
+      "title": "Finale",
+      "rows": [
+        " #########",
+        " #   #   #",
+        "## $ . $ ##",
+        "#  ## ##  #",
+        "# . $@$ . #",
+        "#  ## ##  #",
+        "##   .   ##",
+        " #########"
+      ],
+      "par": {
+        "pushes": 10,
+        "moves": 45,
+        "lurd": "ddllluurRlluuurrdrdDRRllDuuulLulDDurrrrurrdLL",
+        "solver": "push-astar/1"
+      }
+    }
+  ]
+}

@@ -1,135 +1,149 @@
-"""The original LAMA levels (legacy/level/test*.txt) converted by hand to XSB: ``X`` -> ``#``, ``*`` -> ``$``.
+"""Small levels made for these tests, also bundled in the game.
 
-``test1``-``test11`` are solvable; ``test12``-``test14`` were made unsolvable on purpose by the group.
-``BIG`` is not from the group: an open 14x14 room with 9 boxes, too large for a quick search, used to check
-that the limits hold.
+The solvable ones are the levels of the First steps pack (``data/levels/first-steps.json``); the
+unsolvable ones (no box starts on a dead square, the search has to prove it) are in the hidden
+``bench-extra`` pack. ``BIG`` is an open 14x14 room with 9 boxes, too large for a quick search, used to
+check that the limits hold.
 """
 
 from alexvolkihar_sokoban.core.level import Level
 
 ROWS: dict[str, list[str]] = {
-    "test1": [
-        "######",
-        "#.  .#",
-        "#    #",
-        "# $$ #",
-        "#@   #",
-        "######",
+    "first-push": [
+        "########",
+        "#   #  #",
+        "# $   .#",
+        "#@ ##  #",
+        "########",
     ],
-    "test2": [
-        "######",
-        "#.  .#",
-        "#    #",
-        "#$  $#",
-        "#@   #",
-        "######",
+    "room": [
+        "#######",
+        "#.   .#",
+        "#  $  #",
+        "# $   #",
+        "#@    #",
+        "#######",
     ],
-    "test3": [
-        " ######",
-        "#.$@  #",
+    "twins": [
+        "  #####",
         "###   #",
-        "#.##  #",
-        "# #   ##",
-        "#$ #$  #",
-        "#   .  #",
-        "########",
-    ],
-    "test4": [
-        "##########",
-        "#    @   #",
-        "#  $  .  #",
-        "#        #",
-        "##########",
-    ],
-    "test5": [
-        "#########",
-        "#       #",
-        "#. $    #",
-        "#      @#",
-        "#########",
-    ],
-    "test6": [
-        "#######",
-        "# .   #",
-        "# # # #",
-        "# # # #",
+        "#. $# #",
         "# $@  #",
-        "#     #",
-        "#######",
+        "#.  ###",
+        "#####",
     ],
-    "test7": [
-        "########",
-        "#  . . #",
-        "#    # #",
-        "## # # #",
-        " #  $  #",
-        " #  $@ #",
+    "spiral": [
+        "##########",
+        "#        #",
+        "# ###### #",
+        "# #.  $  #",
+        "# # $$ # #",
+        "# #. .   #",
+        "# ########",
+        "#@ #",
+        "####",
+    ],
+    "crossroads": [
+        "  #####",
+        "  #   #",
+        "###$# ###",
+        "#  . .  #",
+        "# $ @ $ #",
+        "#  . .  #",
+        "### #$###",
+        "  #   #",
+        "  #####",
+    ],
+    "hallway": [
+        "#########",
+        "#@  #   #",
+        "# $   $ #",
+        "#   #   #",
+        "## ### ##",
+        "#.     .#",
+        "#########",
+    ],
+    "loop": [
+        "#########",
+        "#   .   #",
+        "# # # # #",
+        "# $ @ $ #",
+        "# # # # #",
+        "#   .   #",
+        "#########",
+    ],
+    "three-way": [
+        "  ####",
+        "###  ####",
+        "#  $ $  #",
+        "# #.@.# #",
+        "#   $   #",
+        "###.  ###",
+        "  #####",
+    ],
+    "pillars": [
+        "#########",
+        "#   #   #",
+        "# $   $ #",
+        "#  #.#  #",
+        "#   .   #",
+        "## #@# ##",
         " #     #",
         " #######",
     ],
-    "test8": [
-        "  ######",
-        "  # ..@#",
-        "  # $$ #",
-        "  ## ###",
-        "   # #",
-        "   # #",
-        "#### #",
-        "#    ##",
-        "# #   #",
+    "courtyard": [
+        " ########",
+        " #  #   #",
+        "## $  $ #",
+        "#  ##.# #",
+        "# $ ... #",
+        "#  ## $ ##",
+        "## @     #",
+        " #########",
+    ],
+    "warehouse": [
+        "##########",
+        "#    #   #",
+        "# $  # $ #",
+        "#  #   # #",
+        "## #.#.  #",
+        "#   ..   #",
+        "# $  $ #@#",
+        "#      # #",
+        "##########",
+    ],
+    "finale": [
+        " #########",
+        " #   #   #",
+        "## $ . $ ##",
+        "#  ## ##  #",
+        "# . $@$ . #",
+        "#  ## ##  #",
+        "##   .   ##",
+        " #########",
+    ],
+    "sealed": [
+        "#######",
+        "#@  #.#",
+        "# $ $.#",
         "#   # #",
-        "###   #",
-        "  #####",
-    ],
-    "test9": [
-        "####",
-        "#  ####",
-        "# . . #",
-        "# $$#@#",
-        "##    #",
-        " ######",
-    ],
-    "test10": [
-        "######",
-        "#@   ##",
-        "# $$  #",
-        "# #. .#",
-        "#     #",
         "#######",
     ],
-    "test11": [
-        "  ####",
-        "###  #",
-        "#@ .$##",
-        "#   $ #",
-        "# #.  #",
-        "#     #",
-        "#######",
-    ],
-    "test12": [
-        "####",
-        "# .#",
-        "#  ###",
-        "##@  #",
-        "#  $ #",
-        "#  ###",
-        "####",
-    ],
-    "test13": [
+    "divide": [
+        "#########",
+        "#.  #   #",
+        "# $ # . #",
+        "# $   ###",
+        "# @ ###",
         "#####",
-        "#@  ##",
-        "#.$# #",
-        "#  # #",
-        "#    #",
-        "######",
     ],
-    "test14": [
-        "########",
-        "#      #",
-        "# .##$@#",
-        "#      #",
-        "#####  #",
-        "   ####",
+    "bend": [
+        "######",
+        "#@   ###",
+        "# $$   #",
+        "##  #. #",
+        " #  . ##",
+        " ######",
     ],
 }
 
@@ -151,7 +165,21 @@ BIG_ROWS: list[str] = [
     "################",
 ]
 
+
 LEVELS: dict[str, Level] = {name: Level.from_rows(rows, title=name) for name, rows in ROWS.items()}
 BIG = Level.from_rows(BIG_ROWS, title="big")
-SOLVABLE = [f"test{i}" for i in range(1, 12)]
-UNSOLVABLE = ["test12", "test13", "test14"]
+SOLVABLE = [
+    "first-push",
+    "room",
+    "twins",
+    "spiral",
+    "crossroads",
+    "hallway",
+    "loop",
+    "three-way",
+    "pillars",
+    "courtyard",
+    "warehouse",
+    "finale",
+]
+UNSOLVABLE = ["sealed", "divide", "bend"]

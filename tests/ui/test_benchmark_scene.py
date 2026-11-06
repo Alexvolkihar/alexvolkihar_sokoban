@@ -38,7 +38,7 @@ RIGHT = key(pygame.K_RIGHT, 79)
 ENTER = key(pygame.K_RETURN, 40)
 ESCAPE = key(pygame.K_ESCAPE, 41)
 
-QUICK_LEVELS = 11  # lama-original
+QUICK_LEVELS = 12  # first-steps
 
 
 def solved(level: Level, **_: object) -> SolveResult:
@@ -107,7 +107,7 @@ def test_bundled_suites_miss_nothing(tmp_path: Path, monkeypatch: pytest.MonkeyP
 
 def test_missing_items_are_a_warning_line(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app, scene = bench_app(tmp_path, monkeypatch)
-    scene.suites[1] = dataclasses.replace(scene.suites[1], items=("lama-original", "not-installed/1"))
+    scene.suites[1] = dataclasses.replace(scene.suites[1], items=("first-steps", "not-installed/1"))
     line = scene.missing_line(scene.suites[1])
     assert line is not None and "not-installed" in line
     app.step([DOWN])
@@ -137,7 +137,7 @@ def test_scene_runs_quick_suite_with_fake_solver(tmp_path: Path, monkeypatch: py
     run = scene.run
     assert run is not None and run.suite_id == "quick" and not scene.cancelled
     assert run.summary.solved == run.summary.total == QUICK_LEVELS
-    assert [r.level_id for r in scene.results] == [e.id for e in scene.packs["lama-original"].levels]
+    assert [r.level_id for r in scene.results] == [e.id for e in scene.packs["first-steps"].levels]
     assert scene.saved_path == tmp_path / "benchmarks" / f"{run.run_id}.json"
     assert read_json(scene.saved_path) == run  # auto-saved
     app.step([])  # results table with the machine panel
@@ -158,7 +158,7 @@ def test_live_progress_shows_level_and_elapsed(tmp_path: Path, monkeypatch: pyte
     step_until(app, lambda: len(scene.results) == 1 and scene.current is not None and scene.current[0] == 1)
     app.step([], 1500)
     text = scene.progress_text()
-    assert f"2/{QUICK_LEVELS}" in text and "Test 2" in text and "1.5 s" in text
+    assert f"2/{QUICK_LEVELS}" in text and "Two crates" in text and "1.5 s" in text
     release.set()
     step_until(app, lambda: scene.view == "results")
 
@@ -260,7 +260,7 @@ def test_results_saved_and_comparable(tmp_path: Path, monkeypatch: pytest.Monkey
             return SolveResult(SolveStatus.LIMIT_TIME, None, None, None, 4000, 9000, 40)
         return SolveResult(SolveStatus.SOLVED, "R", 3, 10, 1000, 2500, 30)
 
-    first_level = scene.packs["lama-original"].levels[0].level
+    first_level = scene.packs["first-steps"].levels[0].level
     monkeypatch.setattr(benchmark, "solve", slower)
     app.step([ESCAPE])  # back to the picker
     run_quick(app, scene)
@@ -274,7 +274,7 @@ def test_results_saved_and_comparable(tmp_path: Path, monkeypatch: pytest.Monkey
     assert scene.view == "compare" and scene.comparison is not None
     c = scene.comparison
     assert c.a == first and c.b == second
-    assert c.changed == (f"lama-original/{scene.packs['lama-original'].levels[0].id}",)
+    assert c.changed == (f"first-steps/{scene.packs['first-steps'].levels[0].id}",)
     delta = c.levels[1]
     assert delta.time_pct == pytest.approx(50.0)
     app.step([])  # comparison table
@@ -391,7 +391,7 @@ def test_level_labels_use_titles_and_name_the_pack_only_when_needed(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     _, scene = bench_app(tmp_path, monkeypatch)
-    first = scene.packs["lama-original"].levels[0]
-    assert scene.level_label("lama-original", first.id, multi=False) == first.title
-    assert scene.level_label("lama-original", first.id, multi=True) == f"lama-original · {first.title}"
+    first = scene.packs["first-steps"].levels[0]
+    assert scene.level_label("first-steps", first.id, multi=False) == first.title
+    assert scene.level_label("first-steps", first.id, multi=True) == f"first-steps · {first.title}"
     assert scene.level_label("gone", "x9", multi=False) == "x9"

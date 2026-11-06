@@ -70,7 +70,9 @@ def utc_now() -> str:
 
 
 def pack_title(pack: Pack) -> str:
-    """The pack's title; the always-present generated and custom packs are translated by id."""
+    """The pack's title; the First steps, generated and custom packs are translated by id."""
+    if pack.id == "first-steps":
+        return t("First steps", "Premiers pas")
     if pack.id == "generated":
         return t("Generated", "Niveaux générés")
     if pack.id == "custom":

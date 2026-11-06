@@ -12,10 +12,10 @@
   "language": "en",
   "progress": {
     "completed": {
-      "lama-original": ["test1", "test2", "test3", "test4", "test5", "test6", "test7"],
+      "first-steps": ["1", "2", "3", "4", "5", "6", "7"],
       "boxoban-hard": ["1", "2", "3"]
     },
-    "last_played": ["lama-original", "test8"]
+    "last_played": ["first-steps", "8"]
   },
   "shots": [
     {
@@ -39,7 +39,7 @@
       "seconds": 2.6,
       "theme": "kenney",
       "caption": "Level packs with stars and best scores",
-      "start": {"scene": "level_select", "pack": "lama-original"},
+      "start": {"scene": "level_select", "pack": "first-steps"},
       "steps": [{"wait": 0.4}, {"keys": ["right", "right", "down"], "every": 0.35}, {"keys": ["tab", "down"], "every": 0.5}]
     },
     {
@@ -47,14 +47,14 @@
       "seconds": 4.4,
       "theme": "kenney",
       "caption": "Smooth pushes, and undo for every move",
-      "start": {"scene": "game", "pack": "lama-original", "level": "test10", "elapsed_ms": 0},
+      "start": {"scene": "game", "pack": "first-steps", "level": "10", "elapsed_ms": 0},
       "steps": [
         {"wait": 0.2},
-        {"lurd": "rrDulldRR", "every": 0.15},
+        {"lurd": "luluRRluuRR", "every": 0.15},
         {"wait": 0.25},
         {"keys": ["u", "u"], "every": 0.4},
         {"lurd": "RR", "every": 0.2},
-        {"lurd": "urD", "every": 0.15}
+        {"lurd": "lldd", "every": 0.15}
       ]
     },
     {
@@ -62,7 +62,7 @@
       "seconds": 2.6,
       "theme": "kenney",
       "caption": "Stuck? Press H and the solver shows the next push",
-      "start": {"scene": "game", "pack": "lama-original", "level": "test10", "lurd": "rrDulldRRurD", "elapsed_ms": 9000},
+      "start": {"scene": "game", "pack": "first-steps", "level": "10", "lurd": "luluRRluuRRlldd", "elapsed_ms": 9000},
       "steps": [{"wait": 0.4}, {"key": "h"}, {"join": true}]
     },
     {
@@ -112,15 +112,15 @@
   ],
   "screenshots": [
     {"id": "menu", "theme": "kenney", "start": {"scene": "main_menu"}},
-    {"id": "level-select", "theme": "kenney", "start": {"scene": "level_select", "pack": "lama-original"}, "steps": [{"keys": ["right", "right"]}]},
+    {"id": "level-select", "theme": "kenney", "start": {"scene": "level_select", "pack": "first-steps"}, "steps": [{"keys": ["right", "right"]}]},
     {"id": "gameplay", "theme": "kenney", "start": {"scene": "game", "pack": "boxoban-hard", "level": "2", "played": 40, "elapsed_ms": 52000}},
     {"id": "gameplay-classic", "theme": "classic", "start": {"scene": "game", "pack": "boxoban-hard", "level": "4", "played": 24, "elapsed_ms": 42000}},
-    {"id": "gameplay-neon", "theme": "neon", "start": {"scene": "game", "pack": "lama-original", "level": "test8", "played": 40, "elapsed_ms": 38000}},
+    {"id": "gameplay-neon", "theme": "neon", "start": {"scene": "game", "pack": "first-steps", "level": "12", "played": 24, "elapsed_ms": 38000}},
     {"id": "themes", "start": {"scene": "theme_grid", "pack": "boxoban-hard", "level": "2", "played": 21}, "themes": ["kenney", "classic", "neon", "contrast"]},
     {"id": "theme-selector", "theme": "kenney", "start": {"scene": "themes"}, "steps": [{"keys": ["down", "down"]}]},
     {"id": "pause", "theme": "kenney", "start": {"scene": "pause", "pack": "boxoban-hard", "level": "5", "played": 15, "elapsed_ms": 26000}},
-    {"id": "victory", "theme": "kenney", "start": {"scene": "game", "pack": "lama-original", "level": "test10", "played": 22, "elapsed_ms": 14000}, "steps": [{"lurd": "D"}], "hold_frames": 20},
-    {"id": "hint", "theme": "kenney", "start": {"scene": "game", "pack": "lama-original", "level": "test10", "lurd": "rrDulldRRurD", "elapsed_ms": 9000}, "steps": [{"key": "h"}, {"join": true}]},
+    {"id": "victory", "theme": "kenney", "start": {"scene": "game", "pack": "first-steps", "level": "10", "played": 39, "elapsed_ms": 24000}, "steps": [{"lurd": "D"}], "hold_frames": 20},
+    {"id": "hint", "theme": "kenney", "start": {"scene": "game", "pack": "first-steps", "level": "10", "lurd": "luluRRluuRRlldd", "elapsed_ms": 9000}, "steps": [{"key": "h"}, {"join": true}]},
     {"id": "replay", "theme": "classic", "start": {"scene": "replay", "pack": "boxoban-hard", "level": "3"}, "steps": [{"wait": 2.0}]},
     {"id": "settings", "theme": "kenney", "start": {"scene": "settings"}},
     {"id": "benchmark", "theme": "contrast", "start": {"scene": "benchmark"}, "steps": [{"key": "enter"}, {"join": true}]},

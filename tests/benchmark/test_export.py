@@ -40,12 +40,10 @@ RUN = BenchmarkRun(
     suite_id="quick",
     limits=SolveLimits(10.0, 1_000_000),
     results=(
+        LevelResult("first-steps", "1", "sha256:" + "a" * 64, SolveStatus.SOLVED, 4, 9, 10, 30, 12, 2048),
         LevelResult(
-            "lama-original", "test1", "sha256:" + "a" * 64, SolveStatus.SOLVED, 4, 9, 10, 30, 12, 2048
-        ),
-        LevelResult(
-            "lama-original",
-            "test2",
+            "first-steps",
+            "2",
             "sha256:" + "b" * 64,
             SolveStatus.LIMIT_TIME,
             None,
@@ -135,8 +133,8 @@ def test_csv_has_one_row_per_level_and_header(tmp_path: Path) -> None:
     ]
     assert len(rows) == 1 + len(RUN.results)
     assert rows[1] == [
-        "lama-original",
-        "test1",
+        "first-steps",
+        "1",
         "sha256:" + "a" * 64,
         "solved",
         "4",

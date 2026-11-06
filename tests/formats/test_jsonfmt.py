@@ -11,19 +11,19 @@ from alexvolkihar_sokoban.core.pack import LevelEntry, Pack, Par
 from alexvolkihar_sokoban.formats import FormatError, jsonfmt
 
 SCHEMAS = Path(__file__).resolve().parents[2] / "schemas"
-A = Level.from_rows(["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"], title="Test 1")
+A = Level.from_rows(["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"], title="Two crates")
 B = Level.from_rows(["  ####", "###  #", "#@$ .#", "######"], author="Ann", comment="bent")
 PAR = Par(pushes=1, moves=2, lurd="rR", solver="push-astar/1")
 
 
 def _pack() -> Pack:
     return Pack(
-        id="lama-original",
-        title="LAMA — original",
-        levels=(LevelEntry("test1", A), LevelEntry("bent", B, par=PAR, seed=42)),
-        author="Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY",
-        license="see LICENSE",
-        source="https://github.com/Alexvolkihar/Sokoban-LAMA",
+        id="first-steps",
+        title="First steps — demo",
+        levels=(LevelEntry("room", A), LevelEntry("bent", B, par=PAR, seed=42)),
+        author="Alexis MABANZA",
+        license="MIT (see LICENSE)",
+        source="https://github.com/Alexvolkihar/alexvolkihar_sokoban",
         hidden=True,
     )
 
@@ -43,8 +43,8 @@ def test_pack_dict_shape_matches_spec() -> None:
     assert data["format"] == "alexvolkihar-sokoban/pack" and data["version"] == 1
     levels: Any = data["levels"]
     assert levels[0] == {
-        "id": "test1",
-        "title": "Test 1",
+        "id": "room",
+        "title": "Two crates",
         "rows": list(A.canonical_text().split("\n")),
         "par": None,
     }
@@ -107,7 +107,7 @@ def test_malformed_pack_raises_format_error(path: list[Any], value: Any, reason:
 
 def test_invalid_level_is_an_error_in_strict_mode() -> None:
     data = _mutated(["levels", 0, "rows"], ["#####", "#@$ #", "#####"])
-    with pytest.raises(FormatError, match="test1.*goals"):
+    with pytest.raises(FormatError, match="room.*goals"):
         jsonfmt.pack_from_dict(data)
 
 
@@ -116,11 +116,11 @@ def test_invalid_level_is_skipped_with_a_warning_when_collecting_warnings() -> N
     warnings: list[str] = []
     pack = jsonfmt.pack_from_dict(data, warnings=warnings)
     assert [e.id for e in pack.levels] == ["bent"]
-    assert len(warnings) == 1 and "test1" in warnings[0]
+    assert len(warnings) == 1 and "room" in warnings[0]
 
 
 def test_duplicate_level_ids_are_rejected() -> None:
-    data = _mutated(["levels", 1, "id"], "test1")
+    data = _mutated(["levels", 1, "id"], "room")
     with pytest.raises(FormatError, match="duplicate"):
         jsonfmt.pack_from_dict(data)
 

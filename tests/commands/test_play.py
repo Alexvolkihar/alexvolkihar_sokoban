@@ -11,7 +11,7 @@ from alexvolkihar_sokoban.ui.context import AppContext
 from alexvolkihar_sokoban.ui.i18n import get_language, set_language
 
 REPO = Path(__file__).resolve().parents[2]
-TEST1 = REPO / "legacy" / "level" / "test1.txt"
+ROOM = REPO / "tests" / "fixtures" / "formats" / "legacy_room.txt"
 XSB_TWO = "#####\n#@$.#\n#####\n\n######\n#@ $.#\n######\n"
 
 
@@ -57,7 +57,7 @@ def run_play(tmp_path: Path, *argv: str) -> int:
 
 def test_play_command_opens_game_headless(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     frames = Frames(monkeypatch)
-    assert run_play(tmp_path, str(TEST1)) == 0
+    assert run_play(tmp_path, str(ROOM)) == 0
     assert frames.stack == ["main_menu", "game"]
     app = frames.apps[0]
     assert isinstance(app.context, AppContext)
@@ -88,7 +88,7 @@ def test_play_level_option_picks_the_level(monkeypatch: pytest.MonkeyPatch, tmp_
 
 def test_escape_in_the_game_returns_to_the_main_menu(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     frames = Frames(monkeypatch)
-    assert run_play(tmp_path, str(TEST1)) == 0
+    assert run_play(tmp_path, str(ROOM)) == 0
     app = frames.apps[0]
     app.step([ESCAPE])  # opens the pause menu
     app.step([UP, ENTER])  # Up wraps to its last item: Main menu
@@ -108,7 +108,7 @@ def test_unknown_level_exits_2(
     monkeypatch: pytest.MonkeyPatch, tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
     frames = Frames(monkeypatch)
-    assert run_play(tmp_path, str(TEST1), "--level", "42") == 2
+    assert run_play(tmp_path, str(ROOM), "--level", "42") == 2
     assert frames.apps == []
     assert "42" in capsys.readouterr().err
 

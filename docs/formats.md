@@ -16,7 +16,7 @@ against its schema, loads the level examples and replays their solutions, so the
 2. [Boards](#2-boards)
 3. [Level identity: the canonical hash](#3-level-identity-the-canonical-hash)
 4. [Moves and LURD](#4-moves-and-lurd)
-5. [Text level files: XSB, SOK and the original LAMA format](#5-text-level-files-xsb-sok-and-the-original-lama-format)
+5. [Text level files: XSB, SOK and the legacy format](#5-text-level-files-xsb-sok-and-the-legacy-format)
 6. [JSON packs and levels](#6-json-packs-and-levels)
 7. [Par and stars](#7-par-and-stars)
 8. [The data directory: settings, progress, session](#8-the-data-directory-settings-progress-session)
@@ -96,22 +96,22 @@ Leading spaces are kept: two levels that differ only by indentation are differen
 remove the indentation common to all rows of a level before building it (section 5), so a level indented
 in a file still hashes like the same level written flush left.
 
-Worked example: the first original LAMA level. Its canonical text is the six rows below, six characters
-each, joined by five LFs: 41 bytes, no LF at the end.
+Worked example: level 2 of the bundled First steps pack, "Two crates". Its canonical text is the six rows
+below, seven characters each, joined by five LFs: 47 bytes, no LF at the end.
 
-<!-- canonical-hash: sha256:0dd969f52bb5bd0419ca0488a86a66a7dadb3ba3eb7ffa260fdf4c4d3c3a1768 -->
+<!-- canonical-hash: sha256:ae18fe77b0c8bc6d2978a80b84c06daf4eb1ad4f51d2c45f81cb18a7796c676c -->
 ```text
-######
-#.  .#
-#    #
-# $$ #
-#@   #
-######
+#######
+#.   .#
+#  $  #
+# $   #
+#@    #
+#######
 ```
 
-`printf '######\n#.  .#\n#    #\n# $$ #\n#@   #\n######' | sha256sum` prints the same digest. The same level
-written `["######  ", "#.  .#", "#    #", "# $$ #", "#@   #", "######", ""]` (trailing spaces, a final empty
-row) has the same canonical text and the same hash. More cases are in `tests/vectors/hash.json`.
+`printf '#######\n#.   .#\n#  $  #\n# $   #\n#@    #\n#######' | sha256sum` prints the same digest. The same
+level written `["#######  ", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######", ""]` (trailing spaces, a
+final empty row) has the same canonical text and the same hash. More cases are in `tests/vectors/hash.json`.
 
 Editing a layout changes the hash, so the edited level starts with a fresh record; re-ordering or renaming
 levels in a pack keeps every record.
@@ -132,13 +132,13 @@ Rules:
 **LURD** writes a history as one character per step: `l u r d` for a walking step left, up, right or down,
 `L U R D` for a step that pushes a box. Readers ignore whitespace inside a LURD string. When a LURD string
 is replayed, a blocked step is an error, and so is a mismatched case: a lower-case step that would push, or
-an upper-case step that would not. The par of test 1 above, `rURdrUUlLdlU`, is 12 moves and 6 pushes.
+an upper-case step that would not. The par of the level above, `rUURRulLddrrrU`, is 14 moves and 6 pushes.
 
 A saved game stores two LURD strings (section 8.4): the history, replayed from the start, and the redo
 stack, next redo first. To restore it, replay the history, play the redo string, then undo as many steps as
 the redo string holds.
 
-## 5. Text level files: XSB, SOK and the original LAMA format
+## 5. Text level files: XSB, SOK and the legacy format
 
 ### 5.1 Reading a file
 
@@ -174,10 +174,10 @@ One file holds one level or many (`.xsb`, `.sok` and `.txt` are read the same wa
 The XSB writer prints an optional `Title:`/`Author:` header, then each level as its canonical text
 followed by its own `Title:`, `Author:` and `Comment:` lines, levels separated by an empty line.
 
-### 5.3 The original LAMA format (legacy)
+### 5.3 The legacy format
 
-The 2022 Sokoban-LAMA game used one level per file with its own symbols. It has no symbol for a box or the
-player standing on a goal.
+The legacy format is the one of Sokoban-LAMA (2022), the game this one remakes: one level per file, with its
+own symbols. It has no symbol for a box or the player standing on a goal.
 
 | Legacy | XSB | Meaning |
 |---|---|---|
@@ -188,19 +188,18 @@ player standing on a goal.
 | space | space | floor |
 
 A legacy file becomes a one-level pack whose level id is `"1"`, read with the same line clean-up and
-dedent as XSB. Example, `legacy/level/test1.txt`, which is the level of the worked example in section 3:
+dedent as XSB. Example, the level of the worked example in section 3:
 
 ```text
-XXXXXX
-X.  .X
-X    X
-X ** X
-X@   X
-XXXXXX
+XXXXXXX
+X.   .X
+X  *  X
+X *   X
+X@    X
+XXXXXXX
 ```
 
-The original `test_performance.txt` has 12 boxes and 14 goals and is rejected as invalid; a repaired copy
-ships in the benchmark data (section 9.1).
+A level whose box and goal counts differ is rejected as invalid, as in every other format.
 
 ### 5.4 Custom levels
 
@@ -214,31 +213,31 @@ warning.
 ### 6.1 Pack
 
 The bundled packs (`data/levels/*.json` in the package), the user's generated levels (`generated.json`) and
-exported packs use this format. Example (two levels of the bundled `lama-original` pack, abridged):
+exported packs use this format. Example (two levels of the bundled `first-steps` pack, abridged):
 
 <!-- schema: pack -->
 ```json
 {
   "format": "alexvolkihar-sokoban/pack",
   "version": 1,
-  "id": "lama-original",
-  "title": "Sokoban-LAMA",
-  "author": "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY (groupe LAMA)",
-  "license": "Same licence as the code, which is not licensed yet: all rights reserved until the original co-authors agree on a licence.",
-  "source": "https://github.com/Alexvolkihar/Sokoban-LAMA",
+  "id": "first-steps",
+  "title": "First steps",
+  "author": "Alexis MABANZA",
+  "license": "MIT (see LICENSE)",
+  "source": "https://github.com/Alexvolkihar/alexvolkihar_sokoban",
   "hidden": false,
   "levels": [
     {
-      "id": "test1",
-      "title": "Test 1",
-      "rows": ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"],
-      "par": { "pushes": 6, "moves": 12, "lurd": "rURdrUUlLdlU", "solver": "push-astar/1" }
+      "id": "1",
+      "title": "First push",
+      "rows": ["########", "#   #  #", "# $   .#", "#@ ##  #", "########"],
+      "par": { "pushes": 4, "moves": 5, "lurd": "uRRRR", "solver": "push-astar/1" }
     },
     {
-      "id": "test2",
-      "title": "Test 2",
-      "rows": ["######", "#.  .#", "#    #", "#$  $#", "#@   #", "######"],
-      "par": { "pushes": 4, "moves": 12, "lurd": "UdrrrUUdlllU", "solver": "push-astar/1" }
+      "id": "2",
+      "title": "Two crates",
+      "rows": ["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"],
+      "par": { "pushes": 6, "moves": 14, "lurd": "rUURRulLddrrrU", "solver": "push-astar/1" }
     }
   ]
 }
@@ -284,10 +283,9 @@ named after the file. Example (a generated level exported on its own):
 
 | Id | Content | Licence |
 |---|---|---|
-| `lama-original` | the 11 solvable levels of Sokoban-LAMA (2022) | same as the code |
-| `lama-unsolvable` | the 3 unsolvable LAMA test levels, hidden | same as the code |
+| `first-steps` | 12 hand-made beginner levels, ids `"1"`…`"12"` | MIT, `LICENSE` |
 | `boxoban-hard` | the first 100 puzzles of DeepMind's Boxoban `hard/000.txt`, ids `"1"`…`"100"` | Apache-2.0, `data/levels/boxoban-hard.LICENSE.txt` |
-| `bench-extra` | the repaired `test_performance` level, hidden, in `data/benchmarks/extra.json`, used by benchmarks only | same as the code |
+| `bench-extra` | 16 generated levels (`medium-1`…`medium-8`, `hard-1`…`hard-8`, seeds kept), 3 levels unsolvable on purpose and 1 very large level; hidden, in `data/benchmarks/extra.json`, used by benchmarks only | MIT, `LICENSE` |
 
 ## 7. Par and stars
 
@@ -398,15 +396,15 @@ falls back to its default, so a hand-edited file never locks the player out.
   "format": "alexvolkihar-sokoban/progress",
   "version": 1,
   "levels": {
-    "sha256:0dd969f52bb5bd0419ca0488a86a66a7dadb3ba3eb7ffa260fdf4c4d3c3a1768": {
-      "pack_id": "lama-original",
-      "level_id": "test1",
+    "sha256:ae18fe77b0c8bc6d2978a80b84c06daf4eb1ad4f51d2c45f81cb18a7796c676c": {
+      "pack_id": "first-steps",
+      "level_id": "2",
       "completed": true,
       "stars": 3,
       "plays": 2,
       "first_completed_at": "2026-11-05T14:03:22Z",
-      "best_moves": { "moves": 12, "pushes": 6, "lurd": "rURdrUUlLdlU" },
-      "best_pushes": { "moves": 12, "pushes": 6, "lurd": "rURdrUUlLdlU" },
+      "best_moves": { "moves": 14, "pushes": 6, "lurd": "rUURRulLddrrrU" },
+      "best_pushes": { "moves": 14, "pushes": 6, "lurd": "rUURRulLddrrrU" },
       "best_time_ms": 9400
     },
     "sha256:afdf47b65b6752393e6bb66d7b8cbb6c7bb5d15963bc13efc28dd28ee32ba632": {
@@ -422,9 +420,9 @@ falls back to its default, so a hand-edited file never locks the player out.
     }
   },
   "last_played": {
-    "pack_id": "lama-original",
-    "level_id": "test1",
-    "level_hash": "sha256:0dd969f52bb5bd0419ca0488a86a66a7dadb3ba3eb7ffa260fdf4c4d3c3a1768"
+    "pack_id": "first-steps",
+    "level_id": "2",
+    "level_hash": "sha256:ae18fe77b0c8bc6d2978a80b84c06daf4eb1ad4f51d2c45f81cb18a7796c676c"
   }
 }
 ```
@@ -447,10 +445,10 @@ falls back to its default, so a hand-edited file never locks the player out.
 {
   "format": "alexvolkihar-sokoban/session",
   "version": 1,
-  "pack_id": "lama-original",
-  "level_id": "test1",
-  "level_hash": "sha256:0dd969f52bb5bd0419ca0488a86a66a7dadb3ba3eb7ffa260fdf4c4d3c3a1768",
-  "lurd": "rURd",
+  "pack_id": "first-steps",
+  "level_id": "2",
+  "level_hash": "sha256:ae18fe77b0c8bc6d2978a80b84c06daf4eb1ad4f51d2c45f81cb18a7796c676c",
+  "lurd": "rUUd",
   "redo_lurd": "r",
   "elapsed_ms": 5200,
   "assisted": false,
@@ -458,8 +456,8 @@ falls back to its default, so a hand-edited file never locks the player out.
 }
 ```
 
-This player pushed twice, walked down, walked right, then undid that last step: the history is `rURd` (4
-moves, 2 pushes) and `r` can be redone. The session is saved on pause, when leaving the game, on window
+This player walked right, pushed up twice, walked down, walked right, then undid that last step: the
+history is `rUUd` (4 moves, 2 pushes) and `r` can be redone. The session is saved on pause, when leaving the game, on window
 close and every 10 s of play; it is deleted when the level is won, or saved again with no move played. Here `lurd` and `redo_lurd` contain
 only `l u r d L U R D` (no whitespace).
 
@@ -484,24 +482,24 @@ not resolve are reported and skipped, never fatal. Abridged:
     {
       "id": "quick",
       "title": "Quick",
-      "description": "The 11 original LAMA levels, under 30 s on a laptop.",
+      "description": "The 12 First steps levels, a few seconds on a laptop.",
       "limits": { "time_ms": 10000, "max_nodes": 1000000 },
-      "items": ["lama-original"]
+      "items": ["first-steps"]
     },
     {
       "id": "standard",
       "title": "Standard",
-      "description": "LAMA original and the first 40 Boxoban (hard) levels.",
+      "description": "First steps, 8 generated levels (medium) and the first 40 Boxoban (hard) levels.",
       "limits": { "time_ms": 30000, "max_nodes": 3000000 },
-      "items": ["lama-original", "boxoban-hard/1", "boxoban-hard/2", "boxoban-hard/40"]
+      "items": ["first-steps", "bench-extra/medium-1", "bench-extra/medium-8", "boxoban-hard/1", "boxoban-hard/40"]
     }
   ]
 }
 ```
 
-The bundled suites are `quick` (`lama-original`), `standard` (`lama-original` plus `boxoban-hard/1` to
-`boxoban-hard/40`) and `stress` (`lama-unsolvable`, `bench-extra` and all of `boxoban-hard`; hitting a
-limit is an expected result there). Benchmarks read the bundled packs, including the hidden ones, and
+The bundled suites are `quick` (`first-steps`), `standard` (`first-steps`, `bench-extra/medium-1` to
+`bench-extra/medium-8` and `boxoban-hard/1` to `boxoban-hard/40`) and `stress` (all of `bench-extra` and all
+of `boxoban-hard`; hitting a limit is an expected result there). Benchmarks read the bundled packs, including the hidden ones, and
 never the player's own levels.
 
 ### 9.2 Run file
@@ -534,14 +532,14 @@ never the player's own levels.
   "measure": "tracemalloc",
   "results": [
     {
-      "pack_id": "lama-original",
-      "level_id": "test1",
-      "level_hash": "sha256:0dd969f52bb5bd0419ca0488a86a66a7dadb3ba3eb7ffa260fdf4c4d3c3a1768",
+      "pack_id": "first-steps",
+      "level_id": "2",
+      "level_hash": "sha256:ae18fe77b0c8bc6d2978a80b84c06daf4eb1ad4f51d2c45f81cb18a7796c676c",
       "status": "solved",
       "pushes": 6,
-      "moves": 12,
-      "nodes_expanded": 27,
-      "nodes_generated": 108,
+      "moves": 14,
+      "nodes_expanded": 28,
+      "nodes_generated": 123,
       "elapsed_ms": 4,
       "peak_mem_bytes": 258211
     },

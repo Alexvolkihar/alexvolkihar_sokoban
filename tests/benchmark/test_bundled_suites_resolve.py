@@ -9,13 +9,13 @@ from alexvolkihar_sokoban.benchmark.suites import load_bundled_packs, load_suite
 def test_bundled_packs_load_without_warnings() -> None:
     packs, warnings = load_bundled_packs()
     assert warnings == []
-    assert {"lama-original", "lama-unsolvable", "boxoban-hard", "bench-extra"} <= set(packs)
+    assert {"first-steps", "boxoban-hard", "bench-extra"} <= set(packs)
 
 
 def test_quick_suite_has_no_missing_item() -> None:
     packs, _ = load_bundled_packs()
     items, missing = resolve(load_suites()["quick"], packs)
-    assert missing == [] and len(items) == len(packs["lama-original"].levels)
+    assert missing == [] and len(items) == len(packs["first-steps"].levels)
 
 
 def test_every_suite_resolves_without_missing_items() -> None:

@@ -8,15 +8,15 @@ from alexvolkihar_sokoban.core.level import Level
 from alexvolkihar_sokoban.formats import detect, jsonfmt
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures" / "formats"
-TEST1 = ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"]
+ROOM = ["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"]
 
 
 def test_convert_legacy_to_json_cli(tmp_path: Path) -> None:
-    out = tmp_path / "test1.json"
-    assert main(["convert", str(FIXTURES / "legacy_test1.txt"), str(out)]) == 0
+    out = tmp_path / "room.json"
+    assert main(["convert", str(FIXTURES / "legacy_room.txt"), str(out)]) == 0
     pack = jsonfmt.pack_from_dict(json.loads(out.read_text(encoding="utf-8")))
-    assert pack.id == "legacy_test1"
-    assert pack.levels[0].level == Level.from_rows(TEST1)
+    assert pack.id == "legacy_room"
+    assert pack.levels[0].level == Level.from_rows(ROOM)
 
 
 def test_convert_json_to_xsb_and_back(tmp_path: Path) -> None:

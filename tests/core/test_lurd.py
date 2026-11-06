@@ -5,7 +5,7 @@ from alexvolkihar_sokoban.core.level import Level
 from alexvolkihar_sokoban.core.lurd import LurdError, encode, replay, restore, step_char
 from alexvolkihar_sokoban.core.state import GameState, Step
 
-TEST1 = ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"]
+ROOM = ["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"]
 
 
 def test_step_char_lowercase_walk_uppercase_push() -> None:
@@ -20,19 +20,19 @@ def test_encode() -> None:
 
 
 def test_lurd_encode_and_replay() -> None:
-    s = replay(Level.from_rows(TEST1), "rU")
+    s = replay(Level.from_rows(ROOM), "rU")
     assert isinstance(s, GameState)
-    assert s.lurd == "rU" and s.pushes == 1 and s.boxes == {(2, 2), (3, 3)}
+    assert s.lurd == "rU" and s.pushes == 1 and s.boxes == {(2, 2), (2, 3)}
 
 
-def test_replay_solves_test1() -> None:
-    # Solution found by the original LAMA solver, normalised to LURD case.
-    s = replay(Level.from_rows(TEST1), "rUUdRdrUUluL")
-    assert s.is_solved and (s.moves, s.pushes) == (12, 6)
+def test_replay_solves_room() -> None:
+    # A push-optimal solution (6 pushes, 14 moves).
+    s = replay(Level.from_rows(ROOM), "rUURRulLddrrrU")
+    assert s.is_solved and (s.moves, s.pushes) == (14, 6)
 
 
 def test_replay_rejects_case_mismatch() -> None:
-    lv = Level.from_rows(TEST1)
+    lv = Level.from_rows(ROOM)
     with pytest.raises(LurdError):
         replay(lv, "ru")  # u would push
     with pytest.raises(LurdError):
@@ -42,7 +42,7 @@ def test_replay_rejects_case_mismatch() -> None:
 
 
 def test_replay_rejects_blocked_steps_and_unknown_characters() -> None:
-    lv = Level.from_rows(TEST1)
+    lv = Level.from_rows(ROOM)
     with pytest.raises(LurdError):
         replay(lv, "l")  # wall
     with pytest.raises(LurdError):
@@ -50,7 +50,7 @@ def test_replay_rejects_blocked_steps_and_unknown_characters() -> None:
 
 
 def test_replay_ignores_whitespace() -> None:
-    assert replay(Level.from_rows(TEST1), "r U\n").lurd == "rU"
+    assert replay(Level.from_rows(ROOM), "r U\n").lurd == "rU"
 
 
 def test_lurd_error_is_a_value_error() -> None:
@@ -58,7 +58,7 @@ def test_lurd_error_is_a_value_error() -> None:
 
 
 def test_restore_rebuilds_redo_stack() -> None:
-    lv = Level.from_rows(TEST1)
+    lv = Level.from_rows(ROOM)
     s = restore(lv, "rU", "dl")
     assert s.lurd == "rU" and s.redo_lurd == "dl"
     s.redo()
@@ -67,4 +67,4 @@ def test_restore_rebuilds_redo_stack() -> None:
 
 def test_restore_rejects_an_illegal_redo_tail() -> None:
     with pytest.raises(LurdError):
-        restore(Level.from_rows(TEST1), "rU", "Dl")  # D would not push after rU
+        restore(Level.from_rows(ROOM), "rU", "Dl")  # D would not push after rU

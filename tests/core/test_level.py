@@ -4,13 +4,13 @@ import pytest
 
 from alexvolkihar_sokoban.core.level import InvalidLevelError, Level
 
-TEST1 = ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"]
+ROOM = ["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"]
 
 
 def test_from_rows_reads_walls_goals_boxes_player() -> None:
-    lv = Level.from_rows(TEST1)
-    assert lv.player == (4, 1) and lv.boxes == {(3, 2), (3, 3)} and lv.goals == {(1, 1), (1, 4)}
-    assert (0, 0) in lv.walls and lv.width == 6 and lv.height == 6
+    lv = Level.from_rows(ROOM)
+    assert lv.player == (4, 1) and lv.boxes == {(2, 3), (3, 2)} and lv.goals == {(1, 1), (1, 5)}
+    assert (0, 0) in lv.walls and lv.width == 7 and lv.height == 6
 
 
 def test_plus_and_star_mean_player_and_box_on_goal() -> None:
@@ -19,8 +19,8 @@ def test_plus_and_star_mean_player_and_box_on_goal() -> None:
 
 
 def test_metadata_is_kept() -> None:
-    lv = Level.from_rows(TEST1, title="Test 1", author="LAMA", comment="first")
-    assert (lv.title, lv.author, lv.comment) == ("Test 1", "LAMA", "first")
+    lv = Level.from_rows(ROOM, title="Two crates", author="Alexis MABANZA", comment="first")
+    assert (lv.title, lv.author, lv.comment) == ("Two crates", "Alexis MABANZA", "first")
 
 
 @pytest.mark.parametrize(
@@ -65,10 +65,10 @@ def test_leading_and_trailing_empty_rows_are_dropped() -> None:
 
 
 def test_to_rows_renders_initial_and_given_state() -> None:
-    lv = Level.from_rows(TEST1)
-    assert lv.to_rows() == tuple(TEST1)
-    rows = lv.to_rows(boxes=frozenset({(1, 1), (2, 3)}), player=(1, 4))
-    assert rows == ("######", "#*  +#", "#  $ #", "#    #", "#    #", "######")
+    lv = Level.from_rows(ROOM)
+    assert lv.to_rows() == tuple(ROOM)
+    rows = lv.to_rows(boxes=frozenset({(1, 1), (2, 3)}), player=(1, 5))
+    assert rows == ("#######", "#*   +#", "#  $  #", "#     #", "#     #", "#######")
 
 
 def test_to_rows_pads_to_width_and_blanks_outside() -> None:
@@ -85,19 +85,19 @@ def test_canonical_hash_ignores_trailing_spaces_and_dash_floor() -> None:
 
 
 def test_canonical_hash_is_sha256_of_canonical_text() -> None:
-    lv = Level.from_rows(TEST1)
-    expected = hashlib.sha256("\n".join(TEST1).encode("utf-8")).hexdigest()
+    lv = Level.from_rows(ROOM)
+    expected = hashlib.sha256("\n".join(ROOM).encode("utf-8")).hexdigest()
     assert lv.canonical_hash() == "sha256:" + expected
 
 
 def test_canonical_hash_ignores_metadata_but_not_layout() -> None:
-    a = Level.from_rows(TEST1, title="x")
-    b = Level.from_rows(TEST1, title="y", author="z")
-    c = Level.from_rows(["######", "#.  .#", "#    #", "# $$ #", "#  @ #", "######"])
+    a = Level.from_rows(ROOM, title="x")
+    b = Level.from_rows(ROOM, title="y", author="z")
+    c = Level.from_rows(["#######", "#.   .#", "#  $  #", "# $   #", "# @   #", "#######"])
     assert a.canonical_hash() == b.canonical_hash() != c.canonical_hash()
 
 
 def test_level_is_immutable() -> None:
-    lv = Level.from_rows(TEST1)
+    lv = Level.from_rows(ROOM)
     with pytest.raises(AttributeError):
         lv.player = (1, 1)  # type: ignore[misc]

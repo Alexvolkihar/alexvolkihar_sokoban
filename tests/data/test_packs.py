@@ -12,16 +12,14 @@ from alexvolkihar_sokoban.commands import annotate
 from alexvolkihar_sokoban.core.level import Level
 from alexvolkihar_sokoban.core.lurd import replay
 from alexvolkihar_sokoban.core.pack import LevelEntry, Pack, Par
-from alexvolkihar_sokoban.formats import FormatError, jsonfmt, legacy
+from alexvolkihar_sokoban.formats import FormatError, jsonfmt
 from alexvolkihar_sokoban.formats.detect import load_any
 from alexvolkihar_sokoban.solver.api import SOLVER_ID, SolveLimits, SolveResult, SolveStatus
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = json.loads((ROOT / "schemas" / "pack.schema.json").read_text(encoding="utf-8"))
-LEGACY_LEVELS = ROOT / "legacy" / "level"
 FIXTURES = ROOT / "tests" / "fixtures" / "formats"
 LEVELS_DIR = files("alexvolkihar_sokoban.data") / "levels"
-LAMA = "Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY"
 
 
 def _raw_packs() -> dict[str, dict[str, object]]:
@@ -36,8 +34,8 @@ RAW = _raw_packs()
 PACKS = {data["id"]: jsonfmt.pack_from_dict(data) for data in RAW.values()}
 
 
-def test_lama_packs_are_bundled() -> None:
-    assert {"lama-original", "lama-unsolvable"} <= set(PACKS)
+def test_bundled_packs() -> None:
+    assert set(PACKS) == {"first-steps", "boxoban-hard"}
 
 
 @pytest.mark.parametrize("name", sorted(RAW))
@@ -59,17 +57,9 @@ def test_pack_and_level_ids_are_unique() -> None:
         assert len(ids) == len(set(ids)), data["id"]
 
 
-def test_frozen_lama_ids() -> None:
-    assert [e.id for e in PACKS["lama-original"].levels] == [f"test{i}" for i in range(1, 12)]
-    assert [e.id for e in PACKS["lama-unsolvable"].levels] == ["test12", "test13", "test14"]
-
-
-@pytest.mark.parametrize("pack_id", ["lama-original", "lama-unsolvable"])
-def test_lama_levels_are_the_original_files(pack_id: str) -> None:
-    for entry in PACKS[pack_id].levels:
-        text = (LEGACY_LEVELS / f"{entry.id}.txt").read_text(encoding="utf-8")
-        original = legacy.parse(text, pack_id=entry.id).levels[0].level
-        assert entry.level.canonical_hash() == original.canonical_hash(), entry.id
+def test_frozen_first_steps_ids() -> None:
+    assert [e.id for e in PACKS["first-steps"].levels] == [str(i) for i in range(1, 13)]
+    assert all(e.title for e in PACKS["first-steps"].levels)
 
 
 def test_every_par_replays_to_solved() -> None:
@@ -85,37 +75,20 @@ def test_every_par_replays_to_solved() -> None:
     assert checked >= 11
 
 
-def test_lama_original_has_a_par_for_every_level() -> None:
-    assert all(e.par is not None and e.par.solver == SOLVER_ID for e in PACKS["lama-original"].levels)
+def test_first_steps_has_a_par_for_every_level_and_is_visible() -> None:
+    pack = PACKS["first-steps"]
+    assert all(e.par is not None and e.par.solver == SOLVER_ID for e in pack.levels)
+    assert not pack.hidden and pack.title == "First steps"
 
 
-def test_lama_unsolvable_has_no_par_and_is_hidden() -> None:
-    pack = PACKS["lama-unsolvable"]
-    assert pack.hidden and all(e.par is None for e in pack.levels)
-    assert not PACKS["lama-original"].hidden
-
-
-@pytest.mark.parametrize("pack_id", ["lama-original", "lama-unsolvable"])
-def test_lama_packs_credit_the_group(pack_id: str) -> None:
-    pack = PACKS[pack_id]
-    assert LAMA in pack.author and "groupe LAMA" in pack.author
-    assert pack.license and pack.source.startswith("https://")
-
-
-@pytest.mark.parametrize("pack_id", ["lama-original", "lama-unsolvable"])
-def test_lama_pack_titles_name_the_original_game(pack_id: str) -> None:
-    assert PACKS[pack_id].title.startswith("Sokoban-LAMA")
-
-
-def test_pack_licences_match_the_licence_state_of_the_repository() -> None:
-    """While there is no LICENSE file, the LAMA packs say so instead of pointing at it."""
+def test_own_packs_are_under_the_mit_licence_of_the_repository() -> None:
     extra = json.loads((files("alexvolkihar_sokoban.data") / "benchmarks" / "extra.json").read_text("utf-8"))
-    lama = [data for data in [*RAW.values(), extra] if "groupe LAMA" in str(data.get("author", ""))]
-    assert len(lama) == 3
-    for data in lama:
-        text = str(data["license"])
-        if not (ROOT / "LICENSE").exists():
-            assert "LICENSE" not in text and "all rights reserved" in text, data["id"]
+    own = [RAW["first-steps.json"], extra]
+    assert "MIT License" in (ROOT / "LICENSE").read_text(encoding="utf-8")
+    for data in own:
+        assert data["author"] == "Alexis MABANZA", data["id"]
+        assert str(data["license"]).startswith("MIT (see LICENSE)"), data["id"]
+        assert data["source"] == "https://github.com/Alexvolkihar/alexvolkihar_sokoban", data["id"]
 
 
 def test_boxoban_pack_loads_with_its_licence() -> None:
@@ -132,14 +105,14 @@ def test_boxoban_pack_loads_with_its_licence() -> None:
     assert "Version 2.0, January 2004" in notice and "@misc{boxobanlevels" in notice
 
 
-def test_test_performance_fixture_is_an_invalid_level() -> None:
-    with pytest.raises(FormatError, match="12 boxes but 14 goals"):
-        load_any(FIXTURES / "legacy_test_performance.txt")
+def test_unbalanced_legacy_fixture_is_an_invalid_level() -> None:
+    with pytest.raises(FormatError, match="2 boxes but 3 goals"):
+        load_any(FIXTURES / "legacy_unbalanced.txt")
 
 
 # --- annotate -----------------------------------------------------------------------------------------
 
-TEST1 = ["######", "#.  .#", "#    #", "# $$ #", "#@   #", "######"]
+ROOM = ["#######", "#.   .#", "#  $  #", "# $   #", "#@    #", "#######"]
 ONE_PUSH = ["#####", "#@$.#", "#####"]
 STUCK = ["#####", "#$  #", "#@ .#", "#####"]  # box in a corner, off goal
 LONG_PAR = Par(pushes=1, moves=3, lurd="udR", solver="by-hand")
@@ -159,7 +132,7 @@ def _read(path: Path) -> Pack:
 
 def test_annotate_pack_fills_missing_par_and_reports_each_level() -> None:
     pack = _pack(
-        LevelEntry("a", Level.from_rows(TEST1)),
+        LevelEntry("a", Level.from_rows(ROOM)),
         LevelEntry("b", Level.from_rows(["#####", "#   #", "#@$.#", "#####"]), par=LONG_PAR),
         LevelEntry("c", Level.from_rows(STUCK)),
     )
@@ -178,7 +151,7 @@ def test_annotate_pack_fills_missing_par_and_reports_each_level() -> None:
 def test_annotate_pack_force_recomputes_but_keeps_par_when_the_solver_fails() -> None:
     pack = _pack(
         LevelEntry("b", Level.from_rows(["#####", "#   #", "#@$.#", "#####"]), par=LONG_PAR),
-        LevelEntry("big", Level.from_rows(TEST1), par=Par(4, 99, "x", "old")),
+        LevelEntry("big", Level.from_rows(ROOM), par=Par(4, 99, "x", "old")),
     )
     out = annotate.annotate_pack(pack, SolveLimits(time_s=5), only_missing=False)
     assert out.levels[0].par is not None and out.levels[0].par.lurd == "R"
@@ -237,7 +210,7 @@ def test_annotate_missing_file(tmp_path: Path) -> None:
 
 def test_annotate_interrupted_keeps_finished_levels(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     path = tmp_path / "mini.json"
-    _write(path, _pack(LevelEntry("a", Level.from_rows(ONE_PUSH)), LevelEntry("b", Level.from_rows(TEST1))))
+    _write(path, _pack(LevelEntry("a", Level.from_rows(ONE_PUSH)), LevelEntry("b", Level.from_rows(ROOM))))
     real_solve = annotate.solve
     calls = 0
 

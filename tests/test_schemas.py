@@ -106,9 +106,8 @@ def test_shipped_pack_matches_the_pack_schema(name: str) -> None:
 
 
 def test_every_bundled_level_pack_is_checked() -> None:
-    assert {"levels/lama-original.json", "levels/lama-unsolvable.json", "levels/boxoban-hard.json"} <= set(
-        shipped_packs()
-    )
+    expected = {"levels/first-steps.json", "levels/boxoban-hard.json", "benchmarks/extra.json"}
+    assert expected <= set(shipped_packs())
 
 
 def test_default_settings_match_the_settings_schema() -> None:

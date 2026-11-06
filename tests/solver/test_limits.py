@@ -12,7 +12,7 @@ def test_node_limit_is_enforced() -> None:
 
 
 def test_zero_node_limit_stops_before_searching() -> None:
-    r = solve(LEVELS["test3"], limits=SolveLimits(max_nodes=0))
+    r = solve(LEVELS["twins"], limits=SolveLimits(max_nodes=0))
     assert r.status is SolveStatus.LIMIT_NODES and r.nodes_expanded == 0
 
 
@@ -57,6 +57,6 @@ def test_progress_callback_called() -> None:
 
 def test_progress_callback_called_once_on_a_quick_solve() -> None:
     seen: list[tuple[int, int]] = []
-    r = solve(LEVELS["test1"], on_progress=lambda n, ms: seen.append((n, ms)))
+    r = solve(LEVELS["room"], on_progress=lambda n, ms: seen.append((n, ms)))
     assert r.status is SolveStatus.SOLVED
     assert seen and seen[-1][0] == r.nodes_expanded

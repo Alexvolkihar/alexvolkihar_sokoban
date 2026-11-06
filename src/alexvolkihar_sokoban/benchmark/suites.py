@@ -98,7 +98,7 @@ def _read_pack(source: Traversable) -> tuple[Pack, list[str]]:
 
 
 def load_extra_pack() -> Pack:
-    """The hidden ``bench-extra`` pack (benchmark-only levels such as the repaired ``test_performance``)."""
+    """The hidden ``bench-extra`` pack (benchmark-only levels: generated, unsolvable and very large ones)."""
     pack, _ = _read_pack(_data("benchmarks/extra.json"))
     return pack
 

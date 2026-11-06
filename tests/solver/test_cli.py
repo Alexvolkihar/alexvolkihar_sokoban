@@ -6,8 +6,8 @@ from alexvolkihar_sokoban.cli import main
 from alexvolkihar_sokoban.core.level import Level
 from alexvolkihar_sokoban.core.lurd import replay
 
-TEST1_LEGACY = "XXXXXX\nX.  .X\nX    X\nX ** X\nX@   X\nXXXXXX\n"
-TEST12_LEGACY = "XXXX\nX .X\nX  XXX\nXX@  X\nX  * X\nX  XXX\nXXXX\n"
+ROOM_LEGACY = "XXXXXXX\nX.   .X\nX  *  X\nX *   X\nX@    X\nXXXXXXX\n"
+SEALED_LEGACY = "XXXXXXX\nX@  X.X\nX * *.X\nX   X X\nXXXXXXX\n"
 BIG_XSB = "\n".join(
     [
         "##########",
@@ -39,10 +39,10 @@ def output_fields(out: str) -> dict[str, str]:
 def test_solve_legacy_file_prints_a_replayable_solution(
     tmp_path: Path, capsys: pytest.CaptureFixture[str]
 ) -> None:
-    assert main(["solve", write(tmp_path, "test1.txt", TEST1_LEGACY)]) == 0
+    assert main(["solve", write(tmp_path, "room.txt", ROOM_LEGACY)]) == 0
     fields = output_fields(capsys.readouterr().out)
     assert fields["status"] == "solved"
-    level = Level.from_rows(TEST1_LEGACY.replace("X", "#").replace("*", "$").splitlines())
+    level = Level.from_rows(ROOM_LEGACY.replace("X", "#").replace("*", "$").splitlines())
     assert replay(level, fields["lurd"]).is_solved
     assert int(fields["pushes"]) == sum(c.isupper() for c in fields["lurd"])
     assert int(fields["moves"]) == len(fields["lurd"])
@@ -57,7 +57,7 @@ def test_solve_xsb_file_in_fast_mode(tmp_path: Path, capsys: pytest.CaptureFixtu
 
 
 def test_unsolvable_exits_with_1(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
-    assert main(["solve", write(tmp_path, "test12.txt", TEST12_LEGACY)]) == 1
+    assert main(["solve", write(tmp_path, "sealed.txt", SEALED_LEGACY)]) == 1
     assert output_fields(capsys.readouterr().out)["status"] == "unsolvable"
 
 
@@ -77,14 +77,14 @@ def test_missing_or_invalid_file_exits_with_2(tmp_path: Path, capsys: pytest.Cap
 
 
 def test_unknown_level_id_exits_with_2(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
-    assert main(["solve", write(tmp_path, "test1.txt", TEST1_LEGACY), "--level", "zzz"]) == 2
+    assert main(["solve", write(tmp_path, "room.txt", ROOM_LEGACY), "--level", "zzz"]) == 2
     assert "zzz" in capsys.readouterr().err
 
 
 @pytest.mark.parametrize("option", [["--max-nodes", "0"], ["--time-limit", "0"], ["--mode", "slow"]])
 def test_bad_options_are_rejected(tmp_path: Path, option: list[str]) -> None:
     with pytest.raises(SystemExit) as exc:
-        main(["solve", write(tmp_path, "test1.txt", TEST1_LEGACY), *option])
+        main(["solve", write(tmp_path, "room.txt", ROOM_LEGACY), *option])
     assert exc.value.code == 2
 
 

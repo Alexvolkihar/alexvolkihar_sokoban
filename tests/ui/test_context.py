@@ -128,23 +128,23 @@ def test_visible_pack_order_and_hidden_packs(tmp_path: Path) -> None:
     bundled = [
         pack("zeta"),
         pack("boxoban-hard"),
-        pack("lama-unsolvable", hidden=True),
+        pack("bench-hidden", hidden=True),
         pack("alpha"),
-        pack("lama-original"),
+        pack("first-steps"),
     ]
     ctx = load(tmp_path, bundled)
-    assert FIRST_PACKS == ("lama-original",)  # only the original game's levels jump the queue
+    assert FIRST_PACKS == ("first-steps",)  # only the bundled starter pack jumps the queue
     assert [p.id for p in ctx.packs] == [
-        "lama-original",
+        "first-steps",
         "alpha",
         "boxoban-hard",
         "zeta",
         "generated",
         "custom",
     ]
-    assert [p.id for p in ctx.hidden_packs] == ["lama-unsolvable"]
-    assert [p.id for p in ctx.all_packs()] == [p.id for p in ctx.packs] + ["lama-unsolvable"]
-    assert ctx.pack("lama-unsolvable").hidden
+    assert [p.id for p in ctx.hidden_packs] == ["bench-hidden"]
+    assert [p.id for p in ctx.all_packs()] == [p.id for p in ctx.packs] + ["bench-hidden"]
+    assert ctx.pack("bench-hidden").hidden
     with pytest.raises(KeyError):
         ctx.pack("nope")
 
@@ -306,16 +306,16 @@ def test_continue_target_prefers_the_session(tmp_path: Path) -> None:
 
 
 def test_continue_target_finds_a_moved_level_by_hash(tmp_path: Path) -> None:
-    ctx = load(tmp_path, [pack("lama-original", n=1)])
+    ctx = load(tmp_path, [pack("first-steps", n=1)])
     ctx.progress.set_last_played(LastPlayed("old-pack", "old-id", Level.from_rows(ROWS_A).canonical_hash()))
     target = ctx.continue_target()
-    assert target is not None and (target.pack.id, target.level_id) == ("lama-original", "1")
+    assert target is not None and (target.pack.id, target.level_id) == ("first-steps", "1")
 
 
 def test_continue_target_skips_a_session_whose_level_is_gone(tmp_path: Path) -> None:
-    ctx = load(tmp_path, [pack("lama-original", n=1)])
+    ctx = load(tmp_path, [pack("first-steps", n=1)])
     ctx.session = session(level_hash="sha256:" + "0" * 64)
     assert ctx.continue_target() is None
-    ctx.progress.set_last_played(LastPlayed("lama-original", "1", Level.from_rows(ROWS_A).canonical_hash()))
+    ctx.progress.set_last_played(LastPlayed("first-steps", "1", Level.from_rows(ROWS_A).canonical_hash()))
     target = ctx.continue_target()
     assert target is not None and target.session is None and target.level_id == "1"
