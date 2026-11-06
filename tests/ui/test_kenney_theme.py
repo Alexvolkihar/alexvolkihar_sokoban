@@ -1,4 +1,4 @@
-"""Kenney theme floor: a sand ground under every tile instead of the legacy all-black ``empty.png``."""
+"""Kenney theme floor: a sand ground drawn under every tile (the pack's tiles sit on a black square)."""
 
 import pygame
 import pytest

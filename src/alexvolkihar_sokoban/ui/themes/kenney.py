@@ -1,12 +1,11 @@
-"""Kenney theme: the original Sokoban-LAMA sprites (Kenney "Sokoban" pack, CC0 1.0).
+"""Kenney theme: sprites from Kenney's "Sokoban" pack (CC0 1.0).
 
-The legacy floor sprite (``empty.png``) is plain black, and the goal and player sprites sit on a black
-square too, so the floor is a sand ground drawn procedurally in the pack's style; the goal marker is the
-goal sprite with its black background keyed out and the player is the transparent ``icon.png`` cutout, both
-over that ground. ``BOX_ON_GOAL`` and ``PLAYER_ON_GOAL`` have no sprite of their own and are composited: a
-green-tinted crate with a goal ring, and the player over the goal. Sprites are loaded with
-``importlib.resources`` and ``pygame.image.load`` without ``convert()``, so the theme works before a display
-exists.
+The wall, crate and goal sprites sit on a black square, so the floor is a sand ground drawn procedurally in
+the pack's style; the goal marker is the goal sprite with its black background keyed out and the player is
+the pack's character on a transparent background (``icon.png``), both over that ground. ``BOX_ON_GOAL``
+and ``PLAYER_ON_GOAL`` have no sprite of their own and are composited: a green-tinted crate with a goal
+ring, and the player over the goal. Sprites are loaded with ``importlib.resources`` and
+``pygame.image.load`` without ``convert()``, so the theme works before a display exists.
 """
 
 from __future__ import annotations
@@ -22,7 +21,7 @@ FLOOR = "ground"  # drawn by _draw_ground(), not a file
 WALL = "WallRound_Brown"
 GOAL = "EndPoint_Brown"
 BOX = "Crate_Brown"
-PLAYER = "icon"  # Character4.png on a transparent background (Character4.png itself has a black square)
+PLAYER = "icon"  # the pack's Character4 sprite, on a transparent background
 BASE_SIZE = 64  # size of the Kenney sprites; the ground is drawn at this size too
 
 _SAND: RGB = (221, 194, 148)

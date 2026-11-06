@@ -26,11 +26,9 @@ INSTALLED = not PACKAGE_DIR.is_relative_to(REPO / "src")
 LEVEL_PACKS = ["first-steps.json", "boxoban-hard.json", "boxoban-hard.LICENSE.txt"]
 BENCHMARKS = ["suites.json", "extra.json"]
 KENNEY = [
-    "Character4.png",
     "Crate_Brown.png",
     "EndPoint_Brown.png",
     "WallRound_Brown.png",
-    "empty.png",
     "icon.png",
     "LICENSE.txt",
 ]
@@ -159,7 +157,7 @@ def test_wheel_content() -> None:
     for name in SCHEMAS:
         assert f"alexvolkihar_sokoban/schemas/{name}" in names, name
     assert "alexvolkihar_sokoban/cli.py" in names
-    assert not any(n.startswith(("tests/", "legacy/", "docs/")) or "__pycache__" in n for n in names)
+    assert not any(n.startswith(("tests/", "docs/")) or "__pycache__" in n for n in names)
     assert "alexvolkihar-sokoban = alexvolkihar_sokoban.cli:main" in entry
     assert f"Version: {alexvolkihar_sokoban.__version__}" in meta
     assert "License-Expression: MIT" in meta and f"{dist_info}/licenses/LICENSE" in names
@@ -187,4 +185,4 @@ def test_sdist_content() -> None:
         assert f"src/alexvolkihar_sokoban/data/{name}" in names, name
     for name in SCHEMAS:
         assert f"schemas/{name}" in names, name
-    assert not any(n.startswith(("legacy/", ".github/", ".superpowers/")) for n in names)
+    assert not any(n.startswith((".github/", ".superpowers/")) for n in names)

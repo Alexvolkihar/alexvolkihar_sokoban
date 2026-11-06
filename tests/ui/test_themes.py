@@ -198,8 +198,7 @@ def test_kenney_assets_load_via_importlib_resources() -> None:
     wall, crate = (_kenney_sprite(n) for n in ("WallRound_Brown", "Crate_Brown"))
     assert crate.get_size() == (64, 64)
     assert _rgba(theme.tile(TileKind.WALL, 64)) == _rgba(wall)
-    floor = theme.tile(TileKind.FLOOR, 64)  # procedural sand ground (the legacy empty.png is all black)
-    assert _rgba(floor) != _rgba(_kenney_sprite("empty"))
+    floor = theme.tile(TileKind.FLOOR, 64)  # procedural sand ground, not a sprite
     expected = pygame.Surface((64, 64))
     expected.blit(floor, (0, 0))
     expected.blit(crate, (0, 0))

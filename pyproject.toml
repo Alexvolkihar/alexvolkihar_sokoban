@@ -68,12 +68,11 @@ packages = ["src/alexvolkihar_sokoban"]
 "schemas" = "alexvolkihar_sokoban/schemas"
 
 [tool.hatch.build.targets.sdist]
-exclude = ["legacy/", ".github/", ".superpowers/"]
+exclude = [".github/", ".superpowers/"]
 
 [tool.ruff]
 line-length = 110
 target-version = "py311"
-extend-exclude = ["legacy"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "TID"]
