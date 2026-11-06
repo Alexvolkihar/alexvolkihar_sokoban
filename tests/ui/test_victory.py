@@ -90,7 +90,9 @@ def test_summary_lines(tmp_path: Path) -> None:
 
 def test_first_win_badges(tmp_path: Path) -> None:
     _, victory = win_level_one(tmp_path)
-    assert victory.badges() == ["New best: moves", "New best: pushes", "New best time"]
+    assert victory.badges() == ["New best: moves", "New best: pushes", "New best: time"]
+    set_language("fr")
+    assert victory.badges() == ["Nouveau record : pas", "Nouveau record : poussées", "Nouveau record : temps"]
 
 
 def update(**kw: object) -> RecordUpdate:

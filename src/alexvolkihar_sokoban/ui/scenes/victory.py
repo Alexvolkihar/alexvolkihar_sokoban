@@ -69,7 +69,7 @@ class VictoryScene(Scene):
         if update.new_best_pushes:
             badges.append(t("New best: pushes", "Nouveau record : poussées"))
         if update.new_best_time:
-            badges.append(t("New best time", "Nouveau record de temps"))
+            badges.append(t("New best: time", "Nouveau record : temps"))
         if update.beats_par_moves:
             badges.append(t("Better than par!", "Mieux que le par !"))
         return badges
