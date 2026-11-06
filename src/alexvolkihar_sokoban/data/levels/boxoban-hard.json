@@ -4,7 +4,7 @@
   "id": "boxoban-hard",
   "title": "Boxoban (hard)",
   "author": "Arthur Guez, Mehdi Mirza, Karol Gregor, Rishabh Kabra, Sebastien Racaniere, Theophane Weber, David Raposo, Adam Santoro, Laurent Orseau, Tom Eccles, Greg Wayne, David Silver, Timothy Lillicrap, Victor Valdes (DeepMind)",
-  "license": "Apache License 2.0 (full text in boxoban-hard.LICENSE.txt next to this file). Selection: the first 100 puzzles (numbers 0 to 99) of hard/000.txt from github.com/google-deepmind/boxoban-levels at commit 78011d8c86ad; level id N is puzzle N-1. Changed: converted from the Boxoban text format to this JSON format; layouts unchanged. Citation requested by the authors: Arthur Guez, Mehdi Mirza, Karol Gregor, Rishabh Kabra, Sebastien Racaniere, Theophane Weber, David Raposo, Adam Santoro, Laurent Orseau, Tom Eccles, Greg Wayne, David Silver, Timothy Lillicrap, Victor Valdes. An investigation of Model-free planning: boxoban levels. https://github.com/deepmind/boxoban-levels/, 2018.",
+  "license": "Apache License 2.0 (full text in data/levels/boxoban-hard.LICENSE.txt). Selection: the first 100 puzzles (numbers 0 to 99) of hard/000.txt from github.com/google-deepmind/boxoban-levels at commit 78011d8c86ad; level id N is puzzle N-1. Changed: converted from the Boxoban text format to this JSON format; layouts unchanged. Citation requested by the authors: Arthur Guez, Mehdi Mirza, Karol Gregor, Rishabh Kabra, Sebastien Racaniere, Theophane Weber, David Raposo, Adam Santoro, Laurent Orseau, Tom Eccles, Greg Wayne, David Silver, Timothy Lillicrap, Victor Valdes. An investigation of Model-free planning: boxoban levels. https://github.com/deepmind/boxoban-levels/, 2018.",
   "source": "https://github.com/google-deepmind/boxoban-levels",
   "hidden": false,
   "levels": [

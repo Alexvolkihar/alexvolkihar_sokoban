@@ -100,15 +100,26 @@ def test_picker_lists_bundled_suites_with_translated_titles(
     assert suite_title("someday", "Someday") == "Someday"  # unknown id: the file's English title
 
 
+def test_bundled_suites_miss_nothing(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    _, scene = bench_app(tmp_path, monkeypatch)
+    assert [scene.missing_line(suite) for suite in scene.suites] == [None, None, None]
+
+
 def test_missing_items_are_a_warning_line(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     app, scene = bench_app(tmp_path, monkeypatch)
-    assert scene.missing_line(scene.suites[0]) is None
-    if "microban-1" in scene.packs:
-        pytest.skip("Microban is bundled: no suite misses an item")
+    scene.suites[1] = dataclasses.replace(scene.suites[1], items=("lama-original", "not-installed/1"))
     line = scene.missing_line(scene.suites[1])
-    assert line is not None and "microban-1" in line
+    assert line is not None and "not-installed" in line
     app.step([DOWN])
     app.step([])  # draws the warning without error
+
+
+@pytest.mark.parametrize("language", ["en", "fr"])
+def test_suite_descriptions_name_only_shipped_packs(language: str) -> None:
+    set_language(language)
+    for suite_id in ("quick", "standard", "stress"):
+        assert "microban" not in benchmark.suite_description(suite_id).lower()
+    assert "Boxoban" in benchmark.suite_description("standard")
 
 
 def test_back_from_the_picker_leaves(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

@@ -1,8 +1,8 @@
 """Benchmark suites (``data/benchmarks/suites.json``) and the packs they draw levels from (spec 7.7).
 
 A suite item is ``"<pack_id>"`` (the whole pack) or ``"<pack_id>/<level_id>"`` (one level; the pack id ends
-at the first ``/``). Items whose pack or level is absent are reported, never raised, so a missing optional
-pack (Microban) only shrinks a suite.
+at the first ``/``). Items whose pack or level is absent are reported, never raised, so a missing pack only
+shrinks a suite.
 """
 
 from __future__ import annotations

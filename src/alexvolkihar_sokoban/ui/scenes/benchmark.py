@@ -49,8 +49,8 @@ _SUITES: dict[str, tuple[tuple[str, str], tuple[str, str]]] = {
     "standard": (
         ("Standard", "Standard"),
         (
-            "The original LAMA levels and the first 40 Microban levels.",
-            "Les niveaux LAMA d'origine et les 40 premiers niveaux Microban.",
+            "The original LAMA levels and the first 40 Boxoban (hard) levels.",
+            "Les niveaux LAMA d'origine et les 40 premiers niveaux Boxoban (difficiles).",
         ),
     ),
     "stress": (

@@ -33,10 +33,10 @@ def test_suites_load_and_items_parse() -> None:
     assert quick == Suite("quick", quick.title, SolveLimits(10.0, 1_000_000), ("lama-original",))
     standard = suites["standard"]
     assert standard.limits == SolveLimits(30.0, 3_000_000)
-    assert standard.items == ("lama-original", *(f"microban-1/{i}" for i in range(1, 41)))
+    assert standard.items == ("lama-original", *(f"boxoban-hard/{i}" for i in range(1, 41)))
     stress = suites["stress"]
     assert stress.limits == SolveLimits(60.0, 5_000_000)
-    assert stress.items == ("lama-unsolvable", EXTRA_PACK_ID, "microban-1")
+    assert stress.items == ("lama-unsolvable", EXTRA_PACK_ID, "boxoban-hard")
     assert all(s.title for s in suites.values())
 
 

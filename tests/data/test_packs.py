@@ -102,20 +102,14 @@ def test_lama_packs_credit_the_group(pack_id: str) -> None:
     assert pack.license and pack.source.startswith("https://")
 
 
-def test_microban_credit() -> None:
-    if "microban-1" not in PACKS:
-        pytest.skip("Microban is not bundled (licence notice not found, see the pack notes)")
-    pack = PACKS["microban-1"]
-    assert pack.author == "David W. Skinner" and "Skinner" in pack.license
-    assert pack.source.startswith(("http://", "https://"))
-
-
 def test_boxoban_pack_loads_with_its_licence() -> None:
     pack, warnings = load_any(Path(str(LEVELS_DIR / "boxoban-hard.json")))
     assert warnings == [] and pack.title == "Boxoban (hard)" and not pack.hidden
     assert [e.id for e in pack.levels] == [str(i) for i in range(1, 101)]
     assert "DeepMind" in pack.author and "Arthur Guez" in pack.author
     assert pack.license.startswith("Apache License 2.0") and "boxoban-hard.LICENSE.txt" in pack.license
+    # Shown in the credits scene, far from the file: name the licence file by its path in the project.
+    assert "data/levels/boxoban-hard.LICENSE.txt" in pack.license and "next to this file" not in pack.license
     assert "An investigation of Model-free planning: boxoban levels" in pack.license
     assert pack.source == "https://github.com/google-deepmind/boxoban-levels"
     notice = (LEVELS_DIR / "boxoban-hard.LICENSE.txt").read_text(encoding="utf-8")
