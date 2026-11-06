@@ -23,6 +23,7 @@ from alexvolkihar_sokoban.ui.context import CUSTOM_EXTENSIONS, CUSTOM_ID, GENERA
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
+from alexvolkihar_sokoban.ui.scenes.game import pack_title
 from alexvolkihar_sokoban.ui.thumbnails import render_thumbnail
 from alexvolkihar_sokoban.ui.widgets import wrap_text
 
@@ -132,11 +133,7 @@ class LevelSelectScene(Scene):
 
     def pack_title(self, pack: Pack) -> str:
         """The Generated and Custom packs get a translated title; bundled packs keep their own."""
-        if pack.id == GENERATED_ID:
-            return t("Generated", "Niveaux générés")
-        if pack.id == CUSTOM_ID:
-            return t("Custom", "Mes niveaux")
-        return pack.title
+        return pack_title(pack)
 
     def best_text(self, entry: LevelEntry) -> str:
         """The best line of a tile (fewest moves, fewest pushes); empty before a non-assisted win."""
