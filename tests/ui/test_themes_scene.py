@@ -10,7 +10,7 @@ from alexvolkihar_sokoban.ui.app import App
 from alexvolkihar_sokoban.ui.board_renderer import tile_kind_at
 from alexvolkihar_sokoban.ui.context import AppContext
 from alexvolkihar_sokoban.ui.i18n import get_language, set_language
-from alexvolkihar_sokoban.ui.scenes.themes import SAMPLE_LEVEL, ScrollList, ThemesScene, theme_label
+from alexvolkihar_sokoban.ui.scenes.themes import SAMPLE_LEVEL, ThemesScene, theme_label
 from alexvolkihar_sokoban.ui.themes.base import TileKind
 from alexvolkihar_sokoban.ui.themes.registry import THEME_IDS, available_themes
 
@@ -147,16 +147,3 @@ def test_every_theme_previews_at_min_size(tmp_path: Path, language: str) -> None
         app.step([DOWN])
         app.step([])
         assert scene.preview_rect is not None and app.screen.get_rect().contains(scene.preview_rect)
-
-
-def test_scroll_list_wraps_and_clamps() -> None:
-    lst = ScrollList(5)
-    lst.move(-1)
-    assert lst.selected == 4
-    rows = lst.layout(pygame.Rect(0, 0, 100, 60), 20)
-    assert [i for i, _ in rows] == [2, 3, 4] and lst.first == 2
-    lst.move(1)
-    assert [i for i, _ in lst.layout(pygame.Rect(0, 0, 100, 60), 20)] == [0, 1, 2]
-    empty = ScrollList(0)
-    empty.move(1)
-    assert empty.selected == 0 and empty.layout(pygame.Rect(0, 0, 100, 60), 20) == []

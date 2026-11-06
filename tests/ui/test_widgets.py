@@ -5,7 +5,7 @@ import pytest
 
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.themes.fallback import FallbackTheme
-from alexvolkihar_sokoban.ui.widgets import MenuItem, MenuList
+from alexvolkihar_sokoban.ui.widgets import MenuItem, MenuList, ScrollList, draw_row_bar, fit_text, wrap_text
 
 
 @pytest.fixture(autouse=True)
@@ -78,3 +78,73 @@ def test_menu_mouse_hover_and_click() -> None:
     assert menu.handle_event(pygame.event.Event(pygame.MOUSEBUTTONDOWN, pos=rects[0].center, button=1))
     assert chosen == ["a"] and menu.selected == 0
     assert not menu.handle_event(pygame.event.Event(pygame.MOUSEBUTTONDOWN, pos=(299, 299), button=1))
+
+
+def test_fit_text_keeps_text_that_fits() -> None:
+    font = pygame.font.Font(None, 24)
+    assert fit_text("short", font, 500) == "short"
+
+
+def test_fit_text_cuts_with_an_ellipsis_within_the_width() -> None:
+    font = pygame.font.Font(None, 24)
+    text = "a rather long line of text that cannot fit"
+    cut = fit_text(text, font, 120)
+    assert cut.endswith("…") and font.size(cut)[0] <= 120
+    assert text.startswith(cut[:-1].rstrip())
+    assert fit_text(text, font, 1) == "…"
+
+
+def test_wrap_text_keeps_every_word_and_the_width() -> None:
+    font = pygame.font.Font(None, 24)
+    text = "the quick brown fox jumps over the lazy dog " * 3
+    lines = wrap_text(text, font, 150)
+    assert len(lines) > 1 and all(font.size(line)[0] <= 150 for line in lines)
+    assert " ".join(lines).split() == text.split()
+
+
+def test_wrap_text_cuts_a_word_longer_than_a_line() -> None:
+    font = pygame.font.Font(None, 24)
+    word = "x" * 60
+    lines = wrap_text(word, font, 100)
+    assert len(lines) > 1 and "".join(lines) == word
+    assert all(font.size(line)[0] <= 100 for line in lines)
+    assert wrap_text("", font, 100) == []
+
+
+def test_scroll_list_wraps_and_clamps() -> None:
+    lst = ScrollList(5)
+    lst.move(-1)
+    assert lst.selected == 4
+    rows = lst.layout(pygame.Rect(0, 0, 100, 60), 20)
+    assert [i for i, _ in rows] == [2, 3, 4] and lst.first == 2
+    assert lst.more_above and not lst.more_below
+    lst.move(1)
+    assert [i for i, _ in lst.layout(pygame.Rect(0, 0, 100, 60), 20)] == [0, 1, 2]
+    assert lst.more_below and not lst.more_above
+    lst.move(-3, wrap=False)
+    assert lst.selected == 0
+    empty = ScrollList(0)
+    empty.move(1)
+    assert empty.selected == 0 and empty.layout(pygame.Rect(0, 0, 100, 60), 20) == []
+
+
+def test_scroll_list_mouse_hover_wheel_and_click() -> None:
+    lst = ScrollList(10)
+    rows = lst.layout(pygame.Rect(0, 0, 100, 60), 20)
+    hover = pygame.event.Event(pygame.MOUSEMOTION, pos=rows[1][1].center)
+    assert lst.handle_event(hover) is None and lst.selected == 1
+    click = pygame.event.Event(pygame.MOUSEBUTTONDOWN, pos=rows[2][1].center, button=1)
+    assert lst.handle_event(click) == 2
+    lst.handle_event(pygame.event.Event(pygame.MOUSEWHEEL, x=0, y=-3))
+    assert lst.selected == 5
+    assert lst.handle_event(pygame.event.Event(pygame.MOUSEMOTION, pos=(500, 500))) is None
+
+
+def test_draw_row_bar_outlines_the_row_with_the_accent() -> None:
+    palette = FallbackTheme().palette
+    surface = pygame.Surface((100, 40))
+    surface.fill((0, 0, 0))
+    rect = pygame.Rect(10, 10, 80, 20)
+    draw_row_bar(surface, rect, palette)
+    assert surface.get_at((rect.centerx, rect.top))[:3] == palette.accent
+    assert surface.get_at(rect.center)[:3] == palette.panel

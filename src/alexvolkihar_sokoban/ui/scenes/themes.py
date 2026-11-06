@@ -13,8 +13,9 @@ from alexvolkihar_sokoban.ui.board_renderer import BoardLayout, BoardRenderer
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
-from alexvolkihar_sokoban.ui.themes.base import Theme, TileKind, UiPalette
+from alexvolkihar_sokoban.ui.themes.base import Theme, TileKind
 from alexvolkihar_sokoban.ui.themes.registry import available_themes
+from alexvolkihar_sokoban.ui.widgets import ScrollList, draw_row_bar, fit_text
 
 # 7×7 sample: one goal, one box, one box on a goal and the player (plus an inner wall).
 SAMPLE_LEVEL = Level.from_rows(
@@ -63,98 +64,6 @@ _SWATCH = (TileKind.WALL, TileKind.BOX, TileKind.GOAL)
 def theme_label(theme: Theme) -> str:
     """The theme's name in the current language (themes carry an English ``name`` only)."""
     return t(theme.name, _FRENCH_NAMES.get(theme.id, theme.name))
-
-
-class ScrollList:
-    """Selection and scrolling of a list of ``count`` rows; the scene draws the rows itself.
-
-    ``layout`` places the rows that fit in a rect, scrolled so the selected row is visible, and keeps their
-    rects for the mouse (``item_rects`` = ``[(index, rect), ...]``).
-    """
-
-    def __init__(self, count: int, selected: int = 0) -> None:
-        self.count = count
-        self.selected = min(max(0, selected), max(0, count - 1))
-        self.first = 0
-        self.item_rects: list[tuple[int, pygame.Rect]] = []
-
-    def move(self, delta: int, *, wrap: bool = True) -> None:
-        if self.count == 0:
-            return
-        if wrap:
-            self.selected = (self.selected + delta) % self.count
-        else:
-            self.selected = min(max(0, self.selected + delta), self.count - 1)
-
-    def layout(self, rect: pygame.Rect, row_h: int) -> list[tuple[int, pygame.Rect]]:
-        row_h = max(1, row_h)
-        shown = min(self.count, max(1, rect.height // row_h))
-        if self.selected < self.first:
-            self.first = self.selected
-        elif self.selected >= self.first + shown:
-            self.first = self.selected - shown + 1
-        self.first = max(0, min(self.first, self.count - shown))
-        self.item_rects = [
-            (index, pygame.Rect(rect.x, rect.y + k * row_h, rect.width, row_h))
-            for k, index in enumerate(range(self.first, self.first + shown))
-        ]
-        return self.item_rects
-
-    @property
-    def more_above(self) -> bool:
-        return self.first > 0
-
-    @property
-    def more_below(self) -> bool:
-        return self.first + len(self.item_rects) < self.count
-
-    def index_at(self, pos: tuple[int, int]) -> int | None:
-        for index, rect in self.item_rects:
-            if rect.collidepoint(pos):
-                return index
-        return None
-
-    def handle_event(self, event: pygame.event.Event) -> int | None:
-        """Hover selects, the wheel moves the selection; returns the index of a left-clicked row."""
-        if event.type == pygame.MOUSEWHEEL:
-            self.move(-event.y, wrap=False)
-            return None
-        if event.type not in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN):
-            return None
-        index = self.index_at(event.pos)
-        if index is None:
-            return None
-        self.selected = index
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            return index
-        return None
-
-    def draw_arrows(self, surface: pygame.Surface, rect: pygame.Rect, colour: tuple[int, int, int]) -> None:
-        """Small triangles above and below ``rect`` when rows are hidden on that side."""
-        half = 6
-        x = rect.centerx
-        if self.more_above:
-            y = rect.top - 4
-            pygame.draw.polygon(surface, colour, [(x - half, y), (x + half, y), (x, y - half)])
-        if self.more_below:
-            y = rect.bottom + 4
-            pygame.draw.polygon(surface, colour, [(x - half, y), (x + half, y), (x, y + half)])
-
-
-def fit_text(font: pygame.font.Font, text: str, width: int) -> str:
-    """``text`` cut with an ellipsis so that it is at most ``width`` pixels wide."""
-    if font.size(text)[0] <= width:
-        return text
-    while text and font.size(text + "…")[0] > width:
-        text = text[:-1]
-    return text + "…"
-
-
-def draw_row_bar(surface: pygame.Surface, rect: pygame.Rect, palette: UiPalette) -> None:
-    """The highlight behind the selected row."""
-    radius = max(2, rect.height // 4)
-    pygame.draw.rect(surface, palette.panel, rect, border_radius=radius)
-    pygame.draw.rect(surface, palette.accent, rect, width=2, border_radius=radius)
 
 
 class ThemesScene(Scene):
@@ -254,7 +163,7 @@ class ThemesScene(Scene):
                 surface.blit(theme.tile(kind, swatch), (x + k * swatch, y))
             x += 3 * swatch + 10
             colour = palette.accent if index == self.scroll.selected else palette.text
-            name = fit_text(font, theme_label(theme), bar.right - check_w - x)
+            name = fit_text(theme_label(theme), font, bar.right - check_w - x)
             text = font.render(name, True, colour)
             surface.blit(text, text.get_rect(midleft=(x, bar.centery)))
             if theme.id == self.app.theme.id:
@@ -280,14 +189,14 @@ class ThemesScene(Scene):
         pad = max(10, rect.width // 24)
         y = rect.top + pad
         name = fonts.normal.render(
-            fit_text(fonts.normal, theme_label(theme), rect.width - 2 * pad), True, theme.palette.text
+            fit_text(theme_label(theme), fonts.normal, rect.width - 2 * pad), True, theme.palette.text
         )
         surface.blit(name, name.get_rect(midtop=(rect.centerx, y)))
         y += name.get_height() + pad // 2
         note = _NOTES.get(theme.id)
         if note is not None:
             text = fonts.small.render(
-                fit_text(fonts.small, note(), rect.width - 2 * pad), True, theme.palette.muted
+                fit_text(note(), fonts.small, rect.width - 2 * pad), True, theme.palette.muted
             )
             surface.blit(text, text.get_rect(midtop=(rect.centerx, y)))
         y += fonts.small.get_height() + pad // 2

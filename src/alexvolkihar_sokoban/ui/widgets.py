@@ -108,3 +108,127 @@ class MenuList:
                 pygame.draw.rect(surface, palette.accent, bar, width=2, border_radius=max(2, row_h // 4))
             label = font.render(item.text, True, colour)
             surface.blit(label, label.get_rect(center=bar.center))
+
+
+def fit_text(text: str, font: pygame.font.Font, width: int) -> str:
+    """``text``, cut with an ellipsis when it is wider than ``width``."""
+    if font.size(text)[0] <= width:
+        return text
+    lo, hi = 0, len(text)
+    while lo < hi:  # longest prefix that still fits with the ellipsis
+        mid = (lo + hi + 1) // 2
+        if font.size(text[:mid].rstrip() + "…")[0] <= width:
+            lo = mid
+        else:
+            hi = mid - 1
+    return text[:lo].rstrip() + "…"
+
+
+def wrap_text(text: str, font: pygame.font.Font, width: int) -> list[str]:
+    """Split ``text`` into lines no wider than ``width``; a word too long for one line is cut."""
+    lines: list[str] = []
+    current = ""
+    for word in text.split():
+        candidate = f"{current} {word}" if current else word
+        if font.size(candidate)[0] <= width:
+            current = candidate
+            continue
+        if current:
+            lines.append(current)
+        current = word
+        while font.size(current)[0] > width and len(current) > 1:
+            lo, hi = 1, len(current) - 1  # longest prefix that fits, by bisection
+            while lo < hi:
+                mid = (lo + hi + 1) // 2
+                if font.size(current[:mid])[0] <= width:
+                    lo = mid
+                else:
+                    hi = mid - 1
+            lines.append(current[:lo])
+            current = current[lo:]
+    if current:
+        lines.append(current)
+    return lines
+
+
+def draw_row_bar(surface: pygame.Surface, rect: pygame.Rect, palette: UiPalette) -> None:
+    """The highlight behind the selected row."""
+    radius = max(2, rect.height // 4)
+    pygame.draw.rect(surface, palette.panel, rect, border_radius=radius)
+    pygame.draw.rect(surface, palette.accent, rect, width=2, border_radius=radius)
+
+
+class ScrollList:
+    """Selection and scrolling of a list of ``count`` rows; the scene draws the rows itself.
+
+    ``layout`` places the rows that fit in a rect, scrolled so the selected row is visible, and keeps their
+    rects for the mouse (``item_rects`` = ``[(index, rect), ...]``).
+    """
+
+    def __init__(self, count: int, selected: int = 0) -> None:
+        self.count = count
+        self.selected = min(max(0, selected), max(0, count - 1))
+        self.first = 0
+        self.item_rects: list[tuple[int, pygame.Rect]] = []
+
+    def move(self, delta: int, *, wrap: bool = True) -> None:
+        if self.count == 0:
+            return
+        if wrap:
+            self.selected = (self.selected + delta) % self.count
+        else:
+            self.selected = min(max(0, self.selected + delta), self.count - 1)
+
+    def layout(self, rect: pygame.Rect, row_h: int) -> list[tuple[int, pygame.Rect]]:
+        row_h = max(1, row_h)
+        shown = min(self.count, max(1, rect.height // row_h))
+        if self.selected < self.first:
+            self.first = self.selected
+        elif self.selected >= self.first + shown:
+            self.first = self.selected - shown + 1
+        self.first = max(0, min(self.first, self.count - shown))
+        self.item_rects = [
+            (index, pygame.Rect(rect.x, rect.y + k * row_h, rect.width, row_h))
+            for k, index in enumerate(range(self.first, self.first + shown))
+        ]
+        return self.item_rects
+
+    @property
+    def more_above(self) -> bool:
+        return self.first > 0
+
+    @property
+    def more_below(self) -> bool:
+        return self.first + len(self.item_rects) < self.count
+
+    def index_at(self, pos: tuple[int, int]) -> int | None:
+        for index, rect in self.item_rects:
+            if rect.collidepoint(pos):
+                return index
+        return None
+
+    def handle_event(self, event: pygame.event.Event) -> int | None:
+        """Hover selects, the wheel moves the selection; returns the index of a left-clicked row."""
+        if event.type == pygame.MOUSEWHEEL:
+            self.move(-event.y, wrap=False)
+            return None
+        if event.type not in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN):
+            return None
+        index = self.index_at(event.pos)
+        if index is None:
+            return None
+        self.selected = index
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            return index
+        return None
+
+    def draw_arrows(self, surface: pygame.Surface, rect: pygame.Rect, colour: tuple[int, int, int]) -> None:
+        """Small triangles above and below ``rect`` when rows are hidden on that side."""
+        half = 6
+        x = rect.centerx
+        if self.more_above:
+            y = rect.top - 4
+            pygame.draw.polygon(surface, colour, [(x - half, y), (x + half, y), (x, y - half)])
+        if self.more_below:
+            y = rect.bottom + 4
+            pygame.draw.polygon(surface, colour, [(x - half, y), (x + half, y), (x, y + half)])

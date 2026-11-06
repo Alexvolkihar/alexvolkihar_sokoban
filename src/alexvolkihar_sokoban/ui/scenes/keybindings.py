@@ -19,7 +19,7 @@ from alexvolkihar_sokoban.persistence.settings import ACTIONS, DEFAULT_KEYBINDIN
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action, InputMapper, describe_binding
 from alexvolkihar_sokoban.ui.scene import Scene
-from alexvolkihar_sokoban.ui.scenes.themes import ScrollList, draw_row_bar, fit_text
+from alexvolkihar_sokoban.ui.widgets import ScrollList, draw_row_bar, fit_text
 
 MOVEMENT = ("up", "down", "left", "right")
 RESET_ALL = "reset_all"
@@ -192,7 +192,7 @@ class KeybindingsScene(Scene):
         surface.blit(hint, hint_rect)
         message_h = fonts.small.get_height()
         if self.message:
-            text = fit_text(fonts.small, self.message, screen.width - 2 * margin)
+            text = fit_text(self.message, fonts.small, screen.width - 2 * margin)
             msg = fonts.small.render(text, True, palette.bad)
             surface.blit(msg, msg.get_rect(midbottom=(screen.centerx, hint_rect.top - margin // 2)))
 
@@ -221,11 +221,11 @@ class KeybindingsScene(Scene):
                 keys_colour = palette.accent
             pad = 12
             label_w = bar.width * 2 // 5
-            text = font.render(fit_text(font, label, label_w - pad), True, colour)
+            text = font.render(fit_text(label, font, label_w - pad), True, colour)
             surface.blit(text, text.get_rect(midleft=(bar.left + pad, bar.centery)))
             if keys:
                 small = self.app.fonts.small
-                keys_text = small.render(fit_text(small, keys, bar.width - label_w - pad), True, keys_colour)
+                keys_text = small.render(fit_text(keys, small, bar.width - label_w - pad), True, keys_colour)
                 surface.blit(keys_text, keys_text.get_rect(midleft=(bar.left + label_w, bar.centery)))
         self.scroll.draw_arrows(surface, self.list_rect, palette.muted)
 

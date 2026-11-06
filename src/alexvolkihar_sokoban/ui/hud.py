@@ -17,6 +17,7 @@ from alexvolkihar_sokoban.core.pack import Par
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import describe_binding
 from alexvolkihar_sokoban.ui.themes.base import UiPalette
+from alexvolkihar_sokoban.ui.widgets import fit_text
 
 NO_PAR = "—"
 HINT_SEPARATOR = "   ·   "
@@ -89,20 +90,6 @@ def key_hints(bindings: Mapping[str, Sequence[str]]) -> list[str]:
             name += " ×2"
         hints.append(f"{name} {label()}")
     return hints
-
-
-def fit_text(text: str, font: pygame.font.Font, width: int) -> str:
-    """``text``, cut with an ellipsis when it is wider than ``width``."""
-    if font.size(text)[0] <= width:
-        return text
-    lo, hi = 0, len(text)
-    while lo < hi:  # longest prefix that still fits with the ellipsis
-        mid = (lo + hi + 1) // 2
-        if font.size(text[:mid].rstrip() + "…")[0] <= width:
-            lo = mid
-        else:
-            hi = mid - 1
-    return text[:lo].rstrip() + "…"
 
 
 def _margin(screen: pygame.Rect) -> int:

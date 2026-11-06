@@ -22,14 +22,12 @@ from alexvolkihar_sokoban.generator.api import (
 )
 from alexvolkihar_sokoban.generator.api import generate as generate_level
 from alexvolkihar_sokoban.generator.presets import DEFAULT_PRESET, PRESETS, Preset
-from alexvolkihar_sokoban.ui.hud import fit_text
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
-from alexvolkihar_sokoban.ui.scenes.main_menu import _wrap
 from alexvolkihar_sokoban.ui.themes.base import TileKind
 from alexvolkihar_sokoban.ui.thumbnails import render_thumbnail
-from alexvolkihar_sokoban.ui.widgets import MenuItem, MenuList
+from alexvolkihar_sokoban.ui.widgets import MenuItem, MenuList, fit_text, wrap_text
 
 logger = logging.getLogger(__name__)
 
@@ -338,7 +336,7 @@ class GenerateScene(Scene):
         line_h = fonts.small.get_linesize()
         status_lines: list[str] = []
         if self.status:
-            status_lines = _wrap(self.status, fonts.small, screen.width - 2 * margin)[:2]
+            status_lines = wrap_text(self.status, fonts.small, screen.width - 2 * margin)[:2]
         status_top = hint_rect.top - margin // 2 - line_h * len(status_lines)
         colour = palette.bad if self.failed else palette.good
         for i, line in enumerate(status_lines):
@@ -377,7 +375,7 @@ class GenerateScene(Scene):
         line_h = fonts.small.get_linesize()
 
         heading = f"{preset_name(self.preset_id)} — {preset_summary(self.preset)}"
-        heading_lines = _wrap(heading, fonts.small, inner.width)[:2]
+        heading_lines = wrap_text(heading, fonts.small, inner.width)[:2]
         for i, line in enumerate(heading_lines):
             label = fonts.small.render(fit_text(line, fonts.small, inner.width), True, palette.text)
             surface.blit(label, label.get_rect(midtop=(inner.centerx, inner.top + i * line_h)))
@@ -416,7 +414,7 @@ class GenerateScene(Scene):
         else:
             text = t("Press Generate to create a level.", "Choisissez Générer pour créer un niveau.")
             colour = palette.muted
-        lines = _wrap(text, fonts.normal, area.width)
+        lines = wrap_text(text, fonts.normal, area.width)
         y = area.centery - fonts.normal.get_linesize() * len(lines) // 2
         for line in lines:
             label = fonts.normal.render(line, True, colour)

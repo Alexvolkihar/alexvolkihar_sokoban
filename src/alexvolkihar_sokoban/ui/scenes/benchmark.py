@@ -30,9 +30,8 @@ from alexvolkihar_sokoban.solver.api import SolveLimits, SolveResult, SolveStatu
 from alexvolkihar_sokoban.ui.i18n import get_language, t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
-from alexvolkihar_sokoban.ui.scenes.main_menu import _wrap
-from alexvolkihar_sokoban.ui.scenes.themes import ScrollList, draw_row_bar, fit_text
 from alexvolkihar_sokoban.ui.themes.base import RGB, UiPalette
+from alexvolkihar_sokoban.ui.widgets import ScrollList, draw_row_bar, fit_text, wrap_text
 
 BENCHMARKS_DIR = "benchmarks"
 JOIN_TIMEOUT_S = 2.0
@@ -631,7 +630,7 @@ class BenchmarkScene(Scene):
         surface.blit(title, title_rect)
 
         hint = fonts.small.render(
-            fit_text(fonts.small, self._hint(), screen.width - 2 * margin), True, palette.muted
+            fit_text(self._hint(), fonts.small, screen.width - 2 * margin), True, palette.muted
         )
         hint_rect = hint.get_rect(midbottom=(screen.centerx, screen.bottom - margin // 2))
         surface.blit(hint, hint_rect)
@@ -639,7 +638,7 @@ class BenchmarkScene(Scene):
         if self.message:
             colour = palette.bad if self._message_is_problem() else palette.text
             text = fonts.small.render(
-                fit_text(fonts.small, self.message, screen.width - 2 * margin), True, colour
+                fit_text(self.message, fonts.small, screen.width - 2 * margin), True, colour
             )
             rect = text.get_rect(midbottom=(screen.centerx, bottom))
             surface.blit(text, rect)
@@ -693,7 +692,7 @@ class BenchmarkScene(Scene):
         width: int,
     ) -> int:
         """Draw one line cut to ``width``; return the y below it."""
-        label = font.render(fit_text(font, text, width), True, colour)
+        label = font.render(fit_text(text, font, width), True, colour)
         surface.blit(label, (x, y))
         return y + font.get_linesize()
 
@@ -706,7 +705,7 @@ class BenchmarkScene(Scene):
         rect: pygame.Rect,
         y: int,
     ) -> int:
-        for line in _wrap(text, font, rect.width):
+        for line in wrap_text(text, font, rect.width):
             if y + font.get_linesize() > rect.bottom:
                 break
             y = self._blit(surface, line, font, colour, rect.left, y, rect.width)
@@ -736,7 +735,7 @@ class BenchmarkScene(Scene):
             else:
                 name = t("Saved runs…", "Historique…")
             colour = palette.accent if selected else palette.text
-            label = fonts.normal.render(fit_text(fonts.normal, name, bar.width - 20), True, colour)
+            label = fonts.normal.render(fit_text(name, fonts.normal, bar.width - 20), True, colour)
             surface.blit(label, label.get_rect(midleft=(bar.left + 12, bar.centery)))
         self.suite_scroll.draw_arrows(surface, list_rect, palette.muted)
 
@@ -874,7 +873,7 @@ class BenchmarkScene(Scene):
             )
         x2 = x + score.get_width()
         label = fonts.small.render(
-            fit_text(fonts.small, rest, max(1, width - score.get_width())), True, palette.text
+            fit_text(rest, fonts.small, max(1, width - score.get_width())), True, palette.text
         )
         surface.blit(label, label.get_rect(midleft=(x2, y + score.get_height() // 2)))
         y += score.get_height()
@@ -996,7 +995,7 @@ class BenchmarkScene(Scene):
         row_h = font.get_linesize() + 6
         y = rect.top
         for i, header in enumerate(headers):
-            label = font.render(fit_text(font, header, first_w if i == 0 else widths[i]), True, palette.muted)
+            label = font.render(fit_text(header, font, first_w if i == 0 else widths[i]), True, palette.muted)
             if i == 0:
                 surface.blit(label, (xs[0], y + 3))
             else:
@@ -1012,7 +1011,7 @@ class BenchmarkScene(Scene):
                 draw_row_bar(surface, row_rect, palette)
             for i, (text, colour) in enumerate(rows[index]):
                 if i == 0:
-                    label = font.render(fit_text(font, text, first_w), True, colour)
+                    label = font.render(fit_text(text, font, first_w), True, colour)
                     surface.blit(label, label.get_rect(midleft=(xs[0], row_rect.centery)))
                 else:
                     label = font.render(text, True, colour)
@@ -1059,7 +1058,7 @@ class BenchmarkScene(Scene):
             if selected:
                 draw_row_bar(surface, bar, palette)
             colour = palette.accent if selected else palette.text
-            text = fit_text(fonts.small, self._run_line(self.saved_runs[index][1]), bar.width - 20)
+            text = fit_text(self._run_line(self.saved_runs[index][1]), fonts.small, bar.width - 20)
             label = fonts.small.render(text, True, colour)
             surface.blit(label, label.get_rect(midleft=(bar.left + 10, bar.centery)))
         self.runs_scroll.draw_arrows(surface, rect, palette.muted)

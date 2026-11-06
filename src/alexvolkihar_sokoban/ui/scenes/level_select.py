@@ -23,8 +23,8 @@ from alexvolkihar_sokoban.ui.context import CUSTOM_EXTENSIONS, CUSTOM_ID, GENERA
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
-from alexvolkihar_sokoban.ui.scenes.main_menu import _wrap
 from alexvolkihar_sokoban.ui.thumbnails import render_thumbnail
+from alexvolkihar_sokoban.ui.widgets import wrap_text
 
 Focus = Literal["packs", "grid"]
 
@@ -569,7 +569,7 @@ class LevelSelectScene(Scene):
         palette = self.app.theme.palette
         small = self.app.fonts.small
         box = lay.grid.inflate(-4 * lay.pad, -4 * lay.pad)
-        lines = _wrap(self.empty_hint(), small, max(10, box.width))
+        lines = wrap_text(self.empty_hint(), small, max(10, box.width))
         line_h = small.get_linesize()
         y = box.y + max(0, (box.height - line_h * len(lines)) // 3)
         for text in lines:

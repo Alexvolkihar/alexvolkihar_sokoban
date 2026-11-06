@@ -9,12 +9,12 @@ import pygame
 
 from alexvolkihar_sokoban.core.pack import Pack, Par
 from alexvolkihar_sokoban.scoring.records import RecordUpdate, RunResult
-from alexvolkihar_sokoban.ui.hud import draw_overlay_panel, draw_star, fit_text, format_time
+from alexvolkihar_sokoban.ui.hud import draw_overlay_panel, draw_star, format_time
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
 from alexvolkihar_sokoban.ui.scenes.game import leave_game
-from alexvolkihar_sokoban.ui.widgets import MenuItem, MenuList
+from alexvolkihar_sokoban.ui.widgets import MenuItem, MenuList, fit_text
 
 MAX_STARS = 3
 SUMMARY_SEPARATOR = "    "

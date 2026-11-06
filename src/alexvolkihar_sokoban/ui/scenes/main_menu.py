@@ -13,7 +13,7 @@ from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
 from alexvolkihar_sokoban.ui.themes.base import TileKind
-from alexvolkihar_sokoban.ui.widgets import MenuItem, MenuList
+from alexvolkihar_sokoban.ui.widgets import MenuItem, MenuList, wrap_text
 
 TITLE = "Alexvolkihar Sokoban"
 
@@ -154,7 +154,7 @@ class MainMenuScene(Scene):
 
         key = (tuple(self.messages), text_w)
         if self._wrapped[0] != key:
-            wrapped = [line for m in self.messages for line in _wrap(f"• {m}", fonts.small, text_w)]
+            wrapped = [line for m in self.messages for line in wrap_text(f"• {m}", fonts.small, text_w)]
             self._wrapped = (key, wrapped)
         lines = list(self._wrapped[1])
         if len(lines) > max_lines:
@@ -176,33 +176,6 @@ class MainMenuScene(Scene):
             y += line_h
         surface.blit(hint, hint.get_rect(midbottom=(box.centerx, box.bottom - pad)))
         self.message_rect = box
-
-
-def _wrap(text: str, font: pygame.font.Font, width: int) -> list[str]:
-    """Split ``text`` into lines no wider than ``width``; a word too long for one line is cut."""
-    lines: list[str] = []
-    current = ""
-    for word in text.split():
-        candidate = f"{current} {word}" if current else word
-        if font.size(candidate)[0] <= width:
-            current = candidate
-            continue
-        if current:
-            lines.append(current)
-        current = word
-        while font.size(current)[0] > width and len(current) > 1:
-            lo, hi = 1, len(current) - 1  # longest prefix that fits, by bisection
-            while lo < hi:
-                mid = (lo + hi + 1) // 2
-                if font.size(current[:mid])[0] <= width:
-                    lo = mid
-                else:
-                    hi = mid - 1
-            lines.append(current[:lo])
-            current = current[lo:]
-    if current:
-        lines.append(current)
-    return lines
 
 
 _LABELS = {

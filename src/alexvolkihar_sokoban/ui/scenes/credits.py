@@ -18,7 +18,7 @@ from alexvolkihar_sokoban.ui.context import CUSTOM_ID, GENERATED_ID, load_bundle
 from alexvolkihar_sokoban.ui.i18n import t
 from alexvolkihar_sokoban.ui.input import Action
 from alexvolkihar_sokoban.ui.scene import Scene
-from alexvolkihar_sokoban.ui.scenes.main_menu import _wrap
+from alexvolkihar_sokoban.ui.widgets import wrap_text
 
 if TYPE_CHECKING:
     from alexvolkihar_sokoban.ui.app import App
@@ -188,14 +188,14 @@ class CreditsScene(Scene):
         for index, section in enumerate(self.sections):
             if index:
                 y += fonts.small.get_linesize()
-            for line in _wrap(section.title, fonts.normal, width):
+            for line in wrap_text(section.title, fonts.normal, width):
                 self.wrapped.append(("normal", line))
                 self._offsets.append(y)
                 y += fonts.normal.get_linesize()
             for item, text in enumerate(section.lines):
                 if item:
                     y += fonts.small.get_linesize() // 4  # a little air between two credits
-                for line in _wrap(text, fonts.small, width):
+                for line in wrap_text(text, fonts.small, width):
                     self.wrapped.append(("small", line))
                     self._offsets.append(y)
                     y += fonts.small.get_linesize()
