@@ -8,7 +8,7 @@ def test_version_flag(capsys: pytest.CaptureFixture[str]) -> None:
 
     with pytest.raises(SystemExit) as e:
         main(["--version"])
-    assert e.value.code == 0 and "0.1.0" in capsys.readouterr().out
+    assert e.value.code == 0 and "1.0.0" in capsys.readouterr().out
 
 
 def test_all_subcommands_registered() -> None:
@@ -22,7 +22,7 @@ def test_all_subcommands_registered() -> None:
 def test_package_version_attribute() -> None:
     import alexvolkihar_sokoban
 
-    assert alexvolkihar_sokoban.__version__ == "0.1.0"
+    assert alexvolkihar_sokoban.__version__ == "1.0.0"
 
 
 def test_no_subcommand_runs_play_without_path(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -60,7 +60,7 @@ def test_python_dash_m_entry_point() -> None:
         text=True,
         check=False,
     )
-    assert out.returncode == 0 and "0.1.0" in out.stdout
+    assert out.returncode == 0 and "1.0.0" in out.stdout
 
 
 def test_importing_main_module_does_not_run_the_cli(monkeypatch: pytest.MonkeyPatch) -> None:

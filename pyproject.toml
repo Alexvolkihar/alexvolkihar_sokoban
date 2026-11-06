@@ -16,8 +16,21 @@ authors = [
 ]
 keywords = ["sokoban", "puzzle", "game", "pygame", "solver"]
 classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: MacOS X",
+    "Environment :: Win32 (MS Windows)",
+    "Environment :: X11 Applications",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Education",
+    "Natural Language :: English",
+    "Natural Language :: French",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Games/Entertainment :: Puzzle Games",
 ]
 dependencies = [
@@ -34,6 +47,9 @@ alexvolkihar-sokoban = "alexvolkihar_sokoban.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/Alexvolkihar/alexvolkihar_sokoban"
+Source = "https://github.com/Alexvolkihar/alexvolkihar_sokoban"
+Issues = "https://github.com/Alexvolkihar/alexvolkihar_sokoban/issues"
+Changelog = "https://github.com/Alexvolkihar/alexvolkihar_sokoban/blob/main/CHANGELOG.md"
 Original = "https://github.com/Alexvolkihar/Sokoban-LAMA"
 
 [tool.hatch.version]
@@ -41,6 +57,11 @@ path = "src/alexvolkihar_sokoban/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/alexvolkihar_sokoban"]
+# Bundled data under src/alexvolkihar_sokoban/data/ ships with the package; the JSON schemas live at the
+# repository root and are copied into the package (importlib.resources: alexvolkihar_sokoban/schemas/).
+
+[tool.hatch.build.targets.wheel.force-include]
+"schemas" = "alexvolkihar_sokoban/schemas"
 
 [tool.hatch.build.targets.sdist]
 exclude = ["legacy/", ".github/", ".superpowers/"]

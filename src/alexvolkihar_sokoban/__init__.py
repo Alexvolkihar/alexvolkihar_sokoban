@@ -4,4 +4,4 @@ Sokoban-LAMA is the first-year group project of Antoine LAROCHE, Alexis MABANZA,
 Martin PACARY (groupe LAMA).
 """
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
