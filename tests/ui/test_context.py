@@ -9,7 +9,7 @@ from alexvolkihar_sokoban.core.pack import LevelEntry, Pack, Par
 from alexvolkihar_sokoban.persistence.session import SavedSession
 from alexvolkihar_sokoban.persistence.settings import SETTINGS_FORMAT, Settings
 from alexvolkihar_sokoban.scoring.records import LastPlayed, Progress
-from alexvolkihar_sokoban.ui.context import AppContext, load_bundled_packs
+from alexvolkihar_sokoban.ui.context import FIRST_PACKS, AppContext, load_bundled_packs
 from alexvolkihar_sokoban.ui.i18n import get_language, set_language
 
 ROWS_A = ["#####", "#@$.#", "#####"]
@@ -127,16 +127,17 @@ def test_pop_warnings_empties_the_list(tmp_path: Path) -> None:
 def test_visible_pack_order_and_hidden_packs(tmp_path: Path) -> None:
     bundled = [
         pack("zeta"),
-        pack("microban-1"),
+        pack("boxoban-hard"),
         pack("lama-unsolvable", hidden=True),
         pack("alpha"),
         pack("lama-original"),
     ]
     ctx = load(tmp_path, bundled)
+    assert FIRST_PACKS == ("lama-original",)  # only the original game's levels jump the queue
     assert [p.id for p in ctx.packs] == [
         "lama-original",
-        "microban-1",
         "alpha",
+        "boxoban-hard",
         "zeta",
         "generated",
         "custom",

@@ -82,7 +82,7 @@ def test_draw_hud_leaves_a_board_area_inside_the_screen(size: tuple[int, int]) -
     set_language("fr")
     app = App(Settings(window=size), headless=True)
     data = HudData(
-        title="Microban I — Niveau 155 avec un titre vraiment très long qui ne tient pas",
+        title="Boxoban (difficile) — Niveau 100 avec un titre vraiment très long qui ne tient pas",
         stats=hud_stats(moves=1234, pushes=567, elapsed_ms=3_600_000, par=PAR),
         hints=key_hints(DEFAULT_KEYBINDINGS),
     )

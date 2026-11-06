@@ -38,7 +38,7 @@ GENERATED_ID = "generated"
 CUSTOM_ID = "custom"
 LEVELS_DIR = "levels"  # <data dir>/levels/: drop-in level files, shown as the Custom pack
 CUSTOM_EXTENSIONS = (".xsb", ".sok", ".txt", ".json")
-FIRST_PACKS = ("lama-original", "microban-1")  # then the other bundled packs alphabetically
+FIRST_PACKS = ("lama-original",)  # then the other bundled packs alphabetically
 
 
 @dataclass(frozen=True)
