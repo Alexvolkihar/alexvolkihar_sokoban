@@ -1,0 +1,130 @@
+{
+  "format": "alexvolkihar-sokoban/storyboard",
+  "version": 1,
+  "_doc": [
+    "Read by scripts/capture.py. Each shot or screenshot starts from 'start' (scene: main_menu, level_select, game, pause, replay, generate, benchmark, themes, settings, credits, end_card, theme_grid; game-like scenes take pack, level and 'played' = moves of the level's par already made, or 'lurd').",
+    "Steps run in order on a 30 fps clock: {wait: s}, {key: name}, {keys: [names], every: s}, {lurd: moves, every: s}, {themes: [ids], every: s}, {join: true} (wait for the hint, random level or benchmark worker). 'every' defaults to 0.15 s.",
+    "Video shots last 'seconds' and show 'caption' in a band under the game; screenshots hold 'hold_frames' frames (default 12) after their last step."
+  ],
+  "size": [1280, 720],
+  "screenshot_size": [1280, 800],
+  "fps": 30,
+  "language": "en",
+  "progress": {
+    "completed": {
+      "lama-original": ["test1", "test2", "test3", "test4", "test5", "test6", "test7"],
+      "boxoban-hard": ["1", "2", "3"]
+    },
+    "last_played": ["lama-original", "test8"]
+  },
+  "shots": [
+    {
+      "id": "hook",
+      "seconds": 3.0,
+      "theme": "kenney",
+      "caption": "Push every box onto a goal. Earn three stars.",
+      "start": {"scene": "game", "pack": "boxoban-hard", "level": "1", "played": 40, "elapsed_ms": 47000},
+      "steps": [{"wait": 0.2}, {"lurd": "uuRuuuurDD", "every": 0.13}]
+    },
+    {
+      "id": "menu",
+      "seconds": 2.2,
+      "theme": "kenney",
+      "caption": "Sokoban-LAMA, remade from the ground up",
+      "start": {"scene": "main_menu"},
+      "steps": [{"wait": 0.7}, {"keys": ["down", "down", "up"], "every": 0.45}]
+    },
+    {
+      "id": "level-select",
+      "seconds": 2.6,
+      "theme": "kenney",
+      "caption": "Level packs with stars and best scores",
+      "start": {"scene": "level_select", "pack": "lama-original"},
+      "steps": [{"wait": 0.4}, {"keys": ["right", "right", "down"], "every": 0.35}, {"keys": ["tab", "down"], "every": 0.5}]
+    },
+    {
+      "id": "play",
+      "seconds": 4.4,
+      "theme": "kenney",
+      "caption": "Smooth pushes, and undo for every move",
+      "start": {"scene": "game", "pack": "lama-original", "level": "test10", "elapsed_ms": 0},
+      "steps": [
+        {"wait": 0.2},
+        {"lurd": "rrDulldRR", "every": 0.15},
+        {"wait": 0.25},
+        {"keys": ["u", "u"], "every": 0.4},
+        {"lurd": "RR", "every": 0.2},
+        {"lurd": "urD", "every": 0.15}
+      ]
+    },
+    {
+      "id": "hint",
+      "seconds": 2.6,
+      "theme": "kenney",
+      "caption": "Stuck? Press H and the solver shows the next push",
+      "start": {"scene": "game", "pack": "lama-original", "level": "test10", "lurd": "rrDulldRRurD", "elapsed_ms": 9000},
+      "steps": [{"wait": 0.4}, {"key": "h"}, {"join": true}]
+    },
+    {
+      "id": "replay",
+      "seconds": 2.6,
+      "theme": "classic",
+      "caption": "Or watch its push-optimal solution",
+      "start": {"scene": "replay", "pack": "boxoban-hard", "level": "3"},
+      "steps": [{"wait": 0.2}, {"key": "up"}]
+    },
+    {
+      "id": "themes",
+      "seconds": 3.6,
+      "theme": "kenney",
+      "caption": "20 themes, from Kenney sprites to high contrast",
+      "start": {"scene": "game", "pack": "boxoban-hard", "level": "2", "played": 21, "elapsed_ms": 31000},
+      "steps": [
+        {"themes": ["kenney", "classic", "neon", "contrast", "meadow", "arcade", "frost-keep", "deep-space"], "every": 0.45}
+      ]
+    },
+    {
+      "id": "random",
+      "seconds": 3.0,
+      "theme": "neon",
+      "caption": "Random levels, each one proven solvable",
+      "start": {"scene": "generate"},
+      "steps": [{"wait": 0.3}, {"keys": ["4", "2", "down"], "every": 0.25}, {"key": "enter"}, {"join": true}]
+    },
+    {
+      "id": "benchmark",
+      "seconds": 2.8,
+      "theme": "contrast",
+      "caption": "Benchmark the solver on your own machine",
+      "start": {"scene": "benchmark"},
+      "steps": [{"wait": 0.5}, {"key": "enter"}, {"join": true}]
+    },
+    {
+      "id": "end",
+      "seconds": 3.0,
+      "caption": "",
+      "start": {"scene": "end_card"},
+      "title": "alexvolkihar_sokoban",
+      "subtitle": "A remake of Sokoban-LAMA (2022) by the LAMA group",
+      "credits": "Antoine LAROCHE · Alexis MABANZA · Logan VIVIEN · Martin PACARY",
+      "install": "pipx install git+https://github.com/Alexvolkihar/alexvolkihar_sokoban"
+    }
+  ],
+  "screenshots": [
+    {"id": "menu", "theme": "kenney", "start": {"scene": "main_menu"}},
+    {"id": "level-select", "theme": "kenney", "start": {"scene": "level_select", "pack": "lama-original"}, "steps": [{"keys": ["right", "right"]}]},
+    {"id": "gameplay", "theme": "kenney", "start": {"scene": "game", "pack": "boxoban-hard", "level": "2", "played": 40, "elapsed_ms": 52000}},
+    {"id": "gameplay-classic", "theme": "classic", "start": {"scene": "game", "pack": "boxoban-hard", "level": "4", "played": 24, "elapsed_ms": 42000}},
+    {"id": "gameplay-neon", "theme": "neon", "start": {"scene": "game", "pack": "lama-original", "level": "test8", "played": 40, "elapsed_ms": 38000}},
+    {"id": "themes", "start": {"scene": "theme_grid", "pack": "boxoban-hard", "level": "2", "played": 21}, "themes": ["kenney", "classic", "neon", "contrast"]},
+    {"id": "theme-selector", "theme": "kenney", "start": {"scene": "themes"}, "steps": [{"keys": ["down", "down"]}]},
+    {"id": "pause", "theme": "kenney", "start": {"scene": "pause", "pack": "boxoban-hard", "level": "5", "played": 15, "elapsed_ms": 26000}},
+    {"id": "victory", "theme": "kenney", "start": {"scene": "game", "pack": "lama-original", "level": "test10", "played": 22, "elapsed_ms": 14000}, "steps": [{"lurd": "D"}], "hold_frames": 20},
+    {"id": "hint", "theme": "kenney", "start": {"scene": "game", "pack": "lama-original", "level": "test10", "lurd": "rrDulldRRurD", "elapsed_ms": 9000}, "steps": [{"key": "h"}, {"join": true}]},
+    {"id": "replay", "theme": "classic", "start": {"scene": "replay", "pack": "boxoban-hard", "level": "3"}, "steps": [{"wait": 2.0}]},
+    {"id": "settings", "theme": "kenney", "start": {"scene": "settings"}},
+    {"id": "benchmark", "theme": "contrast", "start": {"scene": "benchmark"}, "steps": [{"key": "enter"}, {"join": true}]},
+    {"id": "random-level", "theme": "neon", "start": {"scene": "generate"}, "steps": [{"keys": ["4", "2", "down"]}, {"key": "enter"}, {"join": true}]},
+    {"id": "credits", "theme": "kenney", "start": {"scene": "credits"}}
+  ]
+}
