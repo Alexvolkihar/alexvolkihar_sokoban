@@ -1,18 +1,21 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
 name = "alexvolkihar-sokoban"
 dynamic = ["version"]
-description = "Remake of Sokoban-LAMA by Antoine LAROCHE, Alexis MABANZA, Logan VIVIEN, Martin PACARY (groupe LAMA): a Sokoban game with level packs, a push-based solver, benchmarks, themes and saves."
+description = "A Sokoban game with level packs, a push-based solver, benchmarks, themes and saves."
 readme = "README.en.md"
+license = "MIT"
+license-files = [
+    "LICENSE",
+    "src/alexvolkihar_sokoban/data/levels/boxoban-hard.LICENSE.txt",
+    "src/alexvolkihar_sokoban/data/themes/kenney/LICENSE.txt",
+]
 requires-python = ">=3.11"
 authors = [
-    { name = "Antoine LAROCHE" },
     { name = "Alexis MABANZA" },
-    { name = "Logan VIVIEN" },
-    { name = "Martin PACARY" },
 ]
 keywords = ["sokoban", "puzzle", "game", "pygame", "solver"]
 classifiers = [
@@ -22,6 +25,7 @@ classifiers = [
     "Environment :: X11 Applications",
     "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Education",
+    "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
     "Natural Language :: French",
     "Operating System :: OS Independent",

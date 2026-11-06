@@ -103,6 +103,17 @@ def test_project_metadata() -> None:
     assert urls["Changelog"] == f"{repo_url}/blob/main/CHANGELOG.md"
 
 
+def test_mit_licence_and_single_author() -> None:
+    project = PYPROJECT["project"]
+    assert project["license"] == "MIT"
+    assert "License :: OSI Approved :: MIT License" in project["classifiers"]
+    assert project["authors"] == [{"name": "Alexis MABANZA"}]
+    for path in project["license-files"]:
+        assert (REPO / path).is_file(), path
+    licence = (REPO / "LICENSE").read_text(encoding="utf-8")
+    assert licence.startswith("MIT License\n") and "Copyright (c) 2026 Alexis MABANZA" in licence
+
+
 def test_installed_metadata_has_readme_and_urls() -> None:
     meta = metadata("alexvolkihar-sokoban")
     assert meta["Description-Content-Type"] == "text/markdown"
@@ -151,6 +162,16 @@ def test_wheel_content() -> None:
     assert not any(n.startswith(("tests/", "legacy/", "docs/")) or "__pycache__" in n for n in names)
     assert "alexvolkihar-sokoban = alexvolkihar_sokoban.cli:main" in entry
     assert f"Version: {alexvolkihar_sokoban.__version__}" in meta
+    assert "License-Expression: MIT" in meta and f"{dist_info}/licenses/LICENSE" in names
+
+
+SDIST_FILES = [
+    "pyproject.toml",
+    "README.md",
+    "README.en.md",
+    "LICENSE",
+    "src/alexvolkihar_sokoban/__init__.py",
+]
 
 
 @pytest.mark.skipif(DIST is None, reason="set AVS_DIST to a folder holding the built wheel and sdist")
@@ -160,7 +181,7 @@ def test_sdist_content() -> None:
     assert sdist.name == f"{root}.tar.gz"
     with tarfile.open(sdist) as tf:
         names = {n.removeprefix(f"{root}/") for n in tf.getnames()}
-    for name in ["pyproject.toml", "README.md", "README.en.md", "src/alexvolkihar_sokoban/__init__.py"]:
+    for name in SDIST_FILES:
         assert name in names, name
     for name in DATA_FILES:
         assert f"src/alexvolkihar_sokoban/data/{name}" in names, name
