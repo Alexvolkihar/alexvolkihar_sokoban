@@ -4,6 +4,7 @@ import pygame
 import pytest
 
 from alexvolkihar_sokoban.persistence.settings import ACTIONS, DEFAULT_KEYBINDINGS
+from alexvolkihar_sokoban.ui.i18n import set_language
 from alexvolkihar_sokoban.ui.input import Action, InputMapper, describe_binding
 
 
@@ -84,3 +85,20 @@ def test_describe_binding() -> None:
     assert describe_binding("key:return") == "Return"
     assert describe_binding("key:left ctrl") == "Left Ctrl"
     assert describe_binding("scan:250") == "Scan 250"
+
+
+def test_describe_binding_names_keys_in_french() -> None:
+    set_language("fr")
+    try:
+        assert describe_binding("scan:41") == "Échap"
+        assert describe_binding("key:return") == "Entrée"
+        assert describe_binding("scan:44") == "Espace"
+        assert describe_binding("scan:42") == "Retour arrière"
+        arrows = [describe_binding(f"scan:{c}") for c in (82, 81, 80, 79)]
+        assert arrows == ["Haut", "Bas", "Gauche", "Droite"]
+        assert describe_binding("key:delete") == "Suppr"
+        assert describe_binding("ctrl+key:z") == "Ctrl+Z" and describe_binding("scan:26") == "W"
+        assert describe_binding("key:left ctrl") == "Left Ctrl"  # rare keys keep pygame's English name
+    finally:
+        set_language("en")
+    assert describe_binding("scan:41") == "Escape"

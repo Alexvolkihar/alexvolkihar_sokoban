@@ -14,6 +14,7 @@ from enum import StrEnum
 import pygame
 
 from alexvolkihar_sokoban.persistence.settings import BINDING_PATTERN
+from alexvolkihar_sokoban.ui.i18n import get_language
 
 
 class Action(StrEnum):
@@ -45,6 +46,20 @@ _SCAN_NAMES: dict[int, str] = {
     80: "Left",
     81: "Down",
     82: "Up",
+}
+
+# French names of the keys the game binds by default (and Delete, used by the key bindings scene); other
+# keys keep pygame's English name.
+_FRENCH_KEY_NAMES = {
+    "Return": "Entrée",
+    "Escape": "Échap",
+    "Backspace": "Retour arrière",
+    "Space": "Espace",
+    "Delete": "Suppr",
+    "Right": "Droite",
+    "Left": "Gauche",
+    "Down": "Bas",
+    "Up": "Haut",
 }
 
 _MODIFIER_KEYS = frozenset(
@@ -131,7 +146,10 @@ class InputMapper:
 
 
 def describe_binding(binding: str) -> str:
-    """Human-readable form of a binding: ``"scan:26"`` → ``"W"``, ``"ctrl+key:z"`` → ``"Ctrl+Z"``."""
+    """Human-readable form of a binding: ``"scan:26"`` → ``"W"``, ``"ctrl+key:z"`` → ``"Ctrl+Z"``.
+
+    Common key names follow the UI language (``"Escape"`` / ``"Échap"``).
+    """
     prefix = "Ctrl+" if binding.startswith("ctrl+") else ""
     kind, _, value = binding.removeprefix("ctrl+").partition(":")
     if kind == "scan":
@@ -141,4 +159,6 @@ def describe_binding(binding: str) -> str:
         text = value.upper()
     else:
         text = value.title()
+    if get_language() == "fr":
+        text = _FRENCH_KEY_NAMES.get(text, text)
     return prefix + text

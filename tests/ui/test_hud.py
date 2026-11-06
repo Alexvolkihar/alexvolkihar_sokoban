@@ -60,7 +60,7 @@ def test_hud_texts_in_french() -> None:
     ]
     hints = key_hints(DEFAULT_KEYBINDINGS)
     assert "U annuler" in hints and "Y rétablir" in hints
-    assert "R ×2 recommencer" in hints and "Escape pause" in hints
+    assert "R ×2 recommencer" in hints and "Échap pause" in hints
 
 
 def test_hidden_timer_drops_the_time_stat() -> None:

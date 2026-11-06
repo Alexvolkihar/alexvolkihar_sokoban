@@ -62,7 +62,7 @@ def test_one_row_per_action_then_reset_and_back(tmp_path: Path) -> None:
     assert scene.row_text("undo") == ("Undo", "U, Backspace, Ctrl+Z")
     assert scene.row_text("reset_all")[0] == "Reset all"
     set_language("fr")
-    assert scene.row_text("left") == ("Gauche", "Left, A")
+    assert scene.row_text("left") == ("Gauche", "Gauche, A")
     assert scene.row_text("close")[0] == "Retour"
     assert scene.row_text("back")[0] == "Retour (menus)"  # the action
 
