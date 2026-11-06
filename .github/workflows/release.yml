@@ -1,0 +1,38 @@
+name: Release
+
+# Pushing a tag such as v1.0.0 builds the wheel and the sdist, checks them, and attaches them to a GitHub
+# Release. Nothing is published to PyPI.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+env:
+  SDL_VIDEODRIVER: dummy
+  SDL_AUDIODRIVER: dummy
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install --upgrade pip build
+      - run: python -m build
+      - name: Check the wheel against the tag
+        run: |
+          python -m venv /tmp/avs-venv
+          /tmp/avs-venv/bin/python -m pip install dist/*.whl pytest jsonschema
+          version=$(/tmp/avs-venv/bin/alexvolkihar-sokoban --version | cut -d' ' -f2)
+          test "v$version" = "$GITHUB_REF_NAME" || { echo "tag $GITHUB_REF_NAME != version $version"; exit 1; }
+          AVS_DIST=dist /tmp/avs-venv/bin/python -m pytest -q -p no:cacheprovider tests/test_package_data.py
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME" dist/*
+          --verify-tag --title "Alexvolkihar Sokoban $GITHUB_REF_NAME" --generate-notes

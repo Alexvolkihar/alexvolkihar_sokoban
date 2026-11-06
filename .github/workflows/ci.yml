@@ -46,3 +46,42 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: pip install -e ".[dev]"
       - run: pytest -q --cov=alexvolkihar_sokoban
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m pip install --upgrade pip build
+      - run: python -m build
+      - name: Install the wheel in a fresh virtual environment
+        run: |
+          python -m venv /tmp/avs-venv
+          /tmp/avs-venv/bin/python -m pip install --upgrade pip
+          /tmp/avs-venv/bin/python -m pip install dist/*.whl pytest jsonschema
+          /tmp/avs-venv/bin/python -c "import alexvolkihar_sokoban as p; assert 'site-packages' in p.__file__, p.__file__"
+      - name: Run the installed commands
+        working-directory: ${{ runner.temp }}
+        run: |
+          export PATH=/tmp/avs-venv/bin:$PATH
+          alexvolkihar-sokoban --version
+          alexvolkihar-sokoban play --help
+          printf '######\n#@$ .#\n######\n' > one.xsb
+          alexvolkihar-sokoban solve one.xsb
+          alexvolkihar-sokoban --data-dir avs-data bench --suite quick --out bench.json
+          # Headless play: the game must still be running after 10 s (timeout exits with 124).
+          status=0; timeout 10 alexvolkihar-sokoban --data-dir avs-data play || status=$?
+          test "$status" -eq 124
+      - name: Test the installed package
+        env:
+          AVS_DIST: dist
+        run: >-
+          /tmp/avs-venv/bin/python -m pytest -q -p no:cacheprovider
+          tests/test_package_data.py tests/test_smoke.py tests/commands/test_play.py tests/data
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          if-no-files-found: error
